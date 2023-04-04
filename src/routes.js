@@ -1,11 +1,12 @@
+import { TopProducts } from './components/TopProducts'
 import { Average } from './components/Average'
-import { Dashboard } from './components/Dashboard'
 import { Newest } from './components/Newest'
+import { Errorsite } from './components/Errorsite'
 
 export const routes = [
   {
     path: '/',
-    component: <Dashboard />,
+    component: <TopProducts />,
   },
   {
     path: '/Average',
@@ -14,5 +15,9 @@ export const routes = [
   {
     path: '/Newest',
     component: <Newest />,
+  },
+  {
+    path: '/Errorsite',
+    component: <Errorsite />,
   },
 ]

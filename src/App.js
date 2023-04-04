@@ -19,7 +19,6 @@ function App() {
           />
         ))}
       </Routes>{' '}
-      <Pages />
     </div>
   )
 }
