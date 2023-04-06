@@ -1,19 +1,64 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import Pages from './Pages'
-
-const navigation = [
-  { name: 'Featured', href: '/', current: true },
-  { name: 'Newest Arrivals', href: '/Newest', current: false },
-  { name: 'Avg. Customer Review', href: '/Average', current: false },
-]
+import { useEffect, useState } from 'react'
+import { Disclosure } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 function navNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export const Navbar = () => {
+  const [isToggled, setIsToggled] = useState(() =>
+    JSON.parse(localStorage.getItem('isToggled'))
+  )
+  const [isToggled1, setIsToggled1] = useState(() =>
+    JSON.parse(localStorage.getItem('isToggled1'))
+  )
+  const [isToggled2, setIsToggled2] = useState(() =>
+    JSON.parse(localStorage.getItem('isToggled2'))
+  )
+
+  useEffect(() => {
+    localStorage.setItem('isToggled', JSON.stringify(isToggled))
+    localStorage.setItem('isToggled1', JSON.stringify(isToggled1))
+    localStorage.setItem('isToggled2', JSON.stringify(isToggled2))
+  }, [isToggled, isToggled1, isToggled2])
+
+  const handleToggle = () => {
+    setIsToggled(true)
+    setIsToggled1(false)
+    setIsToggled2(false)
+  }
+  const handleToggle1 = () => {
+    setIsToggled(false)
+    setIsToggled1(true)
+    setIsToggled2(false)
+  }
+  const handleToggle2 = () => {
+    setIsToggled(false)
+    setIsToggled1(false)
+    setIsToggled2(true)
+  }
+
+  const navigation = [
+    {
+      name: 'Featured',
+      href: '/',
+      onClick: handleToggle,
+      current: isToggled,
+    },
+    {
+      name: 'Newest Arrivals',
+      href: '/Newest',
+      onClick: handleToggle1,
+      current: isToggled1,
+    },
+    {
+      name: 'Avg. Customer Review',
+      href: '/Average',
+      onClick: handleToggle2,
+      current: isToggled2,
+    },
+  ]
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">
@@ -22,7 +67,6 @@ export const Navbar = () => {
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
               <div className="relative flex h-16 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                  {/* Mobile menu button*/}
                   <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
@@ -49,6 +93,7 @@ export const Navbar = () => {
                     <div className="flex space-x-4">
                       {navigation.map((item) => (
                         <a
+                          onClick={() => item.onClick()}
                           key={item.name}
                           href={item.href}
                           className={navNames(
