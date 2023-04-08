@@ -21,7 +21,6 @@ function SearchBar(props) {
           marginTop: '10px',
         }}
       />
-      <p>{props.item}</p>
     </>
   )
 }

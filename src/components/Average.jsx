@@ -5,12 +5,13 @@ import SearchBar from './SearchBar'
 
 export const Average = () => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [itemArry, setItemArry] = useState()
 
   const [items, setItems] = useState([
     {
       name: 'hello',
       id: 1,
-      title: 'Boost your conversion rate',
+      title: 'sagiv',
       href: '#',
       description:
         'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
@@ -55,9 +56,10 @@ export const Average = () => {
 
   const filteredItems = items.filter((item) => {
     return (
-      item.name && item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      item.title && item.title.toLowerCase().includes(searchQuery.toLowerCase())
     )
   })
+  console.log(filteredItems)
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsNumber, setItemsNumber] = useState(items)
   const lastItemIndex = currentPage * itemsPerPage
@@ -89,7 +91,7 @@ export const Average = () => {
         <SearchBar handleInputChange={handleInputChange} />
         {searchQuery && filteredItems.length > 0 ? (
           filteredItems.map((item) => (
-            <Item key={item.id} post={visibleItems} />
+            <Item key={item.id} post={filteredItems} />
           ))
         ) : (
           <></>

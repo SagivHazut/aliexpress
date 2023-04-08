@@ -493,8 +493,8 @@ export const Newest = () => {
   const filteredItems = items.filter((item) => {
     return (
       !searchQuery ||
-      (item.name &&
-        item.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      (item.title &&
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()))
     )
   })
 
@@ -530,7 +530,7 @@ export const Newest = () => {
         <SearchBar handleInputChange={handleInputChange} />
         {searchQuery && filteredItems.length > 0 ? (
           filteredItems.map((item) => (
-            <Item key={item.id} post={visibleItems} />
+            <Item key={item.id} post={filteredItems} />
           ))
         ) : (
           <></>

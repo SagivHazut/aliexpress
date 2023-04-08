@@ -7,9 +7,8 @@ export const TopProducts = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [items, setItems] = useState([
     {
-      name: 'sagiv',
       id: 1,
-      title: 'Boost your conversion rate',
+      title: 'sagiv',
       href: '#',
       description:
         'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
@@ -28,7 +27,7 @@ export const TopProducts = () => {
     },
     {
       id: 2,
-      title: 'Boost your conversion rate',
+      title: 'roni',
       href: '#',
       description:
         'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
@@ -56,8 +55,8 @@ export const TopProducts = () => {
   const filteredItems = items.filter((item) => {
     return (
       !searchQuery ||
-      (item.name &&
-        item.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      (item.title &&
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()))
     )
   })
 
@@ -92,7 +91,7 @@ export const TopProducts = () => {
         <SearchBar handleInputChange={handleInputChange} />
         {searchQuery && filteredItems.length > 0 ? (
           filteredItems.map((item) => (
-            <Item key={item.id} post={visibleItems} />
+            <Item key={item.id} post={filteredItems} />
           ))
         ) : (
           <></>
