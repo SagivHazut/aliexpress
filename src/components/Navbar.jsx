@@ -1,64 +1,65 @@
-import { useEffect, useState } from 'react'
-import { Disclosure } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useEffect, useState } from "react";
+import { Disclosure } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { NavLink } from "react-router-dom";
 
 function navNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export const Navbar = () => {
   const [isToggled, setIsToggled] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled'))
-  )
+    JSON.parse(localStorage.getItem("isToggled"))
+  );
   const [isToggled1, setIsToggled1] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled1'))
-  )
+    JSON.parse(localStorage.getItem("isToggled1"))
+  );
   const [isToggled2, setIsToggled2] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled2'))
-  )
+    JSON.parse(localStorage.getItem("isToggled2"))
+  );
 
   useEffect(() => {
-    localStorage.setItem('isToggled', JSON.stringify(isToggled))
-    localStorage.setItem('isToggled1', JSON.stringify(isToggled1))
-    localStorage.setItem('isToggled2', JSON.stringify(isToggled2))
-  }, [isToggled, isToggled1, isToggled2])
+    localStorage.setItem("isToggled", JSON.stringify(isToggled));
+    localStorage.setItem("isToggled1", JSON.stringify(isToggled1));
+    localStorage.setItem("isToggled2", JSON.stringify(isToggled2));
+  }, [isToggled, isToggled1, isToggled2]);
 
   const handleToggle = () => {
-    setIsToggled(true)
-    setIsToggled1(false)
-    setIsToggled2(false)
-  }
+    setIsToggled(true);
+    setIsToggled1(false);
+    setIsToggled2(false);
+  };
   const handleToggle1 = () => {
-    setIsToggled(false)
-    setIsToggled1(true)
-    setIsToggled2(false)
-  }
+    setIsToggled(false);
+    setIsToggled1(true);
+    setIsToggled2(false);
+  };
   const handleToggle2 = () => {
-    setIsToggled(false)
-    setIsToggled1(false)
-    setIsToggled2(true)
-  }
+    setIsToggled(false);
+    setIsToggled1(false);
+    setIsToggled2(true);
+  };
 
   const navigation = [
     {
-      name: 'Featured',
-      href: '/',
+      name: "Featured",
+      href: "/",
       onClick: handleToggle,
       current: isToggled,
     },
     {
-      name: 'Newest Arrivals',
-      href: '/Newest',
+      name: "Newest Arrivals",
+      href: "/Newest",
       onClick: handleToggle1,
       current: isToggled1,
     },
     {
-      name: 'Avg. Customer Review',
-      href: '/Average',
+      name: "Avg. Customer Review",
+      href: "/Average",
       onClick: handleToggle2,
       current: isToggled2,
     },
-  ]
+  ];
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">
@@ -92,20 +93,20 @@ export const Navbar = () => {
                   <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
                       {navigation.map((item) => (
-                        <a
+                        <NavLink
                           onClick={() => item.onClick()}
                           key={item.name}
-                          href={item.href}
+                          to={item.href}
                           className={navNames(
                             item.current
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'rounded-md px-3 py-2 text-sm font-medium'
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-3 py-2 text-sm font-medium"
                           )}
-                          aria-current={item.current ? 'page' : undefined}
+                          aria-current={item.current ? "page" : undefined}
                         >
                           {item.name}
-                        </a>
+                        </NavLink>
                       ))}
                     </div>
                   </div>
@@ -123,11 +124,11 @@ export const Navbar = () => {
                     href={item.href}
                     className={navNames(
                       item.current
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'block rounded-md px-3 py-2 text-base font-medium'
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "block rounded-md px-3 py-2 text-base font-medium"
                     )}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={item.current ? "page" : undefined}
                   >
                     {item.name}
                   </Disclosure.Button>
@@ -138,5 +139,5 @@ export const Navbar = () => {
         )}
       </Disclosure>
     </>
-  )
-}
+  );
+};
