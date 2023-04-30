@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 export default function Pages({
   pageNumbers,
@@ -12,24 +12,24 @@ export default function Pages({
 }) {
   const handlePreviousClick = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
   const handleNextClick = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
+      setCurrentPage(currentPage + 1);
     }
-  }
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = Math.min(startIndex + itemsPerPage, itemsNumber.length)
+  };
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, itemsNumber.length);
 
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{startIndex}</span> to{' '}
+          <p className="text-sm text-gray-900">
+            Showing <span className="font-medium">{startIndex}</span> to{" "}
             <span className="font-medium">{endIndex}</span>
             of <span className="font-medium">{itemsNumber.length}</span> results
           </p>
@@ -86,5 +86,5 @@ export default function Pages({
         </div>
       </div>
     </div>
-  )
+  );
 }

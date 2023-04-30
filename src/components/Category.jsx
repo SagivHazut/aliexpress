@@ -97,6 +97,7 @@ export const Category = () => {
     // More posts...
   ]);
   const [filtered, setFiltered] = useState(items);
+  const [filter, setFilter] = useState();
   const [activeFilters, setActiveFilters] = useState({});
 
   const handleFilterChange = (name, value, itemName) => {
@@ -111,29 +112,27 @@ export const Category = () => {
   };
   useEffect(() => {
     const filtereds = items.filter((item) => {
-      // check if the item matches all active filters
-      return Object.keys(activeFilters).some(() => {
-        const activeName = Object.keys(activeFilters);
-        const activeValues = Object.values(activeFilters);
-        const itemName = item.options.label;
-        console.log(itemName);
-        const itemValue = item.options.value;
+      const activeName = Object.keys(activeFilters);
+      const activeValues = Object.values(activeFilters);
+      const itemName = item.options.label;
+      const itemValue = item.options.value;
 
-        if (activeName.includes(itemName) && activeValues.includes(itemValue)) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+      // Check if the first element matches the active filters
+      const isFirstElementMatched =
+        activeName.includes(itemName) && activeValues.includes(itemValue);
+
+      // Check if the second element matches the active filters
+      const isSecondElementMatched =
+        item.options2 &&
+        activeName.includes(item.options2.label) &&
+        activeValues.includes(item.options2.value);
+
+      return isFirstElementMatched && !isSecondElementMatched;
     });
-    if (!filtereds !== []) {
-      setFiltered(items);
-    } else {
-      setFiltered(filtereds);
-    }
+
+    setFiltered(filtereds);
   }, [items, activeFilters]);
 
-  // console.log(filtered);
   const itemsPerPage = 10;
 
   const handleInputChange = (event) => {

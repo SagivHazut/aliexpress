@@ -7,7 +7,7 @@ import { Category } from "./components/Category";
 export const routes = [
   {
     path: "/",
-    component: <Category />,
+    component: <TopProducts />,
   },
   {
     path: "/Average",
