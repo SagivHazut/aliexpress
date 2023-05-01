@@ -59,20 +59,23 @@ export const SearchItems = ({ post }) => {
           </div>
         </div>
       )}
-      {!showAllItems && post.length > 10 ? (
+      {!showAllItems && post.length > 10 && (
         <button
           onClick={() => setShowAllItems(true)}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
         >
           Show more
         </button>
-      ) : (
-        <button
-          onClick={() => setShowAllItems(false)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-        >
-          Show less
-        </button>
+      )}
+      {showAllItems && post.length > 10 && (
+        
+          <button
+            onClick={() => setShowAllItems(false)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+          >
+            Show less
+          </button>
+        
       )}
       <hr className="border-2 border-gray-300 my-8" />
     </>
