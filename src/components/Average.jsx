@@ -2,6 +2,7 @@ import { useState } from "react";
 import Item from "./Item";
 import Pages from "./Pages";
 import SearchBar from "./SearchBar";
+import { SearchItems } from "./SearchItems";
 
 export const Average = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,12 +91,9 @@ export const Average = () => {
       <div>
         <SearchBar handleInputChange={handleInputChange} />
         {searchQuery && filteredItems.length > 0 ? (
-          filteredItems.map((item) => (
-            <div>
-              <Item key={item.id} post={filteredItems} />
-              <hr />
-            </div>
-          ))
+          <div>
+            <SearchItems key={filteredItems.id} post={filteredItems} />
+          </div>
         ) : (
           <></>
         )}

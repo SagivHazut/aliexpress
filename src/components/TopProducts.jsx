@@ -3,6 +3,7 @@ import Item from "./Item";
 import Pages from "./Pages";
 import SearchBar from "./SearchBar";
 import { Category } from "./Category";
+import { SearchItems } from "./SearchItems";
 
 export const TopProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -91,12 +92,9 @@ export const TopProducts = () => {
       <div>
         <SearchBar handleInputChange={handleInputChange} />
         {searchQuery && filteredItems.length > 0 ? (
-          filteredItems.map((item) => (
-            <div>
-              <Item key={item.id} post={filteredItems} />
-              <hr />
-            </div>
-          ))
+          <div>
+            <SearchItems key={filteredItems.id} post={filteredItems} />
+          </div>
         ) : (
           <></>
         )}
