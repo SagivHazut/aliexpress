@@ -4,7 +4,6 @@ import { useState } from "react";
 export const SearchItems = ({ post }) => {
   const [showAllItems, setShowAllItems] = useState(false);
   const displayItems = showAllItems ? post : post.slice(0, 12);
-
   return (
     <>
       {post && (
@@ -68,14 +67,12 @@ export const SearchItems = ({ post }) => {
         </button>
       )}
       {showAllItems && post.length > 10 && (
-        
-          <button
-            onClick={() => setShowAllItems(false)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-          >
-            Show less
-          </button>
-        
+        <button
+          onClick={() => setShowAllItems(false)}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+        >
+          Show less
+        </button>
       )}
       <hr className="border-2 border-gray-300 my-8" />
     </>

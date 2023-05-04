@@ -524,11 +524,18 @@ export const Newest = () => {
       setCurrentPage(currentPage + 1);
     }
   };
-
+  const handleSuggestionSelect = (suggestion) => {
+    setSearchQuery(suggestion.title); // Clear the search query after completion if desired
+  };
   return (
     <>
       <div>
-        <SearchBar handleInputChange={handleInputChange} />
+        <SearchBar
+          handleInputChange={handleInputChange}
+          items={filteredItems}
+          searchQuery={searchQuery}
+          handleSuggestionSelect={handleSuggestionSelect}
+        />
         {searchQuery && filteredItems.length > 0 ? (
           <div>
             <SearchItems key={filteredItems.id} post={filteredItems} />
@@ -539,18 +546,20 @@ export const Newest = () => {
       </div>
       <Item key={visibleItems.id} post={visibleItems} />
 
-      <Pages
-        pageNumbers={pageNumbers}
-        currentPage={currentPage}
-        handlePageClick={handlePageClick}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-        handlePreviousClick={handlePreviousClick}
-        handleNextClick={handleNextClick}
-        itemsNumber={itemsNumber}
-        firstItemIndex={firstItemIndex}
-        itemsPerPage={itemsPerPage}
-      />
+      {filteredItems.length > 10 && (
+        <Pages
+          pageNumbers={pageNumbers}
+          currentPage={currentPage}
+          handlePageClick={handlePageClick}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          handlePreviousClick={handlePreviousClick}
+          handleNextClick={handleNextClick}
+          itemsNumber={itemsNumber}
+          firstItemIndex={firstItemIndex}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
     </>
   );
 };
