@@ -6,6 +6,7 @@ import { SearchItems } from "./SearchItems";
 
 export const Newest = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [name, setName] = useState("Search in Newest Arrivals....");
 
   const [items, setItems] = useState([
     {
@@ -485,7 +486,7 @@ export const Newest = () => {
       },
     },
   ]);
-  const itemsPerPage = 10;
+  const itemsPerPage = 12;
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
@@ -535,6 +536,7 @@ export const Newest = () => {
           items={filteredItems}
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
+          name={name}
         />
         {searchQuery && filteredItems.length > 0 ? (
           <div>

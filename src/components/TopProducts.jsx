@@ -8,6 +8,7 @@ import Callapi from "./Callapi";
 
 export const TopProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [name, setName] = useState("Search in TopProducts....");
   const [items, setItems] = useState([
     {
       id: 1,
@@ -35,7 +36,7 @@ export const TopProducts = () => {
     },
     // More posts...
   ]);
-  const itemsPerPage = 10;
+  const itemsPerPage = 12;
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
@@ -76,7 +77,7 @@ export const TopProducts = () => {
   };
 
   const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion.title); // Clear the search query after completion if desired
+    setSearchQuery(suggestion.title);
   };
   return (
     <>
@@ -86,6 +87,7 @@ export const TopProducts = () => {
           items={filteredItems}
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
+          name={name}
         />
         {searchQuery && filteredItems.length > 0 ? (
           <div>

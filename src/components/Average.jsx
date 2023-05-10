@@ -6,7 +6,7 @@ import { SearchItems } from "./SearchItems";
 
 export const Average = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [itemArry, setItemArry] = useState();
+  const [name, setName] = useState("Search in Average Customer Review....");
 
   const [items, setItems] = useState([
     {
@@ -50,7 +50,7 @@ export const Average = () => {
     },
     // More posts...
   ]);
-  const itemsPerPage = 10;
+  const itemsPerPage = 12;
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -60,7 +60,7 @@ export const Average = () => {
       item.title && item.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
-  console.log(filteredItems);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsNumber, setItemsNumber] = useState(items);
   const lastItemIndex = currentPage * itemsPerPage;
@@ -97,6 +97,7 @@ export const Average = () => {
           items={filteredItems}
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
+          name={name}
         />{" "}
         {searchQuery && filteredItems.length > 0 ? (
           <div>

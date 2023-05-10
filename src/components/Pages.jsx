@@ -30,8 +30,8 @@ export default function Pages({
         <div>
           <p className="text-sm text-gray-900">
             Showing <span className="font-medium">{startIndex}</span> to{" "}
-            <span className="font-medium">{endIndex}</span>
-            of <span className="font-medium">{itemsNumber.length}</span> results
+            <span className="font-medium">{endIndex}</span> of{" "}
+            <span className="font-medium">{itemsNumber.length}</span> results
           </p>
         </div>
         <div>

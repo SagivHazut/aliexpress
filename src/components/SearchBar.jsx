@@ -17,7 +17,7 @@ function SearchBar(props) {
     <>
       <input
         type="text"
-        placeholder="Search..."
+        placeholder={props.name}
         value={props.searchQuery}
         onChange={props.handleInputChange}
         style={{
@@ -53,13 +53,20 @@ function SearchBar(props) {
           }}
         >
           {suggestions.map((item) => (
-            <li
-              key={item.id}
-              onClick={() => handleSuggestionClick(item)}
-              style={{ cursor: "pointer" }}
-            >
-              {item.title}
-            </li>
+            <>
+              <li
+                key={item.id}
+                onClick={() => handleSuggestionClick(item)}
+                style={{ cursor: "pointer" }}
+              >
+                {item.title}
+                {props.searchQuery && suggestions.length > 1 && (
+                  <div class="flex justify-center">
+                    <hr class="border-1 border-gray-300 my-2 w-40 mx-auto" />
+                  </div>
+                )}
+              </li>
+            </>
           ))}
         </ul>
       )}
