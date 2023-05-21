@@ -6,7 +6,8 @@ import { SearchItems } from "./SearchItems";
 
 export const Average = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [name, setName] = useState("Search in Average Customer Review....");
+  const [name, setName] = useState("Search in Featured Products...");
+  const [showSearchQuery, setShowSearchQuery] = useState(false);
 
   const [items, setItems] = useState([
     {
@@ -53,6 +54,7 @@ export const Average = () => {
   const itemsPerPage = 12;
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
+    setShowSearchQuery(!showSearchQuery);
   };
 
   const filteredItems = items.filter((item) => {
@@ -87,7 +89,8 @@ export const Average = () => {
     }
   };
   const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion.title); // Clear the search query after completion if desired
+    setSearchQuery(suggestion.title);
+    setShowSearchQuery(!showSearchQuery);
   };
   return (
     <>
@@ -98,7 +101,8 @@ export const Average = () => {
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
           name={name}
-        />{" "}
+          showSearchQuery={showSearchQuery}
+        />
         {searchQuery && filteredItems.length > 0 ? (
           <div>
             <SearchItems key={filteredItems.id} post={filteredItems} />

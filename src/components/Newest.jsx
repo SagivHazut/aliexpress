@@ -6,7 +6,8 @@ import { SearchItems } from "./SearchItems";
 
 export const Newest = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [name, setName] = useState("Search in Newest Arrivals....");
+  const [name, setName] = useState("Search in Higher Commission....");
+  const [showSearchQuery, setShowSearchQuery] = useState(false);
 
   const [items, setItems] = useState([
     {
@@ -490,6 +491,7 @@ export const Newest = () => {
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
+    setShowSearchQuery(!showSearchQuery);
   };
 
   const filteredItems = items.filter((item) => {
@@ -526,8 +528,10 @@ export const Newest = () => {
     }
   };
   const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion.title); // Clear the search query after completion if desired
+    setSearchQuery(suggestion.title);
+    setShowSearchQuery(!showSearchQuery);
   };
+
   return (
     <>
       <div>
@@ -537,31 +541,33 @@ export const Newest = () => {
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
           name={name}
+          showSearchQuery={showSearchQuery}
         />
         {searchQuery && filteredItems.length > 0 ? (
           <div>
             <SearchItems key={filteredItems.id} post={filteredItems} />
           </div>
         ) : (
-          <></>
+          <>
+            {" "}
+            <Item key={visibleItems.id} post={visibleItems} />
+            {filteredItems.length > 10 && (
+              <Pages
+                pageNumbers={pageNumbers}
+                currentPage={currentPage}
+                handlePageClick={handlePageClick}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                handlePreviousClick={handlePreviousClick}
+                handleNextClick={handleNextClick}
+                itemsNumber={itemsNumber}
+                firstItemIndex={firstItemIndex}
+                itemsPerPage={itemsPerPage}
+              />
+            )}
+          </>
         )}
       </div>
-      <Item key={visibleItems.id} post={visibleItems} />
-
-      {filteredItems.length > 10 && (
-        <Pages
-          pageNumbers={pageNumbers}
-          currentPage={currentPage}
-          handlePageClick={handlePageClick}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-          handlePreviousClick={handlePreviousClick}
-          handleNextClick={handleNextClick}
-          itemsNumber={itemsNumber}
-          firstItemIndex={firstItemIndex}
-          itemsPerPage={itemsPerPage}
-        />
-      )}
     </>
   );
 };

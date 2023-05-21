@@ -10,11 +10,11 @@ export const routes = [
     component: <TopProducts />,
   },
   {
-    path: "/Average",
+    path: "/Featured",
     component: <Average />,
   },
   {
-    path: "/Newest",
+    path: "/HigherCommission",
     component: <Newest />,
   },
   {

@@ -16,16 +16,17 @@ export const SearchItems = ({ post }) => {
                     key={post.id}
                     className="flex flex-col items-start justify-between"
                   >
-                    <div className="relative w-full">
-                      <a href={post.href}>
+                    <a href={post.href} target="_blank">
+                      <div className="relative w-full">
                         <img
                           src={post.imageUrl}
                           alt=""
                           className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
                         />
-                      </a>
-                      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-                    </div>
+                        <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                      </div>
+                    </a>
+
                     <div className="max-w-xl">
                       <div className="mt-8 flex items-center gap-x-4 text-xs">
                         <a

@@ -4,20 +4,47 @@ import Pages from "./Pages";
 import SearchBar from "./SearchBar";
 import { Category } from "./Category";
 import { SearchItems } from "./SearchItems";
-import Callapi from "./Callapi";
+import Papa from "papaparse";
+import csvData from "../csv/hotdeals.csv";
+import { useEffect } from "react";
 
 export const TopProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [name, setName] = useState("Search in TopProducts....");
+  const [search, setSearch] = useState("");
+  const [name, setName] = useState("Search in Hot Deals....");
+  const [showSearchQuery, setShowSearchQuery] = useState(false);
+  const [parsedData, setParsedData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(csvData);
+        const csv = await response.text();
+        const parsedCsv = Papa.parse(csv, {
+          header: true,
+          skipEmptyLines: true,
+        });
+        const filteredData = parsedCsv.data.filter((item) =>
+          Object.values(item).some((value) => value !== "")
+        );
+        setParsedData(filteredData);
+      } catch (error) {
+        console.error("Error fetching or parsing CSV data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [items, setItems] = useState([
     {
       id: 1,
       title: "sagiv",
-      href: "https://google.com",
+      href: "https://s.click.aliexpress.com/e/_DlTRcst",
       description:
         "Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.",
       imageUrl:
-        "https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3603&q=80",
+        "//ae01.alicdn.com/kf/Sa01824c217474fd28ba5eab6ad187a80e.jpg_350x350.jpg",
       date: "Mar 16, 2020",
       datetime: "2020-03-16",
       category: { title: "Marketing", href: "#" },
@@ -40,13 +67,13 @@ export const TopProducts = () => {
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
+    setShowSearchQuery(!showSearchQuery);
   };
 
   const filteredItems = items.filter((item) => {
     return (
-      !searchQuery ||
-      (item.title &&
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      !search ||
+      (item.title && item.title.toLowerCase().includes(search.toLowerCase()))
     );
   });
 
@@ -79,6 +106,11 @@ export const TopProducts = () => {
   const handleSuggestionSelect = (suggestion) => {
     setSearchQuery(suggestion.title);
   };
+  const handleClick = () => {
+    setSearch(searchQuery);
+    setShowSearchQuery(!showSearchQuery);
+  };
+  console.log(parsedData);
   return (
     <>
       <div>
@@ -88,31 +120,34 @@ export const TopProducts = () => {
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
           name={name}
+          showSearchQuery={showSearchQuery}
+          handleClick={handleClick}
         />
-        {searchQuery && filteredItems.length > 0 ? (
+        {filteredItems.length > 0 && search ? (
           <div>
             <SearchItems key={filteredItems.id} post={filteredItems} />
           </div>
         ) : (
-          <></>
+          <>
+            {" "}
+            <Item key={visibleItems.id} post={parsedData} />
+            {filteredItems.length > 10 && (
+              <Pages
+                pageNumbers={pageNumbers}
+                currentPage={currentPage}
+                handlePageClick={handlePageClick}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+                handlePreviousClick={handlePreviousClick}
+                handleNextClick={handleNextClick}
+                itemsNumber={itemsNumber}
+                firstItemIndex={firstItemIndex}
+                itemsPerPage={itemsPerPage}
+              />
+            )}
+          </>
         )}
       </div>
-      <Item key={visibleItems.id} post={visibleItems} />
-      <Callapi />
-      {filteredItems.length > 10 && (
-        <Pages
-          pageNumbers={pageNumbers}
-          currentPage={currentPage}
-          handlePageClick={handlePageClick}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-          handlePreviousClick={handlePreviousClick}
-          handleNextClick={handleNextClick}
-          itemsNumber={itemsNumber}
-          firstItemIndex={firstItemIndex}
-          itemsPerPage={itemsPerPage}
-        />
-      )}
     </>
   );
 };

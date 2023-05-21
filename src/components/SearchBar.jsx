@@ -35,41 +35,44 @@ function SearchBar(props) {
         }}
       />
 
-      {props.searchQuery && suggestions.length > 0 && (
-        <ul
-          style={{
-            listStyle: "none",
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            transition: "box-shadow 0.2s ease-in-out",
-            fontSize: "16px",
-            width: "100%",
-            maxWidth: "400px",
-            margin: "0 auto",
-            marginTop: "10px",
-            backgroundColor: "#fff",
-          }}
-        >
-          {suggestions.map((item) => (
-            <>
-              <li
-                key={item.id}
-                onClick={() => handleSuggestionClick(item)}
-                style={{ cursor: "pointer" }}
-              >
-                {item.title}
-                {props.searchQuery && suggestions.length > 1 && (
-                  <div class="flex justify-center">
-                    <hr class="border-1 border-gray-300 my-2 w-40 mx-auto" />
-                  </div>
-                )}
-              </li>
-            </>
-          ))}
-        </ul>
-      )}
+      {props.searchQuery &&
+        suggestions.length > 0 &&
+        !props.showSearchQuery && (
+          <ul
+            style={{
+              listStyle: "none",
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.2s ease-in-out",
+              fontSize: "16px",
+              width: "100%",
+              maxWidth: "400px",
+              margin: "0 auto",
+              marginTop: "10px",
+              backgroundColor: "#fff",
+            }}
+          >
+            {suggestions.map((item) => (
+              <>
+                <li
+                  key={item.id}
+                  onClick={() => handleSuggestionClick(item)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {item.title}
+                  {props.searchQuery && suggestions.length > 1 && (
+                    <div class="flex justify-center">
+                      <hr class="border-1 border-gray-300 my-2 w-40 mx-auto" />
+                    </div>
+                  )}
+                </li>
+              </>
+            ))}
+          </ul>
+        )}
+      <button onClick={props.handleClick}>search</button>
     </>
   );
 }

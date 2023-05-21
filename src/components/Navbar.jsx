@@ -17,6 +17,15 @@ export const Navbar = () => {
   const [isToggled2, setIsToggled2] = useState(() =>
     JSON.parse(localStorage.getItem("isToggled2"))
   );
+  const [isToggled3, setIsToggled3] = useState(() =>
+    JSON.parse(localStorage.getItem("isToggled3"))
+  );
+  const [isToggled4, setIsToggled4] = useState(() =>
+    JSON.parse(localStorage.getItem("isToggled4"))
+  );
+  const [isToggled5, setIsToggled5] = useState(() =>
+    JSON.parse(localStorage.getItem("isToggled5"))
+  );
 
   useEffect(() => {
     localStorage.setItem("isToggled", JSON.stringify(isToggled));
@@ -28,36 +37,81 @@ export const Navbar = () => {
     setIsToggled(true);
     setIsToggled1(false);
     setIsToggled2(false);
+    setIsToggled3(false);
+    setIsToggled4(false);
+    setIsToggled5(false);
   };
   const handleToggle1 = () => {
     setIsToggled(false);
     setIsToggled1(true);
     setIsToggled2(false);
+    setIsToggled3(false);
+    setIsToggled4(false);
+    setIsToggled5(false);
   };
   const handleToggle2 = () => {
     setIsToggled(false);
     setIsToggled1(false);
     setIsToggled2(true);
+    setIsToggled3(false);
+    setIsToggled4(false);
+    setIsToggled5(false);
+  };
+  const handleToggle3 = () => {
+    setIsToggled(false);
+    setIsToggled1(false);
+    setIsToggled2(false);
+    setIsToggled3(true);
+    setIsToggled4(false);
+    setIsToggled5(false);
+  };
+  const handleToggle4 = () => {
+    setIsToggled(false);
+    setIsToggled1(false);
+    setIsToggled2(false);
+    setIsToggled3(false);
+    setIsToggled4(true);
+    setIsToggled5(false);
+  };
+  const handleToggle5 = () => {
+    setIsToggled(false);
+    setIsToggled1(false);
+    setIsToggled2(false);
+    setIsToggled3(false);
+    setIsToggled4(false);
+    setIsToggled5(true);
   };
 
   const navigation = [
     {
-      name: "Featured",
+      name: "Hot Deals",
       href: "/",
       onClick: handleToggle,
       current: isToggled,
     },
     {
-      name: "Newest Arrivals",
-      href: "/Newest",
+      name: "Higher Commission",
+      href: "/HigherCommission",
       onClick: handleToggle1,
       current: isToggled1,
     },
     {
-      name: "Avg. Customer Review",
-      href: "/Average",
-      onClick: handleToggle2,
-      current: isToggled2,
+      name: "Featured Products",
+      href: "/Featured",
+      onClick: handleToggle3,
+      current: isToggled3,
+    },
+    {
+      name: "Our Recommendation",
+      href: "/Recommendation",
+      onClick: handleToggle4,
+      current: isToggled4,
+    },
+    {
+      name: "Campaign Banner",
+      href: "/CampaignBanner",
+      onClick: handleToggle5,
+      current: isToggled5,
     },
   ];
   return (
