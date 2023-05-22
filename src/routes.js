@@ -1,24 +1,33 @@
-import { TopProducts } from "./components/TopProducts";
-import { Average } from "./components/Average";
-import { Newest } from "./components/Newest";
-import { Errorsite } from "./components/Errorsite";
-import { Category } from "./components/Category";
+import { TopProducts } from './components/TopProducts'
+import { Average } from './components/Average'
+import { Newest } from './components/Newest'
+import { Errorsite } from './components/Errorsite'
+import { Recommendation } from './components/Recommendation'
+import { HomePage } from './components/HomePage'
 
 export const routes = [
   {
-    path: "/",
+    path: '/',
     component: <TopProducts />,
   },
   {
-    path: "/Featured",
+    path: '/Featured',
     component: <Average />,
   },
   {
-    path: "/HigherCommission",
+    path: '/HigherCommission',
     component: <Newest />,
   },
   {
-    path: "/Errorsite",
+    path: '/Errorsite',
     component: <Errorsite />,
   },
-];
+  {
+    path: '/homepage',
+    component: <HomePage />,
+  },
+  {
+    path: '/Recommendation',
+    component: <Recommendation />,
+  },
+]

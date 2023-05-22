@@ -4,12 +4,12 @@ import Pages from './Pages'
 import SearchBar from './SearchBar'
 import { SearchItems } from './SearchItems'
 import Papa from 'papaparse'
-import csvData from '../csv/higherCom.csv'
+import csvData from '../csv/Recommendation.csv'
 import { useEffect } from 'react'
 
-export const Newest = () => {
+export const Recommendation = () => {
   const [searchQuery, setSearchQuery] = useState('')
-  const name = 'Search in Higher Commission....'
+  const name = 'Search in Our Recommendation....'
   // const [showSearchQuery, setShowSearchQuery] = useState(false);
   const [parsedData, setParsedData] = useState([])
 
@@ -87,6 +87,7 @@ export const Newest = () => {
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
           name={name}
+          // showSearchQuery={showSearchQuery}
         />
         {filteredItems.length > 0 && searchQuery ? (
           <div>
