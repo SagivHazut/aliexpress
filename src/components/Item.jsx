@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/24/solid'
+import { Filters } from './Filters'
 
-export const Item = ({ post }) => {
+export const Item = ({ post, filterProductsByPrice }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const [layout, setLayout] = useState(true)
@@ -23,6 +24,9 @@ export const Item = ({ post }) => {
 
   return (
     <>
+      <div>
+        <Filters filterProducts={filterProductsByPrice} />
+      </div>
       <div className="product-display">
         <div className="md:hidden">
           <div className="flex justify-end mt-4">

@@ -49,10 +49,31 @@ export const Recommendation = () => {
     )
   })
 
+  const filterProductsByPrice = (sortOrder) => {
+    let sortedProducts = [...parsedData]
+
+    if (sortOrder === 'highToLow') {
+      sortedProducts.sort((a, b) => {
+        const priceA = parseFloat(a['Origin Price'].replace(/[^0-9.-]+/g, ''))
+        const priceB = parseFloat(b['Origin Price'].replace(/[^0-9.-]+/g, ''))
+        return priceB - priceA
+      })
+    } else if (sortOrder === 'lowToHigh') {
+      sortedProducts.sort((a, b) => {
+        const priceA = parseFloat(a['Origin Price'].replace(/[^0-9.-]+/g, ''))
+        const priceB = parseFloat(b['Origin Price'].replace(/[^0-9.-]+/g, ''))
+        return priceA - priceB
+      })
+    }
+    setParsedData(sortOrder ? sortedProducts : parsedData)
+  }
+
   const [currentPage, setCurrentPage] = useState(1)
   const lastItemIndex = currentPage * itemsPerPage
   const firstItemIndex = lastItemIndex - itemsPerPage
-  const visibleItems = parsedData.slice(firstItemIndex, lastItemIndex)
+  const visibleItems = parsedData
+    ? parsedData.slice(firstItemIndex, lastItemIndex)
+    : []
   const totalPages = Math.ceil(parsedData.length / itemsPerPage)
 
   const pageNumbers = []
@@ -95,8 +116,12 @@ export const Recommendation = () => {
           </div>
         ) : (
           <>
-            {' '}
-            <Item key={visibleItems.id} post={visibleItems} />
+            <Item
+              key={visibleItems.id}
+              post={visibleItems}
+              filteredProducts={parsedData}
+              filterProductsByPrice={filterProductsByPrice}
+            />
             {filteredItems.length > 10 && (
               <Pages
                 pageNumbers={pageNumbers}
