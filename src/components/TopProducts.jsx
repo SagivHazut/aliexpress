@@ -118,7 +118,6 @@ export const TopProducts = () => {
           </div>
         ) : (
           <>
-            {' '}
             <Item
               key={visibleItems.id}
               post={visibleItems}

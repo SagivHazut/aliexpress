@@ -7,7 +7,7 @@ export const HomePage = () => {
       <div className="max-w-3xl mx-auto p-8">
         <section className="mb-8">
           <NavLink to="/" className="nav-link">
-            <h2 className="text-2xl font-bold mb-4">Hot Deals</h2>
+            <h2 className="text-2xl font-bold mb-4 underline">Hot Deals</h2>
           </NavLink>
           <p className="text-lg text-gray-700">
             Welcome to our website, your ultimate destination for hot deals! We
@@ -22,7 +22,9 @@ export const HomePage = () => {
 
         <section className="mb-8">
           <NavLink to="/HigherCommission" className="nav-link">
-            <h2 className="text-2xl font-bold mb-4">Higher Commission</h2>
+            <h2 className="text-2xl font-bold mb-4 underline">
+              Higher Commission
+            </h2>
           </NavLink>
           <p className="text-lg text-gray-700">
             We believe in rewarding our valued customers, and that's why we
@@ -37,7 +39,9 @@ export const HomePage = () => {
 
         <section className="mb-8">
           <NavLink to="/Featured" className="nav-link">
-            <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
+            <h2 className="text-2xl font-bold mb-4 underline">
+              Featured Products
+            </h2>
           </NavLink>
           <p className="text-lg text-gray-700">
             Discover the best of AliExpress with our handpicked selection of
@@ -53,7 +57,9 @@ export const HomePage = () => {
 
         <section className="mb-8">
           <NavLink to="/Recommendation" className="nav-link">
-            <h2 className="text-2xl font-bold mb-4">Our Recommendation</h2>
+            <h2 className="text-2xl font-bold mb-4 underline">
+              Our Recommendation
+            </h2>
           </NavLink>
           <p className="text-lg text-gray-700">
             Finding the right product can be overwhelming, especially with the

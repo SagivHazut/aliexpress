@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 
 export default function Pages({
   pageNumbers,
@@ -11,21 +11,21 @@ export default function Pages({
 }) {
   const handlePreviousClick = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage(currentPage - 1)
     }
-  };
+  }
 
   const handleNextClick = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage(currentPage + 1)
     }
-  };
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage);
+  }
+  const startIndex = (currentPage - 1) * itemsPerPage + 1
+  const endIndex = Math.min(startIndex + itemsPerPage - 1)
 
   const getPageNumbers = () => {
     if (totalPages <= 7) {
-      return pageNumbers;
+      return pageNumbers
     }
 
     if (currentPage <= 4) {
@@ -37,8 +37,8 @@ export default function Pages({
           onClick={() => handlePageClick(8)}
         >
           ...
-        </span>
-      ];
+        </span>,
+      ]
     }
 
     if (currentPage >= totalPages - 3) {
@@ -50,8 +50,8 @@ export default function Pages({
         >
           ...
         </span>,
-        ...pageNumbers.slice(totalPages - 7)
-      ];
+        ...pageNumbers.slice(totalPages - 7),
+      ]
     }
 
     return [
@@ -69,17 +69,17 @@ export default function Pages({
         onClick={() => handlePageClick(currentPage + 3)}
       >
         ...
-      </span>
-    ];
-  };
+      </span>,
+    ]
+  }
 
   return (
     <div className="sticky bottom-0 bg-white border-t border-gray-200 px-4 py-3 sm:px-6 z-10">
       <div className="flex flex-col sm:flex-row items-center justify-between">
         <div className="flex justify-center items-center mb-3 sm:mb-0">
           <p className="text-sm text-gray-900">
-            Showing <span className="font-medium">{startIndex}</span> to{" "}
-            <span className="font-medium">{endIndex}</span> of{" "}
+            Showing <span className="font-medium">{startIndex}</span> to{' '}
+            <span className="font-medium">{endIndex}</span> of{' '}
             <span className="font-medium">{itemsNumber.length}</span> results
           </p>
         </div>
@@ -101,12 +101,12 @@ export default function Pages({
             )}
 
             {getPageNumbers().map((pageNumber, index) =>
-              typeof pageNumber === "number" ? (
+              typeof pageNumber === 'number' ? (
                 <a
                   key={index}
                   aria-current="page"
                   className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                    pageNumber === currentPage ? "bg-gray-100" : ""
+                    pageNumber === currentPage ? 'bg-gray-100' : ''
                   }`}
                   onClick={() => handlePageClick(pageNumber)}
                 >
@@ -133,5 +133,5 @@ export default function Pages({
         </div>
       </div>
     </div>
-  );
+  )
 }

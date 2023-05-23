@@ -25,22 +25,7 @@ export const Item = ({ post, filterProductsByPrice }) => {
   return (
     <>
       <div>
-        <Filters filterProducts={filterProductsByPrice} />
-      </div>
-      <div className="product-display">
-        <div className="md:hidden">
-          <div className="flex justify-end mt-4">
-            <button onClick={() => setLayout(false)}>
-              <Squares2X2Icon className="h-10 w-10" aria-hidden="true" />
-            </button>
-            <button onClick={() => setLayout(true)}>
-              <FunnelIcon className="h-10 w-10" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-        <div className="hidden md:flex justify-end mt-4">
-          {/* Render the desktop layout here */}
-        </div>
+        <Filters filterProducts={filterProductsByPrice} setLayout={setLayout} />
       </div>
 
       {layout ? (
