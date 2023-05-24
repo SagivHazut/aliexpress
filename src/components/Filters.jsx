@@ -18,10 +18,10 @@ export const Filters = ({ filterProducts, setLayout }) => {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed top-5 right-4 z-50">
       <div className="relative inline-block">
         <button
-          className="bg-blue-9000 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded flex items-center"
+          className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
           onClick={toggleDropdown}
         >
           <ChevronDownIcon className="w-4 h-4 mr-2" />

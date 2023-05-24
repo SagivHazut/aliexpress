@@ -1,109 +1,114 @@
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import logonobackground from '../image/logonobackground.png'
-function navNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+import Dropdown from './Dropdown'
 
 export const Navbar = () => {
   const [isToggled, setIsToggled] = useState(() =>
     JSON.parse(localStorage.getItem('isToggled'))
   )
-  const [isToggled1, setIsToggled1] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled1'))
-  )
-  const [isToggled2, setIsToggled2] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled2'))
-  )
-  const [isToggled3, setIsToggled3] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled3'))
-  )
-  const [isToggled4, setIsToggled4] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled4'))
-  )
-
-  useEffect(() => {
-    localStorage.setItem('isToggled', JSON.stringify(isToggled))
-    localStorage.setItem('isToggled1', JSON.stringify(isToggled1))
-    localStorage.setItem('isToggled2', JSON.stringify(isToggled2))
-  }, [isToggled, isToggled1, isToggled2])
-
-  const handleToggle = () => {
-    setIsToggled(true)
-    setIsToggled1(false)
-    setIsToggled2(false)
-    setIsToggled3(false)
-    setIsToggled4(false)
-  }
-  const handleToggle1 = () => {
-    setIsToggled(false)
-    setIsToggled1(true)
-    setIsToggled2(false)
-    setIsToggled3(false)
-    setIsToggled4(false)
-  }
-
-  const handleToggle3 = () => {
-    setIsToggled(false)
-    setIsToggled1(false)
-    setIsToggled2(false)
-    setIsToggled3(true)
-    setIsToggled4(false)
-  }
-  const handleToggle4 = () => {
-    setIsToggled(false)
-    setIsToggled1(false)
-    setIsToggled2(false)
-    setIsToggled3(false)
-    setIsToggled4(true)
-  }
-  const handleToggle5 = () => {
-    setIsToggled(false)
-    setIsToggled1(false)
-    setIsToggled2(false)
-    setIsToggled3(false)
-    setIsToggled4(false)
-  }
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false) // State to control the visibility of the navbar
+  const location = useLocation()
 
   const navigation = [
     {
       name: 'Hot Deals',
       href: '/',
-      onClick: handleToggle,
-      current: isToggled,
+      state: 'isToggled',
+      onClick: () => handleToggle('isToggled'),
     },
     {
       name: 'Higher Commission',
       href: '/HigherCommission',
-      onClick: handleToggle1,
-      current: isToggled1,
+      state: 'isToggled1',
+      onClick: () => handleToggle('isToggled1'),
     },
     {
       name: 'Featured Products',
       href: '/Featured',
-      onClick: handleToggle3,
-      current: isToggled3,
+      state: 'isToggled3',
+      onClick: () => handleToggle('isToggled3'),
     },
     {
       name: 'Our Recommendation',
       href: '/Recommendation',
-      onClick: handleToggle4,
-      current: isToggled4,
+      state: 'isToggled4',
+      onClick: () => handleToggle('isToggled4'),
     },
   ]
+
+  const DropdownNav = [
+    {
+      name: 'Sport',
+      href: '/Sport',
+      state: 'isToggled',
+      onClick: () => handleToggle('isToggled5'),
+    },
+    {
+      name: 'Kids',
+      href: '/Kids',
+      state: 'isToggled1',
+      onClick: () => handleToggle('isToggled6 '),
+    },
+    {
+      name: 'Women',
+      href: '/Women',
+      state: 'isToggled3',
+      onClick: () => handleToggle('isToggled7'),
+    },
+    {
+      name: 'Men',
+      href: '/Men',
+      state: 'isToggled4',
+      onClick: () => handleToggle('isToggled8'),
+    },
+    {
+      name: 'House',
+      href: '/House',
+      state: 'isToggled4',
+      onClick: () => handleToggle('isToggled9'),
+    },
+  ]
+
+  useEffect(() => {
+    localStorage.setItem('isToggled', JSON.stringify(isToggled))
+  }, [isToggled])
+
+  const handleToggle = (state) => {
+    setIsToggled(state)
+    clearOtherStates(state)
+  }
+
+  const clearOtherStates = (currentState) => {
+    Object.keys(isToggled).forEach((key) => {
+      if (key !== currentState) {
+        setIsToggled((prevState) => ({ ...prevState, [key]: false }))
+      }
+    })
+  }
+
+  const isCurrent = (href) => {
+    return location.pathname === href
+  }
+
+  const handleDropdownSelect = (selectedOption) => {
+    handleToggle(selectedOption) // Set the selected option as the current state
+    setIsNavbarOpen(false) // Close the navbar when an option is selected
+  }
+
   return (
     <>
       <Disclosure as="nav" className="bg-gray-900">
-        {({ open }) => (
+        {({ isNavbarOpen }) => (
           <>
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-1">
               <div className="relative flex h-20 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="sr-only">Open main menu</span>
-                    {open ? (
+                    {isNavbarOpen ? (
                       <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                     ) : (
                       <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
@@ -112,7 +117,7 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                  <NavLink onClick={() => handleToggle5()} to="/homepage">
+                  <NavLink onClick={() => clearOtherStates()} to="/homepage">
                     <div className="flex flex-shrink-1 items-center">
                       <img
                         className="block h-8 w-auto lg:hidden"
@@ -131,20 +136,27 @@ export const Navbar = () => {
                     <div className="flex space-x-9">
                       {navigation.map((item) => (
                         <NavLink
-                          onClick={() => item.onClick()}
+                          onClick={item.onClick}
                           key={item.name}
                           to={item.href}
-                          className={navNames(
-                            item.current
+                          className={`${
+                            isCurrent(item.href)
                               ? 'bg-gray-600 text-white'
-                              : 'text-gray-100 hover:bg-gray-100 hover:text-white',
-                            'rounded-md px-3 py-2 text-sm font-medium'
-                          )}
-                          aria-current={item.current ? 'page' : undefined}
+                              : 'text-gray-100 hover:bg-gray-100 hover:text-white'
+                          } rounded-md px-3 py-2 text-sm font-medium`}
+                          aria-current={
+                            isCurrent(item.href) ? 'page' : undefined
+                          }
                         >
                           {item.name}
                         </NavLink>
                       ))}
+                      <div className="relative">
+                        <Dropdown
+                          options={DropdownNav}
+                          onSelect={handleDropdownSelect}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -157,19 +169,25 @@ export const Navbar = () => {
                 {navigation.map((item) => (
                   <Disclosure.Button
                     key={item.name}
-                    as="a"
-                    href={item.href}
-                    className={navNames(
-                      item.current
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'block rounded-md px-3 py-2 text-base font-medium'
-                    )}
-                    aria-current={item.current ? 'page' : undefined}
+                    as={NavLink}
+                    to={item.href}
+                    onClick={item.onClick}
+                    className={`${
+                      isCurrent(item.href)
+                        ? 'bg-gray-600 text-white'
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                    } block rounded-md px-3 py-2 text-base font-medium`}
+                    aria-current={isCurrent(item.href) ? 'page' : undefined}
                   >
                     {item.name}
                   </Disclosure.Button>
                 ))}
+                <div className="relative">
+                  <Dropdown
+                    options={DropdownNav}
+                    onSelect={handleDropdownSelect}
+                  />
+                </div>
               </div>
             </Disclosure.Panel>
           </>
@@ -178,3 +196,5 @@ export const Navbar = () => {
     </>
   )
 }
+
+export default Navbar
