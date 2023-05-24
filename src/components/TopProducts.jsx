@@ -6,7 +6,6 @@ import { SearchItems } from './SearchItems'
 import Papa from 'papaparse'
 import csvData from '../csv/hotdeals.csv'
 import { useEffect } from 'react'
-import { Filters } from './Filters'
 
 export const TopProducts = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -36,7 +35,7 @@ export const TopProducts = () => {
     fetchData()
   }, [])
 
-  const itemsPerPage = 12
+  const [itemsPerPage, setItemsPerPage] = useState(20)
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value)
@@ -123,6 +122,8 @@ export const TopProducts = () => {
               post={visibleItems}
               filteredProducts={parsedData}
               filterProductsByPrice={filterProductsByPrice}
+              setItemsPerPage={setItemsPerPage}
+              itemsPerPage={itemsPerPage}
             />
             {filteredItems.length > 10 && (
               <Pages

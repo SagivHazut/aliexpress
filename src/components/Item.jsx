@@ -2,7 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/24/solid'
 import { Filters } from './Filters'
 
-export const Item = ({ post, filterProductsByPrice }) => {
+export const Item = ({
+  post,
+  filterProductsByPrice,
+  setItemsPerPage,
+  itemsPerPage,
+}) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const [layout, setLayout] = useState(true)
@@ -21,11 +26,24 @@ export const Item = ({ post, filterProductsByPrice }) => {
   const handleShowMoreClick = (postId) => {
     setExpandedPostId(postId)
   }
-
+  const calculateDiscountPercentage = (item) => {
+    const discount =
+      parseFloat(item['Origin Price'].replace(/[^\d.-]/g, '')) -
+      parseFloat(item['Discount Price'].replace(/[^\d.-]/g, ''))
+    const discountPercentage =
+      (discount / parseFloat(item['Origin Price'].replace(/[^\d.-]/g, ''))) *
+      100
+    return Math.round(discountPercentage)
+  }
   return (
     <>
       <div>
-        <Filters filterProducts={filterProductsByPrice} setLayout={setLayout} />
+        <Filters
+          filterProducts={filterProductsByPrice}
+          setLayout={setLayout}
+          setItemsPerPage={setItemsPerPage}
+          itemsPerPage={itemsPerPage}
+        />
       </div>
 
       {layout ? (
@@ -34,7 +52,7 @@ export const Item = ({ post, filterProductsByPrice }) => {
             <div className="lg:col-span-3">
               <div>
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                  <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                  <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
                     {post.map((item) => (
                       <article
                         key={item.ProductId}
@@ -82,10 +100,26 @@ export const Item = ({ post, filterProductsByPrice }) => {
                               )}
                           </div>
                           <div className="mt-3 flex items-center justify-between text-xs">
-                            <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-6">
-                              {item['Origin Price']}
+                            <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
+                              <div>
+                                <div>
+                                  <strong>{item['Discount Price']}</strong>{' '}
+                                  <span>
+                                    &nbsp;(Save{' '}
+                                    {calculateDiscountPercentage(item)}%)
+                                  </span>
+                                </div>
+
+                                <div>
+                                  <span
+                                    style={{ textDecoration: 'line-through' }}
+                                  >
+                                    {item['Origin Price']}
+                                  </span>
+                                </div>
+                              </div>
                             </a>
-                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-6">
+                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
                               Sales: {item['Sales180Day']} <br />
                               Positive Feedback: {item['Positive Feedback']}
                             </a>

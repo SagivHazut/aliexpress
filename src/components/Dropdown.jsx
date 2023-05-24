@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 
-const Dropdown = ({ options, onSelect, setIsNavbarOpen, isNavbarOpen }) => {
+const Dropdown = ({ options, onSelect, isNavbarOpen }) => {
   const [isOpen, setIsOpen] = useState(false)
   const location = useLocation()
-  console.log(isNavbarOpen)
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
-    setIsNavbarOpen(!isNavbarOpen)
   }
 
   const handleOptionSelect = (option) => {

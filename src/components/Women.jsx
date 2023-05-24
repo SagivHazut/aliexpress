@@ -4,12 +4,12 @@ import Pages from './Pages'
 import SearchBar from './SearchBar'
 import { SearchItems } from './SearchItems'
 import Papa from 'papaparse'
-import csvData from '../csv/featured.csv'
+import csvData from '../csv/Women.csv'
 import { useEffect } from 'react'
 
-export const Average = () => {
+export const Women = () => {
   const [searchQuery, setSearchQuery] = useState('')
-  const name = 'Search in Featured Products....'
+  const name = 'Search in Women section....'
   // const [showSearchQuery, setShowSearchQuery] = useState(false);
   const [parsedData, setParsedData] = useState([])
 
@@ -120,6 +120,8 @@ export const Average = () => {
               post={visibleItems}
               filteredProducts={parsedData}
               filterProductsByPrice={filterProductsByPrice}
+              setItemsPerPage={setItemsPerPage}
+              itemsPerPage={itemsPerPage}
             />
             {filteredItems.length > 10 && (
               <Pages

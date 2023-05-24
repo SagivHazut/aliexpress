@@ -34,7 +34,7 @@ export const Recommendation = () => {
     fetchData()
   }, [])
 
-  const itemsPerPage = 12
+  const [itemsPerPage, setItemsPerPage] = useState(20)
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value)
@@ -121,6 +121,8 @@ export const Recommendation = () => {
               post={visibleItems}
               filteredProducts={parsedData}
               filterProductsByPrice={filterProductsByPrice}
+              setItemsPerPage={setItemsPerPage}
+              itemsPerPage={itemsPerPage}
             />
             {filteredItems.length > 10 && (
               <Pages
