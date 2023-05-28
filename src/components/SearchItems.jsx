@@ -60,8 +60,9 @@ export const SearchItems = ({ post }) => {
                           className={`mt-5 ${
                             expandedPostId === item.ProductId
                               ? 'text-sm'
-                              : 'line-clamp-3'
+                              : 'line-clamp-2'
                           } leading-6 text-gray-600`}
+                          style={{ userSelect: 'none' }} // Add this style property
                         >
                           {item['Product Desc']}
                         </p>

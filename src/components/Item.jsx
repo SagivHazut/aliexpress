@@ -24,9 +24,11 @@ export const Item = ({
       }
     }
   }, [post])
+
   const handleShowMoreClick = (postId) => {
     setExpandedPostId(postId)
   }
+
   const calculateDiscountPercentage = (item) => {
     const discount =
       parseFloat(item['Origin Price'].replace(/[^\d.-]/g, '')) -
@@ -36,6 +38,7 @@ export const Item = ({
       100
     return Math.round(discountPercentage)
   }
+
   return (
     <>
       <div>
@@ -86,6 +89,7 @@ export const Item = ({
                                   ? 'text-sm'
                                   : 'line-clamp-2'
                               } leading-6 text-gray-600`}
+                              style={{ userSelect: 'none' }} // Add this style property
                             >
                               {item['Product Desc']}
                             </p>
@@ -163,14 +167,15 @@ export const Item = ({
                         </a>
 
                         <div className="max-w-xl">
-                          <div className="group relative  mr-4">
+                          <div className="group relative">
                             <p
                               ref={descriptionRef}
                               className={`mt-5 ${
                                 expandedPostId === item.ProductId
                                   ? 'text-sm'
-                                  : 'line-clamp-3'
+                                  : 'line-clamp-2'
                               } leading-6 text-gray-600`}
+                              style={{ userSelect: 'none' }} // Add this style property
                             >
                               {item['Product Desc']}
                             </p>
