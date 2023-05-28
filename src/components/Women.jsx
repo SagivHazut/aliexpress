@@ -6,12 +6,22 @@ import { SearchItems } from './SearchItems'
 import Papa from 'papaparse'
 import csvData from '../csv/Women.csv'
 import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const Women = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const name = 'Search in Women section....'
-  // const [showSearchQuery, setShowSearchQuery] = useState(false);
+
+  const navigate = useNavigate()
+  const location = useLocation()
   const [parsedData, setParsedData] = useState([])
+  const [parsedDataFilter, setParsedDataFilter] = useState([])
+  const [originalData, setOriginalData] = useState([])
+
+  useEffect(() => {
+    setParsedDataFilter(parsedData)
+    setOriginalData(parsedData)
+  }, [parsedData])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +36,7 @@ export const Women = () => {
           Object.values(item).some((value) => value !== '')
         )
         setParsedData(filteredData)
+        setOriginalData(filteredData)
       } catch (error) {
         console.error('Error fetching or parsing CSV data:', error)
       }
@@ -33,6 +44,12 @@ export const Women = () => {
 
     fetchData()
   }, [])
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search)
+    const query = queryParams.get('search')
+    setSearchQuery(query || '')
+  }, [location.search])
 
   const [itemsPerPage, setItemsPerPage] = useState(20)
 
@@ -49,40 +66,23 @@ export const Women = () => {
     )
   })
 
-  const filterProductsByPrice = (sortOrder) => {
-    let sortedProducts = [...parsedData]
-
-    if (sortOrder === 'highToLow') {
-      sortedProducts.sort((a, b) => {
-        const priceA = parseFloat(a['Origin Price'].replace(/[^0-9.-]+/g, ''))
-        const priceB = parseFloat(b['Origin Price'].replace(/[^0-9.-]+/g, ''))
-        return priceB - priceA
-      })
-    } else if (sortOrder === 'lowToHigh') {
-      sortedProducts.sort((a, b) => {
-        const priceA = parseFloat(a['Origin Price'].replace(/[^0-9.-]+/g, ''))
-        const priceB = parseFloat(b['Origin Price'].replace(/[^0-9.-]+/g, ''))
-        return priceA - priceB
-      })
-    }
-    setParsedData(sortOrder ? sortedProducts : parsedData)
-  }
-
   const [currentPage, setCurrentPage] = useState(1)
   const lastItemIndex = currentPage * itemsPerPage
   const firstItemIndex = lastItemIndex - itemsPerPage
-  const visibleItems = parsedData
-    ? parsedData.slice(firstItemIndex, lastItemIndex)
+  const visibleItems = parsedDataFilter
+    ? parsedDataFilter.slice(firstItemIndex, lastItemIndex)
     : []
-  const totalPages = Math.ceil(parsedData.length / itemsPerPage)
+  const totalPages = Math.ceil(parsedDataFilter.length / itemsPerPage)
 
   const pageNumbers = []
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i)
   }
+
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber)
   }
+
   const handlePreviousClick = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1)
@@ -97,6 +97,9 @@ export const Women = () => {
 
   const handleSuggestionSelect = (suggestion) => {
     setSearchQuery(suggestion['Product Desc'])
+    const queryParams = new URLSearchParams()
+    queryParams.set('search', suggestion['Product Desc'])
+    navigate(`?${queryParams.toString()}`)
   }
 
   return (
@@ -119,9 +122,11 @@ export const Women = () => {
               key={visibleItems.id}
               post={visibleItems}
               filteredProducts={parsedData}
-              filterProductsByPrice={filterProductsByPrice}
               setItemsPerPage={setItemsPerPage}
               itemsPerPage={itemsPerPage}
+              parsedData={parsedData}
+              setParsedDataFilter={setParsedDataFilter}
+              originalData={originalData}
             />
             {filteredItems.length > 10 && (
               <Pages
@@ -132,7 +137,7 @@ export const Women = () => {
                 totalPages={totalPages}
                 handlePreviousClick={handlePreviousClick}
                 handleNextClick={handleNextClick}
-                itemsNumber={parsedData}
+                itemsNumber={parsedDataFilter}
                 firstItemIndex={firstItemIndex}
                 itemsPerPage={itemsPerPage}
               />

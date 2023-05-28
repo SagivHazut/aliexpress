@@ -26,7 +26,7 @@ const Dropdown = ({ options, onSelect, isNavbarOpen }) => {
         }`}
         onClick={toggleDropdown}
       >
-        <span className="mr-2 text-white">Dropdown</span>
+        <span className="mr-2 text-white">Categories</span>
         <svg
           className={`w-4 h-4 transition-transform duration-300 transform ${
             isOpen ? 'rotate-180' : ''

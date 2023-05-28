@@ -4,9 +4,11 @@ import { Filters } from './Filters'
 
 export const Item = ({
   post,
-  filterProductsByPrice,
   setItemsPerPage,
   itemsPerPage,
+  parsedData,
+  setParsedDataFilter,
+  originalData,
 }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
@@ -22,7 +24,6 @@ export const Item = ({
       }
     }
   }, [post])
-
   const handleShowMoreClick = (postId) => {
     setExpandedPostId(postId)
   }
@@ -39,10 +40,13 @@ export const Item = ({
     <>
       <div>
         <Filters
-          filterProducts={filterProductsByPrice}
           setLayout={setLayout}
           setItemsPerPage={setItemsPerPage}
           itemsPerPage={itemsPerPage}
+          parsedData={parsedData}
+          setParsedDataFilter={setParsedDataFilter}
+          parsedDataFilter={post}
+          originalData={originalData}
         />
       </div>
 
@@ -80,7 +84,7 @@ export const Item = ({
                               className={`mt-5 ${
                                 expandedPostId === item.ProductId
                                   ? 'text-sm'
-                                  : 'line-clamp-3'
+                                  : 'line-clamp-2'
                               } leading-6 text-gray-600`}
                             >
                               {item['Product Desc']}
@@ -103,18 +107,20 @@ export const Item = ({
                             <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
                               <div>
                                 <div>
-                                  <strong>{item['Discount Price']}</strong>{' '}
-                                  <span>
-                                    &nbsp;(Save{' '}
-                                    {calculateDiscountPercentage(item)}%)
-                                  </span>
-                                </div>
-
-                                <div>
                                   <span
-                                    style={{ textDecoration: 'line-through' }}
+                                    className="items-start  "
+                                    style={{
+                                      textDecoration: 'line-through',
+                                    }}
                                   >
                                     {item['Origin Price']}
+                                  </span>
+                                </div>
+                                <div>
+                                  <strong>{item['Discount Price']}</strong>{' '}
+                                  <span className="text-green-600  ">
+                                    <br /> &nbsp;(Save{' '}
+                                    {calculateDiscountPercentage(item)}%)
                                   </span>
                                 </div>
                               </div>
@@ -157,7 +163,7 @@ export const Item = ({
                         </a>
 
                         <div className="max-w-xl">
-                          <div className="group relative">
+                          <div className="group relative  mr-4">
                             <p
                               ref={descriptionRef}
                               className={`mt-5 ${
@@ -183,12 +189,28 @@ export const Item = ({
                               )}
                           </div>
                           <div className="mt-3 flex items-center justify-between text-xs">
-                            <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ">
-                              {item['Origin Price']}
+                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-red-600 hover:bg-gray-100 ml-0">
+                              <div className="w-20">
+                                <div>
+                                  <strong>{item['Discount Price']}</strong>{' '}
+                                  <span className="text-green-600">
+                                    &nbsp;(Save{' '}
+                                    {calculateDiscountPercentage(item)}
+                                    %)
+                                  </span>
+                                </div>
+
+                                <div>
+                                  <span
+                                    style={{ textDecoration: 'line-through' }}
+                                  >
+                                    {item['Origin Price']} <br />
+                                  </span>
+                                </div>
+                              </div>
                             </a>
-                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ">
+                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0 w-20">
                               Sales: {item['Sales180Day']} <br />
-                              <hr className="border-1 border-gray-700 " />
                               Positive Feedback: {item['Positive Feedback']}
                             </a>
                           </div>

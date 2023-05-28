@@ -21,7 +21,7 @@ export default function Pages({
     }
   }
   const startIndex = (currentPage - 1) * itemsPerPage + 1
-  const endIndex = Math.min(startIndex + itemsPerPage - 1)
+  const endIndex = Math.min(startIndex + itemsPerPage - 1, itemsNumber.length)
 
   const getPageNumbers = () => {
     if (totalPages <= 7) {
