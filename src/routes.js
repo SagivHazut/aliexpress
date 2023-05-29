@@ -55,4 +55,8 @@ export const routes = [
     path: '/Recommendation',
     component: <Recommendation />,
   },
+  {
+    path: '/*',
+    component: <Errorsite />,
+  },
 ]

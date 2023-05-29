@@ -1,3 +1,5 @@
+import { NavLink, useLocation } from 'react-router-dom'
+
 export const Errorsite = () => {
   return (
     <>
@@ -24,9 +26,12 @@ export const Errorsite = () => {
             Sorry, we couldn’t find the page you’re looking for.
           </p>
           <div className="mt-10 flex justify-center">
-            <a href="#" className="text-sm font-semibold leading-7 text-white">
+            <NavLink
+              to="/"
+              className="text-sm font-semibold leading-7 text-white"
+            >
               <span aria-hidden="true">&larr;</span> Back to home
-            </a>
+            </NavLink>
           </div>
         </div>
       </main>
