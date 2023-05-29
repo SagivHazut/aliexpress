@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/24/solid'
+import { useTranslation } from 'react-i18next'
 import { Filters } from './Filters'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export const Item = ({
   post,
@@ -13,6 +14,8 @@ export const Item = ({
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const [layout, setLayout] = useState(true)
+  const [isLoading, setIsLoading] = useState(true) // New state variable
+  const { t } = useTranslation()
 
   useEffect(() => {
     // Check if description text exceeds 3 lines
@@ -24,6 +27,17 @@ export const Item = ({
       }
     }
   }, [post])
+
+  useEffect(() => {
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false) // Set isLoading to false after the delay
+    }, 2000)
+
+    return () => {
+      clearTimeout(timer) // Clear the timer on unmount (optional)
+    }
+  }, [])
 
   const handleShowMoreClick = (postId) => {
     setExpandedPostId(postId)
@@ -39,8 +53,28 @@ export const Item = ({
     return Math.round(discountPercentage)
   }
 
+  if (isLoading) {
+    return (
+      <div className="lg:col-span-3">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+            {/* Placeholder layout without pictures and data */}
+            {Array.from({ length: 12 }).map((_, index) => (
+              <div
+                key={index}
+                className="animate-pulse bg-gray-100 rounded-2xl h-64"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
+      <LanguageSwitcher />
+
       <div>
         <Filters
           setLayout={setLayout}
@@ -103,7 +137,7 @@ export const Item = ({
                                     handleShowMoreClick(item.ProductId)
                                   }
                                 >
-                                  Show More
+                                  {t('showMore')}
                                 </button>
                               )}
                           </div>
@@ -123,15 +157,16 @@ export const Item = ({
                                 <div>
                                   <strong>{item['Discount Price']}</strong>{' '}
                                   <span className="text-green-600  ">
-                                    <br /> &nbsp;(Save{' '}
+                                    <br /> &nbsp;({t('save')}{' '}
                                     {calculateDiscountPercentage(item)}%)
                                   </span>
                                 </div>
                               </div>
                             </a>
                             <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
-                              Sales: {item['Sales180Day']} <br />
-                              Positive Feedback: {item['Positive Feedback']}
+                              {t('sales')}: {item['Sales180Day']} <br />
+                              {t('positiveFeedback')}:{' '}
+                              {item['Positive Feedback']}
                             </a>
                           </div>
                         </div>
@@ -160,7 +195,7 @@ export const Item = ({
                             <img
                               src={item['Image Url']}
                               alt=""
-                              className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+                              className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
                             />
                             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                           </div>
@@ -189,34 +224,36 @@ export const Item = ({
                                     handleShowMoreClick(item.ProductId)
                                   }
                                 >
-                                  Show More
+                                  {t('showMore')}
                                 </button>
                               )}
                           </div>
                           <div className="mt-3 flex items-center justify-between text-xs">
-                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-red-600 hover:bg-gray-100 ml-0">
-                              <div className="w-20">
-                                <div>
-                                  <strong>{item['Discount Price']}</strong>{' '}
-                                  <span className="text-green-600">
-                                    &nbsp;(Save{' '}
-                                    {calculateDiscountPercentage(item)}
-                                    %)
-                                  </span>
-                                </div>
-
+                            <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
+                              <div>
                                 <div>
                                   <span
-                                    style={{ textDecoration: 'line-through' }}
+                                    className="items-start  "
+                                    style={{
+                                      textDecoration: 'line-through',
+                                    }}
                                   >
-                                    {item['Origin Price']} <br />
+                                    {item['Origin Price']}
+                                  </span>
+                                </div>
+                                <div>
+                                  <strong>{item['Discount Price']}</strong>{' '}
+                                  <span className="text-green-600  ">
+                                    <br /> &nbsp;({t('save')}{' '}
+                                    {calculateDiscountPercentage(item)}%)
                                   </span>
                                 </div>
                               </div>
                             </a>
-                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0 w-20">
-                              Sales: {item['Sales180Day']} <br />
-                              Positive Feedback: {item['Positive Feedback']}
+                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
+                              {t('sales')}: {item['Sales180Day']} <br />
+                              {t('positiveFeedback')}:{' '}
+                              {item['Positive Feedback']}
                             </a>
                           </div>
                         </div>
