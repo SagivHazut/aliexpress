@@ -73,8 +73,6 @@ export const Item = ({
 
   return (
     <>
-      <LanguageSwitcher />
-
       <div>
         <Filters
           setLayout={setLayout}
