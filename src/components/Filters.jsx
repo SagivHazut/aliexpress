@@ -20,7 +20,6 @@ export const Filters = ({
   const [selectedFilter2, setSelectedFilter2] = useState('')
   const [layoutShape, setLayoutShape] = useState(true)
   const [filteredProducts, setFilteredProducts] = useState([])
-  const [sortedProducts, setSortedProducts] = useState([])
 
   useEffect(() => {
     let products = [...originalData]
@@ -53,8 +52,7 @@ export const Filters = ({
     })
 
     setFilteredProducts(filtered)
-    setSortedProducts(products)
-  }, [originalData, minPrice, maxPrice, selectedFilter])
+  }, [minPrice, maxPrice, selectedFilter])
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)

@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Filters } from './Filters'
-import LanguageSwitcher from './LanguageSwitcher'
 
 export const Item = ({
   post,
@@ -15,7 +13,6 @@ export const Item = ({
   const descriptionRef = useRef(null)
   const [layout, setLayout] = useState(true)
   const [isLoading, setIsLoading] = useState(true) // New state variable
-  const { t } = useTranslation()
 
   useEffect(() => {
     // Check if description text exceeds 3 lines
@@ -135,13 +132,20 @@ export const Item = ({
                                     handleShowMoreClick(item.ProductId)
                                   }
                                 >
-                                  {t('showMore')}
+                                  {'showMore'}
                                 </button>
                               )}
                           </div>
                           <div className="mt-3 flex items-center justify-between text-xs">
                             <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
                               <div>
+                                <div>
+                                  <strong>{item['Discount Price']}</strong>{' '}
+                                  <span className="text-green-600  ">
+                                    <br /> &nbsp;({'save'}{' '}
+                                    {calculateDiscountPercentage(item)}%)
+                                  </span>
+                                </div>
                                 <div>
                                   <span
                                     className="items-start  "
@@ -152,19 +156,13 @@ export const Item = ({
                                     {item['Origin Price']}
                                   </span>
                                 </div>
-                                <div>
-                                  <strong>{item['Discount Price']}</strong>{' '}
-                                  <span className="text-green-600  ">
-                                    <br /> &nbsp;({t('save')}{' '}
-                                    {calculateDiscountPercentage(item)}%)
-                                  </span>
-                                </div>
                               </div>
                             </a>
                             <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
-                              {t('sales')}: {item['Sales180Day']} <br />
-                              {t('positiveFeedback')}:{' '}
-                              {item['Positive Feedback']}
+                              {'sales'}: <strong>{item['Sales180Day']} </strong>{' '}
+                              <br />
+                              {'positive Feedback'}:{' '}
+                              <strong>{item['Positive Feedback']}</strong>
                             </a>
                           </div>
                         </div>
@@ -222,13 +220,28 @@ export const Item = ({
                                     handleShowMoreClick(item.ProductId)
                                   }
                                 >
-                                  {t('showMore')}
+                                  {'showMore'}
                                 </button>
                               )}
                           </div>
                           <div className="mt-3 flex items-center justify-between text-xs">
-                            <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
+                            <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0 w-15">
                               <div>
+                                <a className="">
+                                  {'sales'}:{' '}
+                                  <strong>{item['Sales180Day']} </strong> <br />
+                                  {'positive Feedback'}:{' '}
+                                  <strong>{item['Positive Feedback']}</strong>
+                                </a>
+                                <br />
+                                <hr className="h-2 mt-2" />
+                                <div>
+                                  <strong>{item['Discount Price']}</strong>{' '}
+                                  <span className="text-green-600  ">
+                                    <br /> &nbsp;({'save'}
+                                    {calculateDiscountPercentage(item)}%)
+                                  </span>
+                                </div>
                                 <div>
                                   <span
                                     className="items-start  "
@@ -239,19 +252,7 @@ export const Item = ({
                                     {item['Origin Price']}
                                   </span>
                                 </div>
-                                <div>
-                                  <strong>{item['Discount Price']}</strong>{' '}
-                                  <span className="text-green-600  ">
-                                    <br /> &nbsp;({t('save')}{' '}
-                                    {calculateDiscountPercentage(item)}%)
-                                  </span>
-                                </div>
                               </div>
-                            </a>
-                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
-                              {t('sales')}: {item['Sales180Day']} <br />
-                              {t('positiveFeedback')}:{' '}
-                              {item['Positive Feedback']}
                             </a>
                           </div>
                         </div>

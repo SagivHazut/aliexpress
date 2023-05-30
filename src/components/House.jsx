@@ -66,14 +66,22 @@ export const House = () => {
     )
   })
 
+  const shuffledPost = [...parsedData]
+  shuffledPost.sort(() => Math.random() - 0.5)
+
   const [currentPage, setCurrentPage] = useState(1)
   const lastItemIndex = currentPage * itemsPerPage
   const firstItemIndex = lastItemIndex - itemsPerPage
-  const visibleItems = parsedDataFilter
-    ? parsedDataFilter.slice(firstItemIndex, lastItemIndex)
-    : []
-  const totalPages = Math.ceil(parsedDataFilter.length / itemsPerPage)
+  const visibleItems =
+    parsedDataFilter && parsedDataFilter.length > 0
+      ? parsedDataFilter.slice(firstItemIndex, lastItemIndex)
+      : shuffledPost.slice(firstItemIndex, lastItemIndex)
 
+  const totalPages = Math.ceil(
+    parsedDataFilter && parsedDataFilter.length > 0
+      ? parsedDataFilter.length
+      : shuffledPost.length / itemsPerPage
+  )
   const pageNumbers = []
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i)
@@ -137,7 +145,11 @@ export const House = () => {
                 totalPages={totalPages}
                 handlePreviousClick={handlePreviousClick}
                 handleNextClick={handleNextClick}
-                itemsNumber={parsedDataFilter}
+                itemsNumber={
+                  parsedDataFilter && parsedDataFilter.length > 0
+                    ? parsedDataFilter
+                    : shuffledPost
+                }
                 firstItemIndex={firstItemIndex}
                 itemsPerPage={itemsPerPage}
               />

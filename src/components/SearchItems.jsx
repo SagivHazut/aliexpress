@@ -99,8 +99,9 @@ export const SearchItems = ({ post }) => {
                           </div>
                         </a>
                         <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0 w-20">
-                          Sales: {item['Sales180Day']} <br />
-                          Positive Feedback: {item['Positive Feedback']}
+                          Sales: <strong>{item['Sales180Day']} </strong> <br />
+                          {'positive Feedback'}:{' '}
+                          <strong>{item['Positive Feedback']}</strong>
                         </a>
                       </div>
                     </div>
