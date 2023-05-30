@@ -19,7 +19,7 @@ export const House = () => {
   const [originalData, setOriginalData] = useState([])
 
   useEffect(() => {
-    setParsedDataFilter(parsedData)
+    // setParsedDataFilter(parsedData)
     setOriginalData(parsedData)
   }, [parsedData])
 

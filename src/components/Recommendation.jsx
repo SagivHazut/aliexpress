@@ -19,7 +19,7 @@ export const Recommendation = () => {
   const [originalData, setOriginalData] = useState([])
 
   useEffect(() => {
-    setParsedDataFilter(parsedData)
+    // setParsedDataFilter(parsedData)
     setOriginalData(parsedData)
   }, [parsedData])
 
@@ -109,7 +109,7 @@ export const Recommendation = () => {
     queryParams.set('search', suggestion['Product Desc'])
     navigate(`?${queryParams.toString()}`)
   }
-
+  console.log(parsedDataFilter)
   return (
     <>
       <div>

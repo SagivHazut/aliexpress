@@ -102,7 +102,7 @@ export default function Pages({
         id="scrollButton"
         title="Go to top"
         style={{ display: isVisible ? 'block' : 'none' }}
-        className="fixed bottom-32 right-4 z-10 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-800 transition-all"
+        className="fixed bottom-28 right-4 z-10 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-800 transition-all"
       >
         <ChevronUpIcon className="h-5 w-5" />
       </button>
