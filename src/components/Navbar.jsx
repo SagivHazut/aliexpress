@@ -10,6 +10,16 @@ export const Navbar = () => {
     JSON.parse(localStorage.getItem('isToggled'))
   )
   const location = useLocation()
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const handleOptionSelect = (DropdownNav) => {
+    handleDropdownSelect(DropdownNav)
+    setIsOpen(false)
+  }
 
   const navigation = [
     {
@@ -181,10 +191,57 @@ export const Navbar = () => {
                   </Disclosure.Button>
                 ))}
                 <div className="relative">
-                  <Dropdown
-                    options={DropdownNav}
-                    onSelect={handleDropdownSelect}
-                  />
+                  {isOpen && (
+                    <div className="absolute mt-10 left-2/3 transform -translate-x-1/2 w-32 bg-gray-900 border border-gray-900 rounded shadow-lg z-10">
+                      <ul className="py-1">
+                        {DropdownNav.map((item) => (
+                          <li key={item.name}>
+                            <Disclosure.Button
+                              onClick={() => handleOptionSelect(item.value)}
+                              to={item.href}
+                              className={`${
+                                isCurrent(item.href)
+                                  ? 'bg-gray-600 text-white'
+                                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                              } block rounded-md px-10 py-2 text-base font-medium`}
+                              aria-current={
+                                isCurrent(item.href) ? 'page' : undefined
+                              }
+                            >
+                              {item.name}
+                            </Disclosure.Button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                <div className="relative">
+                  <div className="relative inline-block">
+                    <button
+                      className={`text-gray-400 hover:bg-gray-700 hover:text-white py-2 px-4 rounded flex items-end focus:outline-none ${
+                        isOpen ? 'bg-gray-600 text-white' : ''
+                      }`}
+                      onClick={toggleDropdown}
+                    >
+                      <span className="mr-2 text-white">Categories</span>
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-100 transform ${
+                          isOpen ? 'rotate-180' : ''
+                        }`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </Disclosure.Panel>
