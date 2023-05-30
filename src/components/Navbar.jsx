@@ -192,7 +192,7 @@ export const Navbar = () => {
                 ))}
                 <div className="relative">
                   {isOpen && (
-                    <div className="absolute mt-10 left-2/3 transform -translate-x-1/2 w-32 bg-gray-900 border border-gray-900 rounded shadow-lg z-10">
+                    <div className="absolute mt-10 left-2/3 transform -translate-x-1/2 w-22 bg-gray-900 border border-gray-900 rounded shadow-lg z-10">
                       <ul className="py-1">
                         {DropdownNav.map((item) => (
                           <li key={item.name}>

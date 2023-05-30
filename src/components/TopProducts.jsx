@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export const TopProducts = () => {
   const name = 'Search in Hot Deals....'
   const [searchQuery, setSearchQuery] = useState('')
-
+  console.log(searchQuery)
   const navigate = useNavigate()
   const location = useLocation()
   const [parsedData, setParsedData] = useState([])
@@ -48,7 +48,24 @@ export const TopProducts = () => {
     const queryParams = new URLSearchParams(location.search)
     const query = queryParams.get('search')
     setSearchQuery(query || '')
+
+    const handleBeforeUnload = () => {
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
   }, [location.search])
+
+  const handleSuggestionSelect = (suggestion) => {
+    setSearchQuery(suggestion['Product Desc'])
+    const queryParams = new URLSearchParams()
+    queryParams.set('search', suggestion['Product Desc'])
+    navigate(`?${queryParams.toString()}`)
+  }
 
   const [itemsPerPage, setItemsPerPage] = useState(20)
 
@@ -101,13 +118,6 @@ export const TopProducts = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1)
     }
-  }
-
-  const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion['Product Desc'])
-    const queryParams = new URLSearchParams()
-    queryParams.set('search', suggestion['Product Desc'])
-    navigate(`?${queryParams.toString()}`)
   }
 
   return (

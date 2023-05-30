@@ -75,6 +75,18 @@ export const Item = ({
         console.error('Error copying URL:', error)
       })
   }
+  const [isDesktop, setIsDesktop] = useState(true)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 640)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   if (isLoading) {
     return (
@@ -136,28 +148,30 @@ export const Item = ({
                         </a>
 
                         <div className="mt-3 flex items-center justify-between">
-                          <button
-                            className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
-                            onClick={() =>
-                              handleShareClick(item['Promotion Url'])
-                            }
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="w-6 h-6"
+                          {!isDesktop && (
+                            <button
+                              className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
+                              onClick={() =>
+                                handleShareClick(item['Promotion Url'])
+                              }
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
-                              />
-                            </svg>
-                            Share
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                                />
+                              </svg>
+                              Share
+                            </button>
+                          )}
                           <button
                             className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
                             onClick={() =>
@@ -181,6 +195,7 @@ export const Item = ({
                             Copy
                           </button>
                         </div>
+
                         <div className="max-w-xl">
                           <div className="group relative">
                             <p
@@ -190,7 +205,10 @@ export const Item = ({
                                   ? 'text-sm'
                                   : 'line-clamp-2'
                               } leading-6 text-gray-600`}
-                              style={{ userSelect: 'none' }} // Add this style property
+                              style={{
+                                userSelect: 'none',
+                                fontFamily: 'Rubik',
+                              }} // Add this style property
                             >
                               {item['Product Desc']}
                             </p>
@@ -268,34 +286,34 @@ export const Item = ({
                             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                           </div>
                         </a>
-                        <div
-                          className="mt-3 flex items-center justify-between "
-                          style={{ marginLeft: -13 }}
-                        >
-                          <button
-                            className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500 w-15 "
-                            onClick={() =>
-                              handleShareClick(item['Promotion Url'])
-                            }
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="w-6 h-6"
+                        <div className="mt-3 flex items-center justify-between">
+                          {!isDesktop && (
+                            <button
+                              className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
+                              style={{ marginLeft: -13 }}
+                              onClick={() =>
+                                handleShareClick(item['Promotion Url'])
+                              }
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
-                              />
-                            </svg>
-                            Share
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                                />
+                              </svg>
+                              Share
+                            </button>
+                          )}
                           <button
-                            className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500 w-15"
+                            className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
                             onClick={() =>
                               handleCopyUrlClick(item['Promotion Url'])
                             }
