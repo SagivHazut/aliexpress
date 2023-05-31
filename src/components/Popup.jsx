@@ -2,24 +2,42 @@ import { useState, useEffect } from 'react'
 
 function Popup() {
   const [showPopup, setShowPopup] = useState(false)
+  const [popupIndex, setPopupIndex] = useState(null)
+
+  const popups = [
+    {
+      image:
+        'https://ae01.alicdn.com/kf/Sc89a3fb4d1cb466d99e99153acc9d9e4b.png',
+      link: 'https://s.click.aliexpress.com/e/_DeV91Tr?bz=725*90',
+    },
+    {
+      image:
+        'https://ae01.alicdn.com/kf/S3619e57974f148d087c950fe497cdf55q/300x250.jpg',
+      link: 'https://s.click.aliexpress.com/e/_DDcWu7b?bz=300*250',
+    },
+  ]
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString()
-    const hasShownPopupToday = localStorage.getItem('popupShownOn') === today
+    // const today = new Date().toLocaleDateString()
+    // const hasShownPopupToday = localStorage.getItem('popupShownOn') === today
 
-    if (!hasShownPopupToday) {
-      setShowPopup(true)
-      localStorage.setItem('popupShownOn', today)
-    }
+    // if (!hasShownPopupToday) {
+    const randomIndex = Math.floor(Math.random() * popups.length)
+    setPopupIndex(randomIndex)
+    setShowPopup(true)
+    // localStorage.setItem('popupShownOn', today)
+    // }
   }, [])
 
   const closePopup = () => {
     setShowPopup(false)
   }
 
-  if (!showPopup) {
+  if (!showPopup || popupIndex === null) {
     return null
   }
+
+  const currentPopup = popups[popupIndex]
 
   return (
     <section className="fixed bottom-14 inset-x-0 flex items-center justify-center opacity-80 z-50">
@@ -30,13 +48,13 @@ function Popup() {
         }}
       >
         <a
-          href="https://s.click.aliexpress.com/e/_DeV91Tr?bz=725*90"
+          href={currentPopup.link}
           target="_blank"
           className="relative inline-block"
         >
           <img
             className="w-full h-auto"
-            src="https://ae01.alicdn.com/kf/Sc89a3fb4d1cb466d99e99153acc9d9e4b.png"
+            src={currentPopup.image}
             alt="Banner"
           />
         </a>
