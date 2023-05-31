@@ -53,31 +53,31 @@ export const Navbar = () => {
       name: 'Sport',
       href: '/Sport',
       state: 'isToggled',
-      onClick: () => handleToggle('isToggled5'),
+      onClick: () => handleToggle('isToggled5', handleOptionSelect()),
     },
     {
       name: 'Kids',
       href: '/Kids',
       state: 'isToggled1',
-      onClick: () => handleToggle('isToggled6 '),
+      onClick: () => handleToggle('isToggled6', handleOptionSelect()),
     },
     {
       name: 'Women',
       href: '/Women',
       state: 'isToggled3',
-      onClick: () => handleToggle('isToggled7'),
+      onClick: () => handleToggle('isToggled7', handleOptionSelect()),
     },
     {
       name: 'Men',
       href: '/Men',
       state: 'isToggled4',
-      onClick: () => handleToggle('isToggled8'),
+      onClick: () => handleToggle('isToggled8', handleOptionSelect()),
     },
     {
       name: 'House',
       href: '/House',
       state: 'isToggled4',
-      onClick: () => handleToggle('isToggled9'),
+      onClick: () => handleToggle('isToggled9', handleOptionSelect()),
     },
   ]
 
@@ -197,8 +197,10 @@ export const Navbar = () => {
                         {DropdownNav.map((item) => (
                           <li key={item.name}>
                             <Disclosure.Button
-                              onClick={() => handleOptionSelect(item.value)}
+                              key={item.name}
+                              as={NavLink}
                               to={item.href}
+                              onClick={item.onClick}
                               className={`${
                                 isCurrent(item.href)
                                   ? 'bg-gray-600 text-white'

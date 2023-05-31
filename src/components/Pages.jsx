@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import React, { useState } from 'react'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
+import Popup from './Popup'
 
 export default function Pages({
   pageNumbers,
@@ -96,7 +97,7 @@ export default function Pages({
 
   return (
     <>
-      {' '}
+      <Popup />
       <button
         onClick={scrollToTop}
         id="scrollButton"
