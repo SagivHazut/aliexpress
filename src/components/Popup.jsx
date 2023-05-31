@@ -7,8 +7,8 @@ function Popup() {
   const popups = [
     {
       image:
-        'https://ae01.alicdn.com/kf/Sc89a3fb4d1cb466d99e99153acc9d9e4b.png',
-      link: 'https://s.click.aliexpress.com/e/_DeV91Tr?bz=725*90',
+        'https://ae01.alicdn.com/kf/Sdf244df2fa7a47148b0f92473cc0ed6aZ.png',
+      link: 'https://s.click.aliexpress.com/e/_DkWGNPr?bz=500*500',
     },
     {
       image:
