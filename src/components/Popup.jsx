@@ -7,10 +7,10 @@ function Popup() {
     const today = new Date().toLocaleDateString()
     const hasShownPopupToday = localStorage.getItem('popupShownOn') === today
 
-    // if (!hasShownPopupToday) {
-    setShowPopup(true)
-    //   localStorage.setItem('popupShownOn', today)
-    // }
+    if (!hasShownPopupToday) {
+      setShowPopup(true)
+      localStorage.setItem('popupShownOn', today)
+    }
   }, [])
 
   const closePopup = () => {
