@@ -18,15 +18,15 @@ function Popup() {
   ]
 
   useEffect(() => {
-    // const today = new Date().toLocaleDateString()
-    // const hasShownPopupToday = localStorage.getItem('popupShownOn') === today
+    const today = new Date().toLocaleDateString()
+    const hasShownPopupToday = localStorage.getItem('popupShownOn') === today
 
-    // if (!hasShownPopupToday) {
-    const randomIndex = Math.floor(Math.random() * popups.length)
-    setPopupIndex(randomIndex)
-    setShowPopup(true)
-    // localStorage.setItem('popupShownOn', today)
-    // }
+    if (!hasShownPopupToday) {
+      const randomIndex = Math.floor(Math.random() * popups.length)
+      setPopupIndex(randomIndex)
+      setShowPopup(true)
+      localStorage.setItem('popupShownOn', today)
+    }
   }, [])
 
   const closePopup = () => {

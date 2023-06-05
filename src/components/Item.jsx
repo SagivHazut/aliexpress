@@ -144,6 +144,20 @@ export const Item = ({
                               className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
                             />
                             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                            <img
+                              src={
+                                'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                              }
+                              alt="AliExpress Logo"
+                              // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
+                              style={{
+                                display: 'flex',
+                                position: 'absolute',
+                                top: -10,
+                                left: -40,
+                                transform: 'rotate(310deg)  ',
+                              }}
+                            />
                           </div>
                         </a>
 
@@ -212,19 +226,17 @@ export const Item = ({
                             >
                               {item['Product Desc']}
                             </p>
-                            {expandedPostId !== item.ProductId &&
-                              descriptionRef.current &&
-                              descriptionRef.current.scrollHeight >
-                                descriptionRef.current.clientHeight && (
-                                <button
-                                  className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                  onClick={() =>
-                                    handleShowMoreClick(item.ProductId)
-                                  }
-                                >
-                                  {'showMore'}
-                                </button>
-                              )}
+
+                            <button
+                              className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                              onClick={() =>
+                                handleShowMoreClick(item.ProductId)
+                              }
+                            >
+                              {expandedPostId !== item.ProductId
+                                ? 'showMore'
+                                : ''}
+                            </button>
                           </div>
                           <div className="mt-3 flex items-center justify-between text-xs">
                             <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
@@ -284,6 +296,20 @@ export const Item = ({
                               className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
                             />
                             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                            <img
+                              src={
+                                'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                              }
+                              alt="AliExpress Logo"
+                              // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
+                              style={{
+                                display: 'flex',
+                                position: 'absolute',
+                                top: -10,
+                                left: -40,
+                                transform: 'rotate(310deg)  ',
+                              }}
+                            />
                           </div>
                         </a>
                         <div className="mt-3 flex items-center justify-between">
@@ -348,19 +374,17 @@ export const Item = ({
                             >
                               {item['Product Desc']}
                             </p>
-                            {expandedPostId !== item.ProductId &&
-                              descriptionRef.current &&
-                              descriptionRef.current.scrollHeight >
-                                descriptionRef.current.clientHeight && (
-                                <button
-                                  className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                  onClick={() =>
-                                    handleShowMoreClick(item.ProductId)
-                                  }
-                                >
-                                  {'showMore'}
-                                </button>
-                              )}
+
+                            <button
+                              className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                              onClick={() =>
+                                handleShowMoreClick(item.ProductId)
+                              }
+                            >
+                              {expandedPostId !== item.ProductId
+                                ? 'showMore'
+                                : ''}{' '}
+                            </button>
                           </div>
                           <div className="mt-3 flex items-center justify-between text-xs">
                             <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0 w-15">

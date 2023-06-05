@@ -95,16 +95,20 @@ export const TopProducts = () => {
 
   const totalPages = Math.ceil(
     parsedDataFilter && parsedDataFilter.length > 0
-      ? parsedDataFilter.length
+      ? parsedDataFilter.length / itemsPerPage
       : shuffledPost.length / itemsPerPage
   )
-
+  console.log(parsedDataFilter)
   const pageNumbers = []
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i)
   }
 
   const handlePageClick = (pageNumber) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
     setCurrentPage(pageNumber)
   }
 
