@@ -138,20 +138,19 @@ export const Navbar = () => {
 
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                   <NavLink onClick={() => clearOtherStates()} to="/homepage">
-                    <div className="flex flex-shrink-1 items-center">
+                    <div className="flex flex-shrink-1 items-center z-50">
                       <img
-                        className="block h-8 w-auto lg:hidden z-999"
+                        className="block h-8 w-auto lg:hidden z-50"
                         src={logonobackground}
                         alt="Your Company"
                       />
                       <img
-                        className="hidden h-12 w-19 lg:block z-999"
+                        className="hidden h-12 w-19 lg:block z-50"
                         src={logonobackground}
                         alt="Your Company"
                       />
                     </div>
                   </NavLink>
-
                   <div className="hidden sm:ml-10 sm:block">
                     <div className="flex space-x-9">
                       {navigation.map((item) => (
