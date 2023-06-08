@@ -7,6 +7,9 @@ export const Filters = ({
   itemsPerPage,
   setParsedDataFilter,
   originalData,
+  country,
+  showFilter,
+  setShowFilter,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [minPrice, setMinPrice] = useState('')
@@ -51,6 +54,7 @@ export const Filters = ({
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
+    setShowFilter(!showFilter)
   }
 
   const handleItemsPerPageChange = (e) => {
@@ -67,44 +71,79 @@ export const Filters = ({
   }
 
   const handleMaxMin = () => {
+    setShowFilter(false)
+
     setIsOpen(false)
     setLayout(layoutShape)
     setParsedDataFilter(filteredProducts)
   }
 
   return (
-    <div className="fixed top-5 right-4 z-50">
+    <div className="fixed top-5 right-4 z-50 ">
       <div className="relative inline-block">
         <button
           className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
           onClick={toggleDropdown}
         >
-          Filter
+          {country === 'IL' ? 'סינון' : 'Filter'}
         </button>
         {isOpen && (
           <div className="fixed inset-0 flex justify-center items-center z-50">
             <div className="bg-white border border-gray-300 rounded shadow-lg p-4">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold">Filter</h2>
-                <button
-                  className="text-gray-600 hover:text-gray-800"
-                  onClick={toggleDropdown}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>{' '}
-                </button>
+                {country === 'IL' ? (
+                  <>
+                    {' '}
+                    <button
+                      className="text-gray-600 hover:text-gray-800"
+                      onClick={toggleDropdown}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>{' '}
+                    </button>{' '}
+                    <h2 className="text-lg font-bold md:flex justify-center  ">
+                      {country === 'IL' ? 'סינון' : 'Filter'}
+                    </h2>
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    <h2 className="text-lg font-bold md:flex justify-center  ">
+                      {country === 'IL' ? 'סינון' : 'Filter'}
+                    </h2>
+                    <button
+                      className="text-gray-600 hover:text-gray-800"
+                      onClick={toggleDropdown}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>{' '}
+                    </button>
+                  </>
+                )}
               </div>
               <div className="product-display ml-0">
                 <div className="md:hidden">
@@ -150,76 +189,152 @@ export const Filters = ({
                     </button>
                   </div>
                 </div>
-                <div className="hidden md:flex justify-end mt-4">
-                  {/* Render the desktop layout here */}
-                </div>
               </div>
-              <div className="py-1">
+              <div className="py-1 ">
+                <span className="font-bold">
+                  {' '}
+                  {country === 'IL' ? 'מחיר' : '   Price'}
+                </span>
+
                 <button
-                  className={`block w-full text-left px-2 py-2 text-gray-800   ${
-                    selectedFilter === 'highToLow'
-                      ? 'bg-gray-800 text-white rounded'
-                      : ''
-                  }`}
-                  onClick={() => handleFilter('highToLow')}
-                >
-                  High to Low
-                </button>
-                <button
-                  className={`block w-full text-left px-2 py-2 text-gray-800  ${
+                  className={`block w-full ${
+                    country === 'IL' ? 'text-right' : ' text-left '
+                  } px-2 py-2 text-gray-800  ${
                     selectedFilter === 'lowToHigh'
                       ? 'bg-gray-800 text-white rounded'
                       : ''
                   }`}
                   onClick={() => handleFilter('lowToHigh')}
                 >
-                  Low to High
+                  {country === 'IL' ? 'מנמוך לגבוה' : ' Low to High'}
                 </button>
-                <div className="flex items-center px-2 py-2">
-                  <label htmlFor="items-per-page" className="text-left mr-2">
-                    Items per page:
-                  </label>
-                  <select
-                    className="border border-gray-300 rounded px-2 py-1 text-gray-800 hover:text-blue"
-                    id="items-per-page"
-                    value={itemsPerPage}
-                    onChange={handleItemsPerPageChange}
-                  >
-                    <option value={20}>20</option>
-                    <option value={40}>40</option>
-                    <option value={60}>60</option>
-                  </select>
+                <button
+                  className={`block w-full ${
+                    country === 'IL' ? 'text-right' : ' text-left '
+                  } px-2 py-2 text-gray-800   ${
+                    selectedFilter === 'highToLow'
+                      ? 'bg-gray-800 text-white rounded'
+                      : ''
+                  }`}
+                  onClick={() => handleFilter('highToLow')}
+                >
+                  {country === 'IL' ? 'מגבוה לנמוך' : '   High to Low'}
+                </button>
+                <div className="flex items-center  py-2">
+                  {country === 'IL' ? (
+                    <>
+                      <select
+                        className="border border-gray-300 rounded px-2 py-1 text-gray-800 hover:text-blue  md:flex justify-end "
+                        id="items-per-page"
+                        value={itemsPerPage}
+                        onChange={handleItemsPerPageChange}
+                      >
+                        <option value={20}>20</option>
+                        <option value={40}>40</option>
+                        <option value={60}>60</option>
+                      </select>{' '}
+                      <label
+                        htmlFor="items-per-page"
+                        className="text-right  w-full"
+                      >
+                        :כמות מוצרים בעמוד
+                      </label>
+                    </>
+                  ) : (
+                    <>
+                      {' '}
+                      <label
+                        htmlFor="items-per-page"
+                        className="text-left mr-2"
+                      >
+                        Items per page:
+                      </label>
+                      <select
+                        className="border border-gray-300 rounded px-2 py-1 text-gray-800 hover:text-blue"
+                        id="items-per-page"
+                        value={itemsPerPage}
+                        onChange={handleItemsPerPageChange}
+                      >
+                        <option value={20}>20</option>
+                        <option value={40}>40</option>
+                        <option value={60}>60</option>
+                      </select>
+                    </>
+                  )}
                 </div>
-                <div className="flex items-center px-2 py-2">
-                  <label htmlFor="min-price" className="text-left mr-2">
-                    Min Price:
-                  </label>
-                  <input
-                    type="number"
-                    id="min-price"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                    className="border border-gray-300 rounded px-2 py-1 text-gray-800"
-                  />
-                </div>
-                <div className="flex items-center px-2 py-2">
-                  <label htmlFor="max-price" className="text-left mr-2">
-                    Max Price:
-                  </label>
-                  <input
-                    type="number"
-                    id="max-price"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                    className="border border-gray-300 rounded px-2 py-1 text-gray-800"
-                  />
-                </div>
+                {country === 'IL' ? (
+                  <>
+                    <div className="flex items-center py-2 ">
+                      <input
+                        type="number"
+                        id="min-price"
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                        className="border border-gray-300 roundedpy-1 text-gray-800"
+                      />
+                      <label
+                        htmlFor="min-price"
+                        className={`text-${
+                          country === 'IL' ? 'right' : 'left'
+                        } `}
+                      >
+                        :החל מ
+                      </label>
+                    </div>
+                    <div className="flex items-center py-2 md:flex justify-end">
+                      <input
+                        type="number"
+                        id="max-price"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                        className="border border-gray-300 rounded  py-1 text-gray-800"
+                      />
+                      <label htmlFor="max-price" className="w-full ">
+                        :עד
+                      </label>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    <div className="flex items-center px-2 py-2">
+                      <label
+                        htmlFor="min-price"
+                        className={`text-${
+                          country === 'IL' ? 'right' : 'left'
+                        } mr-2`}
+                      >
+                        Min Price:'
+                      </label>
+                      <input
+                        type="number"
+                        id="min-price"
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 text-gray-800"
+                      />
+                    </div>
+                    <div className="flex items-center px-2 py-2">
+                      <label htmlFor="max-price" className="text-left mr-2">
+                        Max Price:
+                      </label>
+                      <input
+                        type="number"
+                        id="max-price"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 text-gray-800"
+                      />
+                    </div>
+                  </>
+                )}
+
                 <div className="flex justify-center mt-4">
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={handleMaxMin}
                   >
-                    Apply Changes
+                    {country === 'IL' ? 'שמור' : 'Apply Changes'}
                   </button>
                 </div>
               </div>

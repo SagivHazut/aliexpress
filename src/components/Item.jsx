@@ -8,6 +8,9 @@ export const Item = ({
   parsedData,
   setParsedDataFilter,
   originalData,
+  country,
+  setShowFilter,
+  showFilter,
 }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
@@ -65,16 +68,22 @@ export const Item = ({
     }
   }
 
-  const handleCopyUrlClick = (url) => {
+  const [copiedItemId, setCopiedItemId] = useState(null)
+
+  const handleCopyUrlClick = (url, post) => {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        console.log('URL copied to clipboard')
+        setCopiedItemId(url)
+        setTimeout(() => {
+          setCopiedItemId(null)
+        }, 5000) // 5 seconds
       })
       .catch((error) => {
         console.error('Error copying URL:', error)
       })
   }
+
   const [isDesktop, setIsDesktop] = useState(true)
 
   useEffect(() => {
@@ -117,6 +126,9 @@ export const Item = ({
           setParsedDataFilter={setParsedDataFilter}
           parsedDataFilter={post}
           originalData={originalData}
+          country={country}
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
         />
       </div>
 
@@ -186,28 +198,35 @@ export const Item = ({
                               Share
                             </button>
                           )}
-                          <button
-                            className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
-                            onClick={() =>
-                              handleCopyUrlClick(item['Promotion Url'])
-                            }
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="w-6 h-6"
+                          <div>
+                            <button
+                              className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
+                              onClick={() =>
+                                handleCopyUrlClick(item['Promotion Url'])
+                              }
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"
-                              />
-                            </svg>
-                            Copy
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                              >
+                                {/* SVG path */}
+                              </svg>
+                              {copiedItemId === item['Promotion Url'] ? (
+                                <p>
+                                  Copied{' '}
+                                  <span role="img" aria-label="Thumbs Up">
+                                    👍
+                                  </span>
+                                </p>
+                              ) : (
+                                'Copy'
+                              )}
+                            </button>
+                          </div>
                         </div>
 
                         <div className="max-w-xl">
@@ -358,7 +377,16 @@ export const Item = ({
                                 d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"
                               />
                             </svg>
-                            Copy
+                            {copiedItemId === item['Promotion Url'] ? (
+                              <p>
+                                Copied{' '}
+                                <span role="img" aria-label="Thumbs Up">
+                                  👍
+                                </span>
+                              </p>
+                            ) : (
+                              'Copy'
+                            )}
                           </button>
                         </div>
                         <div className="max-w-xl">

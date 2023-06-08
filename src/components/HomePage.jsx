@@ -40,22 +40,22 @@ export const HomePage = () => {
 
             <section className="mb-8 border border-gray-300 rounded-lg p-6">
               <NavLink
-                to="/HigherCommission"
+                to="/SuperDeals"
                 className="nav-link hover:text-blue-700 transition-colors duration-200"
               >
                 <h2 className="text-2xl font-bold mb-4 underline">
-                  Higher Commission
+                  SuperDeals
                 </h2>
               </NavLink>
               <p className="text-lg">
                 We believe in rewarding our valued customers, and that's why we
-                offer higher commission rates on select products. When you
-                purchase through our affiliate links, not only do you get access
-                to amazing deals, but you also earn a higher commission on
-                eligible products. Take advantage of this opportunity to
-                maximize your earnings while promoting quality products to your
-                audience. Join us today and start enjoying the benefits of our
-                higher commission rates.
+                offer SuperDeals rates on select products. When you purchase
+                through our affiliate links, not only do you get access to
+                amazing deals, but you also earn a SuperDeals on eligible
+                products. Take advantage of this opportunity to maximize your
+                earnings while promoting quality products to your audience. Join
+                us today and start enjoying the benefits of our SuperDeals
+                rates.
               </p>
             </section>
 

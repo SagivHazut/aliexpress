@@ -11,6 +11,7 @@ export default function Pages({
   totalPages,
   itemsNumber,
   itemsPerPage,
+  country,
 }) {
   const handlePreviousClick = () => {
     if (currentPage > 1) {
@@ -111,9 +112,13 @@ export default function Pages({
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <div className="flex justify-center items-center mb-3 sm:mb-0">
             <p className="text-sm text-gray-900">
-              Showing <span className="font-medium">{startIndex}</span> to{' '}
-              <span className="font-medium">{endIndex}</span> of{' '}
-              <span className="font-medium">{itemsNumber.length}</span> results
+              {country === 'IL' ? ' מעמוד ' : 'Showing '}
+              <span className="font-medium">{startIndex}</span>{' '}
+              {country === 'IL' ? ' עד ' : 'to  '}
+              <span className="font-medium">{endIndex}</span>
+              {country === 'IL' ? ' מתוך ' : ' of '}
+              <span className="font-medium">{itemsNumber.length}</span>{' '}
+              {country === 'IL' ? 'עמודים' : 'results'}
             </p>
           </div>
           <div className="flex justify-center items-center">

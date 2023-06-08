@@ -1,0 +1,26 @@
+#google_translate_element {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .goog-te-banner-frame {
+    display: none !important;
+  }
+  
+  .goog-te-gadget-simple {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+  }
+  
+  .goog-te-gadget-simple a.goog-te-menu-value {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .goog-te-gadget-simple a.goog-te-menu-value:hover {
+    text-decoration: underline;
+  }
+  

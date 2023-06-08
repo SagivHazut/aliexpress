@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 
-const Dropdown = ({ options, onSelect, isNavbarOpen }) => {
+const Dropdown = ({ options, onSelect, isNavbarOpen, country }) => {
   const [isOpen, setIsOpen] = useState(false)
   const location = useLocation()
 
@@ -26,7 +26,9 @@ const Dropdown = ({ options, onSelect, isNavbarOpen }) => {
         }`}
         onClick={toggleDropdown}
       >
-        <span className="mr-2 text-white">Categories</span>
+        <span className="mr-2 text-white">
+          {country === 'IL' ? 'קטגוריות' : 'Categories'}
+        </span>
         <svg
           className={`w-4 h-4 transition-transform duration-300 transform ${
             isOpen ? 'rotate-180' : ''

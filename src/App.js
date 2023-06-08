@@ -8,6 +8,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+
       <Routes>
         {routes.map((route) => (
           <Route
@@ -17,11 +18,10 @@ function App() {
             path={route.path}
           />
         ))}
-      </Routes>{' '}
+      </Routes>
     </div>
+    // </div>
   )
 }
 
 export default App
-
-// amazon affiliate sport01e3-20

@@ -20,7 +20,7 @@ export const routes = [
     component: <Average />,
   },
   {
-    path: '/HigherCommission',
+    path: '/SuperDeals',
     component: <Newest />,
   },
   {

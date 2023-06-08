@@ -12,6 +12,7 @@ export const Navbar = () => {
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [sideBar, setSideBar] = useState(false)
+  const [country, setCountry] = useState('')
 
   const toggleSidebar = () => {
     setSideBar(!sideBar)
@@ -25,8 +26,7 @@ export const Navbar = () => {
     handleDropdownSelect(DropdownNav)
     setIsOpen(false)
   }
-  console.log(isOpen)
-  const navigation = [
+  const [navigation, setNavigation] = useState([
     {
       name: 'Hot Deals',
       href: '/',
@@ -34,8 +34,8 @@ export const Navbar = () => {
       onClick: () => handleToggle('isToggled'),
     },
     {
-      name: 'Higher Commission',
-      href: '/HigherCommission',
+      name: 'SuperDeals',
+      href: '/SuperDeals',
       state: 'isToggled1',
       onClick: () => handleToggle('isToggled1'),
     },
@@ -51,9 +51,57 @@ export const Navbar = () => {
       state: 'isToggled4',
       onClick: () => handleToggle('isToggled4'),
     },
-  ]
+  ])
 
-  const DropdownNav = [
+  useEffect(() => {
+    fetch('http://ip-api.com/json')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.countryCode === 'IL') {
+          setCountry(data.countryCode)
+          // Change the name to Hebrew in navigation
+          setNavigation((prevNavigation) => {
+            const updatedNavigation = [...prevNavigation]
+            updatedNavigation.forEach((item) => {
+              if (item.name === 'Hot Deals') {
+                item.name = 'מבצעים חמים'
+              } else if (item.name === 'SuperDeals') {
+                item.name = 'הנבחרים'
+              } else if (item.name === 'Featured Products') {
+                item.name = 'מוצרים מומלצים'
+              } else if (item.name === 'Our Recommendation') {
+                item.name = 'המלצתנו'
+              }
+            })
+            return updatedNavigation
+          })
+
+          // Change the name to Hebrew in DropdownNav
+          setDropdownNav((prevDropdownNav) => {
+            const updatedDropdownNav = [...prevDropdownNav]
+            updatedDropdownNav.forEach((item) => {
+              if (item.name === 'Sport') {
+                item.name = 'ספורט'
+              } else if (item.name === 'Kids') {
+                item.name = 'ילדים'
+              } else if (item.name === 'Women') {
+                item.name = 'נשים'
+              } else if (item.name === 'Men') {
+                item.name = 'גברים'
+              } else if (item.name === 'House') {
+                item.name = 'בית'
+              }
+            })
+            return updatedDropdownNav
+          })
+        }
+      })
+      .catch((error) => {
+        console.log('Error fetching IP geolocation:', error)
+      })
+  }, [])
+
+  const [dropdownNav, setDropdownNav] = useState([
     {
       name: 'Sport',
       href: '/Sport',
@@ -84,7 +132,7 @@ export const Navbar = () => {
       state: 'isToggled4',
       onClick: () => handleToggle('isToggled9', handleOptionSelect()),
     },
-  ]
+  ])
 
   useEffect(() => {
     localStorage.setItem('isToggled', JSON.stringify(isToggled))
@@ -125,11 +173,11 @@ export const Navbar = () => {
               <div className="relative flex h-20 items-center justify-between">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   <Disclosure.Button
-                    className="fixed top-5 left-4 z-50 text-2xl text-white  hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700"
+                    className="fixed top-5 left-4 z-50 text-2xl text-white  hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 bg-gray-900"
                     onClick={toggleDropdown}
                   >
                     {open ? (
-                      <XMarkIcon className="h-6 w-6" />
+                      <XMarkIcon className="h-6 w-6 " />
                     ) : (
                       <Bars3Icon className="h-6 w-6" />
                     )}
@@ -172,7 +220,8 @@ export const Navbar = () => {
                       ))}
                       <div className="relative">
                         <Dropdown
-                          options={DropdownNav}
+                          country={country}
+                          options={dropdownNav}
                           onSelect={handleDropdownSelect}
                         />
                       </div>
@@ -220,7 +269,7 @@ export const Navbar = () => {
                                 onClick={toggleSidebar}
                               >
                                 <span className="mr-2 text-white">
-                                  Categories
+                                  {country === 'IL' ? 'קטגוריות' : 'Categories'}
                                 </span>
                                 <svg
                                   className={`w-4 h-4 transition-transform duration-100 transform ${
@@ -241,7 +290,7 @@ export const Navbar = () => {
                           </div>
                           {sideBar && (
                             <ul className="py-1">
-                              {DropdownNav.map((item) => (
+                              {dropdownNav.map((item) => (
                                 <li key={item.name}>
                                   <Disclosure.Button
                                     key={item.name}

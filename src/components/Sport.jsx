@@ -17,6 +17,7 @@ export const Sport = () => {
   const [parsedData, setParsedData] = useState([])
   const [parsedDataFilter, setParsedDataFilter] = useState([])
   const [originalData, setOriginalData] = useState([])
+  const [country, setCountry] = useState('')
 
   useEffect(() => {
     // setParsedDataFilter(parsedData)
@@ -41,7 +42,14 @@ export const Sport = () => {
         console.error('Error fetching or parsing CSV data:', error)
       }
     }
-
+    fetch('http://ip-api.com/json')
+      .then((response) => response.json())
+      .then((data) => {
+        setCountry(data.countryCode)
+      })
+      .catch((error) => {
+        console.log('Error fetching IP geolocation:', error)
+      })
     fetchData()
   }, [])
 
@@ -109,16 +117,26 @@ export const Sport = () => {
     queryParams.set('search', suggestion['Product Desc'])
     navigate(`?${queryParams.toString()}`)
   }
+  const [showFilter, setShowFilter] = useState(false)
 
   return (
     <>
+      <div
+        className={`fixed ${
+          showFilter ? 'z-50 bg-black opacity-50 inset-0 ' : ''
+        }`}
+        style={{
+          boxShadow: showFilter ? '0px 0px 10px 5px rgba(0, 0, 0, 0.5)' : '',
+        }}
+      ></div>
+
       <div>
         <SearchBar
           handleInputChange={handleInputChange}
           items={filteredItems}
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
-          name={name}
+          name={country === 'IL' ? ' ...חיפוש בקטגוריית ספורט ' : name}
         />
         {filteredItems.length > 0 && searchQuery ? (
           <div>
@@ -135,6 +153,9 @@ export const Sport = () => {
               parsedData={parsedData}
               setParsedDataFilter={setParsedDataFilter}
               originalData={originalData}
+              country={country}
+              setShowFilter={setShowFilter}
+              showFilter={showFilter}
             />
             {filteredItems.length > 10 && (
               <Pages
@@ -152,6 +173,7 @@ export const Sport = () => {
                 }
                 firstItemIndex={firstItemIndex}
                 itemsPerPage={itemsPerPage}
+                country={country}
               />
             )}
           </>

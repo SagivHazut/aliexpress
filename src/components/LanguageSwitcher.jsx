@@ -1,22 +1,22 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useState } from 'react'
+import { GoogleTranslateElement } from 'react-google-translate'
+import googleTranslateElementInit from 'react-google-translate/lib/googleTranslateElementInit'
 
-const LanguageSwitcher = () => {
-  const { i18n } = useTranslation()
+export const LanguageSwitcher = () => {
+  const [translateVisible, setTranslateVisible] = useState(false)
 
-  const changeLanguage = (lng) => {
-    console.log('Changing language to:', lng)
-    i18n.changeLanguage(lng)
+  const toggleTranslate = () => {
+    setTranslateVisible(!translateVisible)
   }
-
-  console.log('Current language:', i18n.language)
 
   return (
     <div>
-      <button onClick={() => changeLanguage('en')}>English</button>
-      <button onClick={() => changeLanguage('he')}>עברית</button>
+      <button onClick={toggleTranslate}>Toggle Translation</button>
+      {translateVisible && (
+        <GoogleTranslateElement
+          googleTranslateElementInit={googleTranslateElementInit}
+        />
+      )}
     </div>
   )
 }
-
-export default LanguageSwitcher
