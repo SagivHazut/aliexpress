@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
+import LanguageDropdown from './CustomOption'
 
 export const Filters = ({
   setLayout,
@@ -10,6 +11,7 @@ export const Filters = ({
   country,
   showFilter,
   setShowFilter,
+  setCountry,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [minPrice, setMinPrice] = useState('')
@@ -328,6 +330,7 @@ export const Filters = ({
                     </div>
                   </>
                 )}
+                <LanguageDropdown setCountry={setCountry} />
 
                 <div className="flex justify-center mt-4">
                   <button

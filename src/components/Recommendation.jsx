@@ -8,7 +8,7 @@ import csvData from '../csv/Recommendation.csv'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export const Recommendation = () => {
+export const Recommendation = ({ country, setCountry }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const name = 'Search in Our Recommendation....'
 
@@ -17,7 +17,6 @@ export const Recommendation = () => {
   const [parsedData, setParsedData] = useState([])
   const [parsedDataFilter, setParsedDataFilter] = useState([])
   const [originalData, setOriginalData] = useState([])
-  const [country, setCountry] = useState('')
 
   useEffect(() => {
     // setParsedDataFilter(parsedData)
@@ -42,14 +41,6 @@ export const Recommendation = () => {
         console.error('Error fetching or parsing CSV data:', error)
       }
     }
-    fetch('http://ip-api.com/json')
-      .then((response) => response.json())
-      .then((data) => {
-        setCountry(data.countryCode)
-      })
-      .catch((error) => {
-        console.log('Error fetching IP geolocation:', error)
-      })
     fetchData()
   }, [])
 
@@ -118,7 +109,7 @@ export const Recommendation = () => {
     navigate(`?${queryParams.toString()}`)
   }
   const [showFilter, setShowFilter] = useState(false)
-
+  console.log(country)
   return (
     <>
       <div
@@ -156,6 +147,7 @@ export const Recommendation = () => {
               country={country}
               setShowFilter={setShowFilter}
               showFilter={showFilter}
+              setCountry={setCountry}
             />
             {filteredItems.length > 10 && (
               <Pages

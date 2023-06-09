@@ -5,14 +5,16 @@ import { NavLink, useLocation } from 'react-router-dom'
 import logonobackground from '../image/logonobackground.png'
 import Dropdown from './Dropdown'
 
-export const Navbar = () => {
+import LanguageDropdown from './CustomOption'
+import { useMediaQuery } from 'react-responsive'
+
+export const Navbar = ({ setCountry, country }) => {
   const [isToggled, setIsToggled] = useState(() =>
     JSON.parse(localStorage.getItem('isToggled'))
   )
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [sideBar, setSideBar] = useState(false)
-  const [country, setCountry] = useState('')
 
   const toggleSidebar = () => {
     setSideBar(!sideBar)
@@ -52,55 +54,6 @@ export const Navbar = () => {
       onClick: () => handleToggle('isToggled4'),
     },
   ])
-
-  useEffect(() => {
-    fetch('http://ip-api.com/json')
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.countryCode === 'IL') {
-          setCountry(data.countryCode)
-          // Change the name to Hebrew in navigation
-          setNavigation((prevNavigation) => {
-            const updatedNavigation = [...prevNavigation]
-            updatedNavigation.forEach((item) => {
-              if (item.name === 'Hot Deals') {
-                item.name = 'מבצעים חמים'
-              } else if (item.name === 'SuperDeals') {
-                item.name = 'הנבחרים'
-              } else if (item.name === 'Featured Products') {
-                item.name = 'מוצרים מומלצים'
-              } else if (item.name === 'Our Recommendation') {
-                item.name = 'המלצתנו'
-              }
-            })
-            return updatedNavigation
-          })
-
-          // Change the name to Hebrew in DropdownNav
-          setDropdownNav((prevDropdownNav) => {
-            const updatedDropdownNav = [...prevDropdownNav]
-            updatedDropdownNav.forEach((item) => {
-              if (item.name === 'Sport') {
-                item.name = 'ספורט'
-              } else if (item.name === 'Kids') {
-                item.name = 'ילדים'
-              } else if (item.name === 'Women') {
-                item.name = 'נשים'
-              } else if (item.name === 'Men') {
-                item.name = 'גברים'
-              } else if (item.name === 'House') {
-                item.name = 'בית'
-              }
-            })
-            return updatedDropdownNav
-          })
-        }
-      })
-      .catch((error) => {
-        console.log('Error fetching IP geolocation:', error)
-      })
-  }, [])
-
   const [dropdownNav, setDropdownNav] = useState([
     {
       name: 'Sport',
@@ -133,6 +86,81 @@ export const Navbar = () => {
       onClick: () => handleToggle('isToggled9', handleOptionSelect()),
     },
   ])
+  useEffect(() => {
+    let isIL = country === 'IL'
+
+    // Change the name to Hebrew if country is IL
+    if (isIL) {
+      setNavigation((prevNavigation) => {
+        const updatedNavigation = prevNavigation.map((item) => {
+          if (item.name === 'Hot Deals') {
+            return { ...item, name: 'מבצעים חמים' }
+          } else if (item.name === 'SuperDeals') {
+            return { ...item, name: 'הנבחרים' }
+          } else if (item.name === 'Featured Products') {
+            return { ...item, name: 'מוצרים מומלצים' }
+          } else if (item.name === 'Our Recommendation') {
+            return { ...item, name: 'המלצתנו' }
+          }
+          return item
+        })
+        return updatedNavigation
+      })
+
+      setDropdownNav((prevDropdownNav) => {
+        const updatedDropdownNav = prevDropdownNav.map((item) => {
+          if (item.name === 'Sport') {
+            return { ...item, name: 'ספורט' }
+          } else if (item.name === 'Kids') {
+            return { ...item, name: 'ילדים' }
+          } else if (item.name === 'Women') {
+            return { ...item, name: 'נשים' }
+          } else if (item.name === 'Men') {
+            return { ...item, name: 'גברים' }
+          } else if (item.name === 'House') {
+            return { ...item, name: 'בית' }
+          }
+          return item
+        })
+        return updatedDropdownNav
+      })
+    } else {
+      // Revert the changes back to original values
+      setNavigation((prevNavigation) => {
+        const updatedNavigation = prevNavigation.map((item) => {
+          if (item.name === 'מבצעים חמים') {
+            return { ...item, name: 'Hot Deals' }
+          } else if (item.name === 'הנבחרים') {
+            return { ...item, name: 'SuperDeals' }
+          } else if (item.name === 'מוצרים מומלצים') {
+            return { ...item, name: 'Featured Products' }
+          } else if (item.name === 'המלצתנו') {
+            return { ...item, name: 'Our Recommendation' }
+          }
+          return item
+        })
+        return updatedNavigation
+      })
+
+      setDropdownNav((prevDropdownNav) => {
+        const updatedDropdownNav = prevDropdownNav.map((item) => {
+          if (item.name === 'ספורט') {
+            return { ...item, name: 'Sport' }
+          } else if (item.name === 'ילדים') {
+            return { ...item, name: 'Kids' }
+          } else if (item.name === 'נשים') {
+            return { ...item, name: 'Women' }
+          } else if (item.name === 'גברים') {
+            return { ...item, name: 'Men' }
+          } else if (item.name === 'בית') {
+            return { ...item, name: 'House' }
+          }
+          return item
+        })
+        return updatedDropdownNav
+      })
+    }
+  }, [country, setNavigation, setDropdownNav])
 
   useEffect(() => {
     localStorage.setItem('isToggled', JSON.stringify(isToggled))
@@ -164,6 +192,7 @@ export const Navbar = () => {
     handleToggle(selectedOption) // Set the selected option as the current state
     setSideBar(false) // Reset the sideBar state to false
   }
+  const isMobile = useMediaQuery({ maxWidth: 768 })
   return (
     <>
       <Disclosure as="nav" className="bg-gray-900">

@@ -8,7 +8,7 @@ import csvData from '../csv/Sport.csv'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export const Sport = () => {
+export const Sport = ({ country, setCountry }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const name = 'Search in Sport section....'
 
@@ -17,7 +17,6 @@ export const Sport = () => {
   const [parsedData, setParsedData] = useState([])
   const [parsedDataFilter, setParsedDataFilter] = useState([])
   const [originalData, setOriginalData] = useState([])
-  const [country, setCountry] = useState('')
 
   useEffect(() => {
     // setParsedDataFilter(parsedData)
@@ -42,14 +41,6 @@ export const Sport = () => {
         console.error('Error fetching or parsing CSV data:', error)
       }
     }
-    fetch('http://ip-api.com/json')
-      .then((response) => response.json())
-      .then((data) => {
-        setCountry(data.countryCode)
-      })
-      .catch((error) => {
-        console.log('Error fetching IP geolocation:', error)
-      })
     fetchData()
   }, [])
 
@@ -156,6 +147,7 @@ export const Sport = () => {
               country={country}
               setShowFilter={setShowFilter}
               showFilter={showFilter}
+              setCountry={setCountry}
             />
             {filteredItems.length > 10 && (
               <Pages

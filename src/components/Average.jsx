@@ -8,7 +8,7 @@ import csvData from '../csv/featured.csv'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export const Average = () => {
+export const Average = ({ country, setCountry }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const name = 'Search in Featured Products....'
 
@@ -17,10 +17,8 @@ export const Average = () => {
   const [parsedData, setParsedData] = useState([])
   const [parsedDataFilter, setParsedDataFilter] = useState([])
   const [originalData, setOriginalData] = useState([])
-  const [country, setCountry] = useState('')
 
   useEffect(() => {
-    // setParsedDataFilter(parsedData)
     setOriginalData(parsedData)
   }, [parsedData])
 
@@ -42,14 +40,7 @@ export const Average = () => {
         console.error('Error fetching or parsing CSV data:', error)
       }
     }
-    fetch('http://ip-api.com/json')
-      .then((response) => response.json())
-      .then((data) => {
-        setCountry(data.countryCode)
-      })
-      .catch((error) => {
-        console.log('Error fetching IP geolocation:', error)
-      })
+
     fetchData()
   }, [])
 
@@ -157,6 +148,7 @@ export const Average = () => {
               country={country}
               setShowFilter={setShowFilter}
               showFilter={showFilter}
+              setCountry={setCountry}
             />
             {filteredItems.length > 10 && (
               <Pages
