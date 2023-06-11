@@ -45,9 +45,11 @@ const customStyles = {
 
 const LanguageDropdown = ({ country, setCountry }) => {
   const handleChange = (selectedOption) => {
+    localStorage.setItem('country', selectedOption.value)
     setCountry(selectedOption.value)
+    window.location.reload()
   }
-  console.log(country)
+
   return (
     <Select
       options={countryOptions}

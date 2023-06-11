@@ -14,12 +14,18 @@ export const TopProducts = ({ country, setCountry }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    const storedCountry = localStorage.getItem('country')
+
     async function fetchData() {
       try {
         const res = await axios.get(
           'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
           {
-            mode: 'no-cors',
+            params: {
+              language: storedCountry === 'IL' ? 'he' : 'en',
+              currency: 'EUR',
+              category_ids: '5090301',
+            },
           }
         )
         const data = res.data
@@ -32,7 +38,7 @@ export const TopProducts = ({ country, setCountry }) => {
     }
 
     fetchData()
-  }, [])
+  }, [country])
 
   useEffect(() => {
     setOriginalData(parsedData)
@@ -128,7 +134,7 @@ export const TopProducts = ({ country, setCountry }) => {
           <div>
             <Item
               isLoading={isLoading}
-              key={visibleItems.id}
+              key={visibleItems.product_id}
               post={visibleItems}
               filteredProducts={parsedData}
               setItemsPerPage={setItemsPerPage}

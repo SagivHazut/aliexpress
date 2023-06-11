@@ -28,8 +28,8 @@ export const Item = ({
     }
   }, [post])
 
-  const handleShowMoreClick = (postId) => {
-    setExpandedPostId(postId)
+  const handleShowMoreClick = (key) => {
+    setExpandedPostId(key)
   }
 
   const calculateDiscountPercentage = (item) => {
@@ -72,7 +72,6 @@ export const Item = ({
         console.error('Error copying URL:', error)
       })
   }
-
   const [isDesktop, setIsDesktop] = useState(true)
 
   useEffect(() => {
@@ -130,7 +129,7 @@ export const Item = ({
                   <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
                     {post.map((item) => (
                       <article
-                        key={item.ProductId}
+                        key={item.product_id}
                         className="flex-col items-start justify-between"
                       >
                         <a
@@ -242,7 +241,7 @@ export const Item = ({
                             <p
                               ref={descriptionRef}
                               className={`mt-5 ${
-                                expandedPostId === item.ProductId
+                                expandedPostId === item.product_id
                                   ? 'text-sm'
                                   : 'line-clamp-2'
                               } leading-6 text-gray-600`}
@@ -257,10 +256,10 @@ export const Item = ({
                             <button
                               className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                               onClick={() =>
-                                handleShowMoreClick(item.ProductId)
+                                handleShowMoreClick(item.product_id)
                               }
                             >
-                              {expandedPostId !== item.ProductId
+                              {expandedPostId !== item.product_id
                                 ? 'showMore'
                                 : ''}
                             </button>
@@ -311,7 +310,7 @@ export const Item = ({
                   <div className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-6">
                     {post.map((item) => (
                       <article
-                        key={item.ProductId}
+                        key={item.product_id}
                         className="flex flex-col items-start justify-between"
                       >
                         <a href={item['Promotion Url']} target="_blank">
@@ -407,7 +406,7 @@ export const Item = ({
                             <p
                               ref={descriptionRef}
                               className={`mt-5 ${
-                                expandedPostId === item.ProductId
+                                expandedPostId === item.product_id
                                   ? 'text-sm'
                                   : 'line-clamp-2'
                               } leading-6 text-gray-600`}
@@ -419,10 +418,10 @@ export const Item = ({
                             <button
                               className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                               onClick={() =>
-                                handleShowMoreClick(item.ProductId)
+                                handleShowMoreClick(item.product_id)
                               }
                             >
-                              {expandedPostId !== item.ProductId
+                              {expandedPostId !== item.product_id
                                 ? 'showMore'
                                 : ''}{' '}
                             </button>

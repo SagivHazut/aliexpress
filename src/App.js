@@ -3,9 +3,18 @@ import { Navbar } from './components/Navbar'
 import React, { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { routes } from './routes'
+import { useEffect } from 'react'
 
 function App() {
-  const [country, setCountry] = useState('USA')
+  const [country, setCountry] = useState(
+    localStorage.getItem('country') || 'USA'
+  )
+  useEffect(() => {
+    const storedCountry = localStorage.getItem('country')
+    if (storedCountry) {
+      setCountry(storedCountry)
+    }
+  }, [])
 
   return (
     <div className="App">
@@ -19,7 +28,7 @@ function App() {
             element={React.cloneElement(route.component, {
               country,
               setCountry,
-            })} // Pass the country as a prop
+            })}
             path={route.path}
           />
         ))}
