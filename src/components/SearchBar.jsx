@@ -5,7 +5,7 @@ function SearchBar(props) {
 
   useEffect(() => {
     const filteredSuggestions = props.items.filter((item) => {
-      const productDesc = item['Product Desc'] || ''
+      const productDesc = item.product_title || ''
       return productDesc.toLowerCase().includes(props.searchQuery.toLowerCase())
     })
     setSuggestions(filteredSuggestions.slice(0, 7))
@@ -60,7 +60,7 @@ function SearchBar(props) {
               onClick={() => handleSuggestionClick(item)}
               style={{ cursor: 'pointer' }}
             >
-              {item['Product Desc'].split(' ').slice(0, 4).join(' ')}
+              {item.product_title.split(' ').slice(0, 4).join(' ')}
               {props.searchQuery && suggestions.length > 1 && (
                 <div class="flex justify-center">
                   <hr class="border-1 border-gray-300 my-2 w-40 mx-auto" />

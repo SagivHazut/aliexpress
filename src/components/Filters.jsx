@@ -26,20 +26,20 @@ export const Filters = ({
 
     if (selectedFilter === 'highToLow') {
       products.sort((a, b) => {
-        const priceA = parseFloat(a['Discount Price'].replace(/[^0-9.-]+/g, ''))
-        const priceB = parseFloat(b['Discount Price'].replace(/[^0-9.-]+/g, ''))
+        const priceA = parseFloat(a.app_sale_price)
+        const priceB = parseFloat(b.app_sale_price)
         return priceB - priceA
       })
     } else if (selectedFilter === 'lowToHigh') {
       products.sort((a, b) => {
-        const priceA = parseFloat(a['Discount Price'].replace(/[^0-9.-]+/g, ''))
-        const priceB = parseFloat(b['Discount Price'].replace(/[^0-9.-]+/g, ''))
+        const priceA = parseFloat(a.app_sale_price)
+        const priceB = parseFloat(b.app_sale_price)
         return priceA - priceB
       })
     }
 
     const filtered = products.filter((item) => {
-      const price = extractPriceValue(item['Discount Price'])
+      const price = extractPriceValue(item.app_sale_price)
       if (minPrice === '' && maxPrice === '') {
         return true // No filter applied, return all items
       } else if (minPrice === '') {
@@ -64,7 +64,7 @@ export const Filters = ({
   }
 
   const extractPriceValue = (price) => {
-    const numericValue = parseFloat(price.replace(/[^\d.]+/g, ''))
+    const numericValue = parseFloat(price)
     return isNaN(numericValue) ? 0 : numericValue
   }
 
@@ -306,7 +306,7 @@ export const Filters = ({
                           country === 'IL' ? 'right' : 'left'
                         } mr-2`}
                       >
-                        Min Price:'
+                        Min Price:
                       </label>
                       <input
                         type="number"
@@ -330,7 +330,7 @@ export const Filters = ({
                     </div>
                   </>
                 )}
-                <LanguageDropdown setCountry={setCountry} />
+                <LanguageDropdown setCountry={setCountry} country={country} />
 
                 <div className="flex justify-center mt-4">
                   <button

@@ -12,11 +12,11 @@ export const Item = ({
   setShowFilter,
   showFilter,
   setCountry,
+  isLoading,
 }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const [layout, setLayout] = useState(true)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current
@@ -28,27 +28,15 @@ export const Item = ({
     }
   }, [post])
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [])
-
   const handleShowMoreClick = (postId) => {
     setExpandedPostId(postId)
   }
 
   const calculateDiscountPercentage = (item) => {
     const discount =
-      parseFloat(item['Origin Price'].replace(/[^\d.-]/g, '')) -
-      parseFloat(item['Discount Price'].replace(/[^\d.-]/g, ''))
+      parseFloat(item.original_price) - parseFloat(item.sale_price)
     const discountPercentage =
-      (discount / parseFloat(item['Origin Price'].replace(/[^\d.-]/g, ''))) *
-      100
+      (discount / parseFloat(item.original_price)) * 100
     return Math.round(discountPercentage)
   }
 
@@ -97,7 +85,6 @@ export const Item = ({
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-
   if (isLoading) {
     return (
       <div className="lg:col-span-3">
@@ -147,13 +134,13 @@ export const Item = ({
                         className="flex-col items-start justify-between"
                       >
                         <a
-                          href={item['Promotion Url']}
+                          href={item.promotion_link}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <div className="relative w-full">
                             <img
-                              src={item['Image Url']}
+                              src={item.product_main_image_url}
                               alt=""
                               className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
                             />
@@ -180,7 +167,7 @@ export const Item = ({
                             <button
                               className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
                               onClick={() =>
-                                handleShareClick(item['Promotion Url'])
+                                handleShareClick(item.promotion_link)
                               }
                             >
                               <svg
@@ -207,7 +194,7 @@ export const Item = ({
                             <button
                               className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
                               onClick={() =>
-                                handleCopyUrlClick(item['Promotion Url'])
+                                handleCopyUrlClick(item.promotion_link)
                               }
                             >
                               <svg
@@ -220,7 +207,7 @@ export const Item = ({
                               >
                                 {/* SVG path */}
                               </svg>
-                              {copiedItemId === item['Promotion Url'] ? (
+                              {copiedItemId === item.promotion_link ? (
                                 <p>
                                   Copied{' '}
                                   <span role="img" aria-label="Thumbs Up">
@@ -264,7 +251,7 @@ export const Item = ({
                                 fontFamily: 'Rubik',
                               }} // Add this style property
                             >
-                              {item['Product Desc']}
+                              {item.product_title}
                             </p>
 
                             <button
@@ -282,10 +269,9 @@ export const Item = ({
                             <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
                               <div>
                                 <div>
-                                  <strong>{item['Discount Price']}</strong>{' '}
+                                  <strong>{item.sale_price}</strong>{' '}
                                   <span className="text-green-600">
-                                    <br /> &nbsp;({'save'}{' '}
-                                    {calculateDiscountPercentage(item)}%)
+                                    <br /> &nbsp;({'save'} {item.discount})
                                   </span>
                                 </div>
                                 <div>
@@ -295,16 +281,16 @@ export const Item = ({
                                       textDecoration: 'line-through',
                                     }}
                                   >
-                                    {item['Origin Price']}
+                                    {item.original_price}
                                   </span>
                                 </div>
                               </div>
                             </a>
                             <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
-                              {'sales'}: <strong>{item['Sales180Day']}</strong>{' '}
+                              {'sales'}: <strong>{item.lastest_volume}</strong>{' '}
                               <br />
                               {'positive Feedback'}:{' '}
-                              <strong>{item['Positive Feedback']}</strong>
+                              <strong>{item.evaluate_rate}</strong>
                             </a>
                           </div>
                         </div>

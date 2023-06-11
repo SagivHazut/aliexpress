@@ -47,10 +47,11 @@ const LanguageDropdown = ({ country, setCountry }) => {
   const handleChange = (selectedOption) => {
     setCountry(selectedOption.value)
   }
-
+  console.log(country)
   return (
     <Select
       options={countryOptions}
+      placeholder={country}
       value={countryOptions.find((option) => option.value === country)}
       onChange={handleChange}
       styles={customStyles}

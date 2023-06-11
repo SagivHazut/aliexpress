@@ -3,39 +3,31 @@ import Item from './Item'
 import Pages from './Pages'
 import SearchBar from './SearchBar'
 import { SearchItems } from './SearchItems'
-import Papa from 'papaparse'
-import csvData from '../csv/hotdeals.csv'
-import { useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export const TopProducts = ({ country, setCountry }) => {
   const name = 'Search in Hot Deals....'
   const [searchQuery, setSearchQuery] = useState('')
-  const navigate = useNavigate()
-  const location = useLocation()
   const [parsedData, setParsedData] = useState([])
   const [parsedDataFilter, setParsedDataFilter] = useState('')
   const [originalData, setOriginalData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    setOriginalData(parsedData)
-  }, [parsedData])
-
-  useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
-        const response = await fetch(csvData)
-        const csv = await response.text()
-        const parsedCsv = Papa.parse(csv, {
-          header: true,
-          skipEmptyLines: true,
-        })
-        const filteredData = parsedCsv.data.filter((item) =>
-          Object.values(item).some((value) => value !== '')
+        const res = await axios.get(
+          'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
+          {
+            mode: 'no-cors',
+          }
         )
-        setParsedData(filteredData)
-        setOriginalData(filteredData)
+        const data = res.data
+        setParsedData(data)
+        setOriginalData(data)
+        setIsLoading(false)
       } catch (error) {
-        console.error('Error fetching or parsing CSV data:', error)
+        console.log(error)
       }
     }
 
@@ -43,26 +35,11 @@ export const TopProducts = ({ country, setCountry }) => {
   }, [])
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search)
-    const query = queryParams.get('search')
-    setSearchQuery(query || '')
-
-    const handleBeforeUnload = () => {
-      window.history.replaceState({}, '', window.location.pathname)
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload)
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
-  }, [location.search])
+    setOriginalData(parsedData)
+  }, [parsedData])
 
   const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion['Product Desc'])
-    const queryParams = new URLSearchParams()
-    queryParams.set('search', suggestion['Product Desc'])
-    navigate(`?${queryParams.toString()}`)
+    setSearchQuery(suggestion.product_title)
   }
 
   const [itemsPerPage, setItemsPerPage] = useState(20)
@@ -71,17 +48,19 @@ export const TopProducts = ({ country, setCountry }) => {
     setSearchQuery(event.target.value)
   }
 
-  const filteredItems = parsedData.filter((item) => {
-    return (
-      !searchQuery ||
-      (item['Product Desc'] &&
-        item['Product Desc'].toLowerCase &&
-        item['Product Desc'].toLowerCase().includes(searchQuery.toLowerCase()))
-    )
-  })
+  let filteredItems = []
 
-  const shuffledPost = [...parsedData]
-  shuffledPost.sort(() => Math.random() - 0.5)
+  if (parsedData) {
+    filteredItems = parsedData.filter((item) => {
+      return (
+        !searchQuery ||
+        (item.product_title &&
+          item.product_title.toLowerCase &&
+          item.product_title.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+    })
+  } else {
+  }
 
   const [currentPage, setCurrentPage] = useState(1)
   const lastItemIndex = currentPage * itemsPerPage
@@ -89,12 +68,12 @@ export const TopProducts = ({ country, setCountry }) => {
   const visibleItems =
     parsedDataFilter && parsedDataFilter.length > 0
       ? parsedDataFilter.slice(firstItemIndex, lastItemIndex)
-      : shuffledPost.slice(firstItemIndex, lastItemIndex)
+      : parsedData.slice(firstItemIndex, lastItemIndex)
 
   const totalPages = Math.ceil(
     parsedDataFilter && parsedDataFilter.length > 0
       ? parsedDataFilter.length / itemsPerPage
-      : shuffledPost.length / itemsPerPage
+      : parsedData.length / itemsPerPage
   )
   const pageNumbers = []
   for (let i = 1; i <= totalPages; i++) {
@@ -148,6 +127,7 @@ export const TopProducts = ({ country, setCountry }) => {
         ) : (
           <div>
             <Item
+              isLoading={isLoading}
               key={visibleItems.id}
               post={visibleItems}
               filteredProducts={parsedData}
@@ -173,7 +153,7 @@ export const TopProducts = ({ country, setCountry }) => {
                 itemsNumber={
                   parsedDataFilter && parsedDataFilter.length > 0
                     ? parsedDataFilter
-                    : shuffledPost
+                    : parsedData
                 }
                 firstItemIndex={firstItemIndex}
                 itemsPerPage={itemsPerPage}
