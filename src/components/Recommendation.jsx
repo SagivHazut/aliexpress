@@ -11,7 +11,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export const Recommendation = ({ country, setCountry }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const name = 'Search in Our Recommendation....'
-
   const navigate = useNavigate()
   const location = useLocation()
   const [parsedData, setParsedData] = useState([])
@@ -19,7 +18,6 @@ export const Recommendation = ({ country, setCountry }) => {
   const [originalData, setOriginalData] = useState([])
 
   useEffect(() => {
-    // setParsedDataFilter(parsedData)
     setOriginalData(parsedData)
   }, [parsedData])
 

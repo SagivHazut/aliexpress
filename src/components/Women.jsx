@@ -3,52 +3,52 @@ import Item from './Item'
 import Pages from './Pages'
 import SearchBar from './SearchBar'
 import { SearchItems } from './SearchItems'
-import Papa from 'papaparse'
-import csvData from '../csv/Women.csv'
+
 import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export const Women = ({ country, setCountry }) => {
+  const name = 'Search in Hot Deals....'
   const [searchQuery, setSearchQuery] = useState('')
-  const name = 'Search in Women section....'
-
-  const navigate = useNavigate()
-  const location = useLocation()
   const [parsedData, setParsedData] = useState([])
-  const [parsedDataFilter, setParsedDataFilter] = useState([])
+  const [parsedDataFilter, setParsedDataFilter] = useState('')
   const [originalData, setOriginalData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // setParsedDataFilter(parsedData)
+    const storedCountry = localStorage.getItem('country')
+
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
+          {
+            params: {
+              language: storedCountry === 'IL' ? 'he' : 'en',
+              currency: 'EUR',
+              category_ids: '5090301',
+            },
+          }
+        )
+        const data = res.data
+        setParsedData(data)
+        setOriginalData(data)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchData()
+  }, [country])
+
+  useEffect(() => {
     setOriginalData(parsedData)
   }, [parsedData])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(csvData)
-        const csv = await response.text()
-        const parsedCsv = Papa.parse(csv, {
-          header: true,
-          skipEmptyLines: true,
-        })
-        const filteredData = parsedCsv.data.filter((item) =>
-          Object.values(item).some((value) => value !== '')
-        )
-        setParsedData(filteredData)
-        setOriginalData(filteredData)
-      } catch (error) {
-        console.error('Error fetching or parsing CSV data:', error)
-      }
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search)
-    const query = queryParams.get('search')
-    setSearchQuery(query || '')
-  }, [location.search])
+  const handleSuggestionSelect = (suggestion) => {
+    setSearchQuery(suggestion.product_title)
+  }
 
   const [itemsPerPage, setItemsPerPage] = useState(20)
 
@@ -56,17 +56,19 @@ export const Women = ({ country, setCountry }) => {
     setSearchQuery(event.target.value)
   }
 
-  const filteredItems = parsedData.filter((item) => {
-    return (
-      !searchQuery ||
-      (item['Product Desc'] &&
-        item['Product Desc'].toLowerCase &&
-        item['Product Desc'].toLowerCase().includes(searchQuery.toLowerCase()))
-    )
-  })
+  let filteredItems = []
 
-  const shuffledPost = [...parsedData]
-  shuffledPost.sort(() => Math.random() - 0.5)
+  if (parsedData) {
+    filteredItems = parsedData.filter((item) => {
+      return (
+        !searchQuery ||
+        (item.product_title &&
+          item.product_title.toLowerCase &&
+          item.product_title.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+    })
+  } else {
+  }
 
   const [currentPage, setCurrentPage] = useState(1)
   const lastItemIndex = currentPage * itemsPerPage
@@ -74,12 +76,12 @@ export const Women = ({ country, setCountry }) => {
   const visibleItems =
     parsedDataFilter && parsedDataFilter.length > 0
       ? parsedDataFilter.slice(firstItemIndex, lastItemIndex)
-      : shuffledPost.slice(firstItemIndex, lastItemIndex)
+      : parsedData.slice(firstItemIndex, lastItemIndex)
 
   const totalPages = Math.ceil(
     parsedDataFilter && parsedDataFilter.length > 0
-      ? parsedDataFilter.length
-      : shuffledPost.length / itemsPerPage
+      ? parsedDataFilter.length / itemsPerPage
+      : parsedData.length / itemsPerPage
   )
   const pageNumbers = []
   for (let i = 1; i <= totalPages; i++) {
@@ -87,6 +89,10 @@ export const Women = ({ country, setCountry }) => {
   }
 
   const handlePageClick = (pageNumber) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
     setCurrentPage(pageNumber)
   }
 
@@ -101,14 +107,6 @@ export const Women = ({ country, setCountry }) => {
       setCurrentPage(currentPage + 1)
     }
   }
-
-  const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion['Product Desc'])
-    const queryParams = new URLSearchParams()
-    queryParams.set('search', suggestion['Product Desc'])
-    navigate(`?${queryParams.toString()}`)
-  }
-
   const [showFilter, setShowFilter] = useState(false)
 
   return (
@@ -128,16 +126,17 @@ export const Women = ({ country, setCountry }) => {
           items={filteredItems}
           searchQuery={searchQuery}
           handleSuggestionSelect={handleSuggestionSelect}
-          name={country === 'IL' ? ' ...חיפוש בקטגוריית נשים ' : name}
+          name={country === 'IL' ? ' ...חיפוש מבצעים החמים שלנו' : name}
         />
         {filteredItems.length > 0 && searchQuery ? (
           <div>
             <SearchItems key={filteredItems.id} post={filteredItems} />
           </div>
         ) : (
-          <>
+          <div>
             <Item
-              key={visibleItems.id}
+              isLoading={isLoading}
+              key={visibleItems.product_id}
               post={visibleItems}
               filteredProducts={parsedData}
               setItemsPerPage={setItemsPerPage}
@@ -162,14 +161,14 @@ export const Women = ({ country, setCountry }) => {
                 itemsNumber={
                   parsedDataFilter && parsedDataFilter.length > 0
                     ? parsedDataFilter
-                    : shuffledPost
+                    : parsedData
                 }
                 firstItemIndex={firstItemIndex}
                 itemsPerPage={itemsPerPage}
                 country={country}
               />
             )}
-          </>
+          </div>
         )}
       </div>
     </>

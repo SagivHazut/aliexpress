@@ -12,7 +12,7 @@ export const TopProducts = ({ country, setCountry }) => {
   const [parsedDataFilter, setParsedDataFilter] = useState('')
   const [originalData, setOriginalData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-
+  // console.log(parsedData)
   useEffect(() => {
     const storedCountry = localStorage.getItem('country')
 
@@ -24,11 +24,13 @@ export const TopProducts = ({ country, setCountry }) => {
             params: {
               language: storedCountry === 'IL' ? 'he' : 'en',
               currency: 'EUR',
-              category_ids: '5090301',
+              category_ids: '200000410',
             },
+            mode: 'no-cors',
           }
         )
         const data = res.data
+        console.log(data)
         setParsedData(data)
         setOriginalData(data)
         setIsLoading(false)
