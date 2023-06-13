@@ -112,13 +112,14 @@ export default function Pages({
         <div className="flex flex-col sm:flex-row items-center justify-between">
           <div className="flex justify-center items-center mb-3 sm:mb-0">
             <p className="text-sm text-gray-900">
-              {country === 'IL' ? ' מעמוד ' : 'Showing '}
+              {country === 'IL' ? ' מ- ' : 'Showing '}
               <span className="font-medium">{startIndex}</span>{' '}
-              {country === 'IL' ? ' עד ' : 'to  '}
+              {country === 'IL' ? ' עד- ' : 'to  '}
               <span className="font-medium">{endIndex}</span>
-              {country === 'IL' ? ' מתוך ' : ' of '}
+              <span> מוצרים </span>
+              {/* {country === 'IL' ? ' מתוך ' : ' of '}
               <span className="font-medium">{itemsNumber.length}</span>{' '}
-              {country === 'IL' ? 'עמודים' : 'results'}
+              {country === 'IL' ? 'עמודים' : 'results'} */}
             </p>
           </div>
           <div className="flex justify-center items-center">

@@ -32,14 +32,6 @@ export const Item = ({
     setExpandedPostId(key)
   }
 
-  const calculateDiscountPercentage = (item) => {
-    const discount =
-      parseFloat(item.original_price) - parseFloat(item.sale_price)
-    const discountPercentage =
-      (discount / parseFloat(item.original_price)) * 100
-    return Math.round(discountPercentage)
-  }
-
   const handleShareClick = (url) => {
     if (navigator.share) {
       navigator

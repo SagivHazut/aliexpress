@@ -222,7 +222,7 @@ export const Filters = ({
                 >
                   {country === 'IL' ? 'מגבוה לנמוך' : '   High to Low'}
                 </button>
-                <div className="flex items-center  py-2">
+                {/* <div className="flex items-center  py-2">
                   {country === 'IL' ? (
                     <>
                       <select
@@ -231,9 +231,8 @@ export const Filters = ({
                         value={itemsPerPage}
                         onChange={handleItemsPerPageChange}
                       >
-                        <option value={20}>20</option>
-                        <option value={40}>40</option>
-                        <option value={60}>60</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
                       </select>{' '}
                       <label
                         htmlFor="items-per-page"
@@ -257,13 +256,12 @@ export const Filters = ({
                         value={itemsPerPage}
                         onChange={handleItemsPerPageChange}
                       >
-                        <option value={20}>20</option>
-                        <option value={40}>40</option>
-                        <option value={60}>60</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
                       </select>
                     </>
                   )}
-                </div>
+                </div> */}
                 {country === 'IL' ? (
                   <>
                     <div className="flex items-center py-2 ">

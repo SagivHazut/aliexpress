@@ -12,15 +12,15 @@ import { House } from './components/House'
 
 export const routes = [
   {
-    path: '/',
+    path: '/top-products/page/:pageNumber',
     component: <TopProducts />,
   },
   {
-    path: '/Featured',
+    path: '/Featured/page/:pageNumber',
     component: <Average />,
   },
   {
-    path: '/SuperDeals',
+    path: '/SuperDeals/page/:pageNumber',
     component: <Newest />,
   },
   {
@@ -28,31 +28,31 @@ export const routes = [
     component: <Errorsite />,
   },
   {
-    path: '/homepage',
+    path: '/homepage/page/:pageNumber',
     component: <HomePage />,
   },
   {
-    path: '/Men',
+    path: '/Men/page/:pageNumber',
     component: <Men />,
   },
   {
-    path: '/Women',
+    path: '/Women/page/:pageNumber',
     component: <Women />,
   },
   {
-    path: '/Kids',
+    path: '/Kids/page/:pageNumber',
     component: <Kids />,
   },
   {
-    path: '/Sport',
+    path: '/Sport/page/:pageNumber',
     component: <Sport />,
   },
   {
-    path: '/House',
+    path: '/House/page/:pageNumber',
     component: <House />,
   },
   {
-    path: '/Recommendation',
+    path: '/Recommendation/page/:pageNumber',
     component: <Recommendation />,
   },
   {
