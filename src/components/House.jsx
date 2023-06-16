@@ -46,7 +46,8 @@ export const House = ({ country, setCountry }) => {
               params: {
                 language: storedCountry === 'IL' ? 'he' : 'en',
                 currency: 'EUR',
-                category_ids: '200000410',
+                category_ids:
+                  '1503,628,3710,15,1541,200165142,200264142,200066144,100000041,200000920,100000039,150302,150401,100000038,200235142,200165142,628,125,12503,12504,390501',
                 page_size: '25',
                 page_no: i.toString(),
               },
@@ -133,7 +134,7 @@ export const House = ({ country, setCountry }) => {
     const endPage = startPage + 6
     setCurrentPage(pageNumber)
     fetchData(startPage, endPage)
-    navigate(`/top-products/page/${pageNumber}`)
+    navigate(`/House/page/${pageNumber}`)
   }
 
   const handlePreviousClick = () => {
@@ -141,7 +142,7 @@ export const House = ({ country, setCountry }) => {
       const newPageNumber = currentPage - 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/House/page/${newPageNumber}`)
     }
   }
 
@@ -150,7 +151,7 @@ export const House = ({ country, setCountry }) => {
       const newPageNumber = currentPage + 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/House/page/${newPageNumber}`)
     }
   }
   return (

@@ -1,7 +1,7 @@
 import './App.css'
 import { Navbar } from './components/Navbar'
 import React, { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import { routes } from './routes'
 import { useEffect } from 'react'
 
@@ -25,10 +25,16 @@ function App() {
           <Route
             key={route.path}
             exact
-            element={React.cloneElement(route.component, {
-              country,
-              setCountry,
-            })}
+            element={
+              route.redirect ? (
+                <Navigate to={route.redirect} />
+              ) : (
+                React.cloneElement(route.component, {
+                  country,
+                  setCountry,
+                })
+              )
+            }
             path={route.path}
           />
         ))}

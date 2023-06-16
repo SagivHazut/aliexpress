@@ -17,6 +17,7 @@ export const Item = ({
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const [layout, setLayout] = useState(true)
+  const [uniquePosts, setUniquePosts] = useState([])
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current
@@ -64,6 +65,7 @@ export const Item = ({
         console.error('Error copying URL:', error)
       })
   }
+
   const [isDesktop, setIsDesktop] = useState(true)
 
   useEffect(() => {
@@ -76,6 +78,24 @@ export const Item = ({
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  useEffect(() => {
+    const filterUniquePosts = (posts) => {
+      const uniqueIds = new Set()
+      const filteredPosts = []
+
+      posts.forEach((item) => {
+        if (!uniqueIds.has(item.product_id)) {
+          uniqueIds.add(item.product_id)
+          filteredPosts.push(item)
+        }
+      })
+
+      return filteredPosts
+    }
+
+    setUniquePosts(filterUniquePosts(post))
+  }, [post])
   if (isLoading) {
     return (
       <div className="lg:col-span-3">
@@ -114,12 +134,12 @@ export const Item = ({
 
       {layout ? (
         <>
-          {post && (
+          {uniquePosts && (
             <div className="lg:col-span-3">
               <div>
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                   <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
-                    {post.map((item) => (
+                    {uniquePosts.map((item) => (
                       <article
                         key={item.product_id}
                         className="flex-col items-start justify-between"
@@ -303,12 +323,12 @@ export const Item = ({
         </>
       ) : (
         <>
-          {post && (
+          {uniquePosts && (
             <div className="lg:col-span-">
               <div>
                 <div className="mx-auto max-w-7xl px-10 lg:px-2">
                   <div className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-6">
-                    {post.map((item) => (
+                    {uniquePosts.map((item) => (
                       <article
                         key={item.product_id}
                         className="flex flex-col items-start justify-between"
@@ -342,7 +362,7 @@ export const Item = ({
                             className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
                             style={{ marginLeft: -13 }}
                             onClick={() =>
-                              handleShareClick(item.item.promotion_link)
+                              handleShareClick(item.promotion_link)
                             }
                           >
                             <svg

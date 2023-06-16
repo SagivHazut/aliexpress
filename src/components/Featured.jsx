@@ -7,7 +7,7 @@ import Pages from './Pages'
 import { SearchItems } from './SearchItems'
 import { useNavigate } from 'react-router-dom'
 
-export const Average = ({ country, setCountry }) => {
+export const Featured = ({ country, setCountry }) => {
   const name = 'Search in Featured section...'
   const { page } = useParams()
   const [searchQuery, setSearchQuery] = useState('')
@@ -133,7 +133,7 @@ export const Average = ({ country, setCountry }) => {
     const endPage = startPage + 6
     setCurrentPage(pageNumber)
     fetchData(startPage, endPage)
-    navigate(`/top-products/page/${pageNumber}`)
+    navigate(`/Featured/page/${pageNumber}`)
   }
 
   const handlePreviousClick = () => {
@@ -141,7 +141,7 @@ export const Average = ({ country, setCountry }) => {
       const newPageNumber = currentPage - 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Featured/page/${newPageNumber}`)
     }
   }
 
@@ -150,7 +150,7 @@ export const Average = ({ country, setCountry }) => {
       const newPageNumber = currentPage + 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Featured/page/${newPageNumber}`)
     }
   }
   return (

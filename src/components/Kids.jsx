@@ -46,7 +46,8 @@ export const Kids = ({ country, setCountry }) => {
               params: {
                 language: storedCountry === 'IL' ? 'he' : 'en',
                 currency: 'EUR',
-                category_ids: '200000410',
+                category_ids:
+                  '310,200000947,200000937,201671802,200001330,200332157,200332158,200364142,201273175,201293501,200000500,200362144,200329142,200328149,1501,201293501,200000937,201376929,200001330,201671802',
                 page_size: '25',
                 page_no: i.toString(),
               },
@@ -133,7 +134,7 @@ export const Kids = ({ country, setCountry }) => {
     const endPage = startPage + 6
     setCurrentPage(pageNumber)
     fetchData(startPage, endPage)
-    navigate(`/top-products/page/${pageNumber}`)
+    navigate(`/Kids/page/${pageNumber}`)
   }
 
   const handlePreviousClick = () => {
@@ -141,7 +142,7 @@ export const Kids = ({ country, setCountry }) => {
       const newPageNumber = currentPage - 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Kids/page/${newPageNumber}`)
     }
   }
 
@@ -150,7 +151,7 @@ export const Kids = ({ country, setCountry }) => {
       const newPageNumber = currentPage + 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Kids/page/${newPageNumber}`)
     }
   }
   return (

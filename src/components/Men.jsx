@@ -46,7 +46,8 @@ export const Men = ({ country, setCountry }) => {
               params: {
                 language: storedCountry === 'IL' ? 'he' : 'en',
                 currency: 'EUR',
-                category_ids: '200000410',
+                category_ids:
+                  '200362146,200362146,200131145,200000384,200001813,200001865,200003495,200000343,201337808,200001221,200048142,211106,142003,142001,201252405,200003955,201902001,1431,4338,1427,1440',
                 page_size: '25',
                 page_no: i.toString(),
               },
@@ -133,7 +134,7 @@ export const Men = ({ country, setCountry }) => {
     const endPage = startPage + 6
     setCurrentPage(pageNumber)
     fetchData(startPage, endPage)
-    navigate(`/top-products/page/${pageNumber}`)
+    navigate(`/Men/page/${pageNumber}`)
   }
 
   const handlePreviousClick = () => {
@@ -141,7 +142,7 @@ export const Men = ({ country, setCountry }) => {
       const newPageNumber = currentPage - 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Men/page/${newPageNumber}`)
     }
   }
 
@@ -150,7 +151,7 @@ export const Men = ({ country, setCountry }) => {
       const newPageNumber = currentPage + 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Men/page/${newPageNumber}`)
     }
   }
   return (

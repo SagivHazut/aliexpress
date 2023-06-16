@@ -1,6 +1,6 @@
 import { TopProducts } from './components/TopProducts'
-import { Average } from './components/Average'
-import { Newest } from './components/Newest'
+import { Featured } from './components/Featured'
+import { SuperDeals } from './components/SuperDeals'
 import { Errorsite } from './components/Errorsite'
 import { Recommendation } from './components/Recommendation'
 import { HomePage } from './components/HomePage'
@@ -12,23 +12,27 @@ import { House } from './components/House'
 
 export const routes = [
   {
+    path: '/',
+    redirect: '/top-products/page/:pageNumber',
+  },
+  {
     path: '/top-products/page/:pageNumber',
     component: <TopProducts />,
   },
   {
     path: '/Featured/page/:pageNumber',
-    component: <Average />,
+    component: <Featured />,
   },
   {
     path: '/SuperDeals/page/:pageNumber',
-    component: <Newest />,
+    component: <SuperDeals />,
   },
   {
     path: '/Errorsite',
     component: <Errorsite />,
   },
   {
-    path: '/homepage/page/:pageNumber',
+    path: '/homepage',
     component: <HomePage />,
   },
   {

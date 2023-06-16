@@ -46,7 +46,8 @@ export const Sport = ({ country, setCountry }) => {
               params: {
                 language: storedCountry === 'IL' ? 'he' : 'en',
                 currency: 'EUR',
-                category_ids: '200000410',
+                category_ids:
+                  '18,200297143,200003540,200378143,200004194,200004217,100005657,100005371,100005880,200003494,201531101,33906,200003495',
                 page_size: '25',
                 page_no: i.toString(),
               },
@@ -133,7 +134,7 @@ export const Sport = ({ country, setCountry }) => {
     const endPage = startPage + 6
     setCurrentPage(pageNumber)
     fetchData(startPage, endPage)
-    navigate(`/top-products/page/${pageNumber}`)
+    navigate(`/Sport/page/${pageNumber}`)
   }
 
   const handlePreviousClick = () => {
@@ -141,7 +142,7 @@ export const Sport = ({ country, setCountry }) => {
       const newPageNumber = currentPage - 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Sport/page/${newPageNumber}`)
     }
   }
 
@@ -150,7 +151,7 @@ export const Sport = ({ country, setCountry }) => {
       const newPageNumber = currentPage + 1
       setCurrentPage(newPageNumber)
       fetchData()
-      navigate(`/top-products/page/${newPageNumber}`)
+      navigate(`/Sport/page/${newPageNumber}`)
     }
   }
   return (

@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import Popup from './Popup'
 
@@ -24,6 +24,7 @@ export default function Pages({
       setCurrentPage(currentPage + 1)
     }
   }
+
   const startIndex = (currentPage - 1) * itemsPerPage + 1
   const endIndex = Math.min(startIndex + itemsPerPage - 1, itemsNumber.length)
 
@@ -76,6 +77,7 @@ export default function Pages({
       </span>,
     ]
   }
+
   const [isVisible, setIsVisible] = useState(false)
 
   const handleScroll = () => {
@@ -91,7 +93,7 @@ export default function Pages({
   }
 
   // Add event listener to handle scrolling and show/hide the button
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -117,9 +119,6 @@ export default function Pages({
               {country === 'IL' ? ' עד- ' : 'to  '}
               <span className="font-medium">{endIndex}</span>
               <span> מוצרים </span>
-              {/* {country === 'IL' ? ' מתוך ' : ' of '}
-              <span className="font-medium">{itemsNumber.length}</span>{' '}
-              {country === 'IL' ? 'עמודים' : 'results'} */}
             </p>
           </div>
           <div className="flex justify-center items-center">
@@ -130,18 +129,17 @@ export default function Pages({
               {currentPage === 1 ? (
                 <></>
               ) : (
-                <a
-                  href="#"
+                <button
                   className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   onClick={handlePreviousClick}
                 >
                   <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                </a>
+                </button>
               )}
 
               {getPageNumbers().map((pageNumber, index) =>
                 typeof pageNumber === 'number' ? (
-                  <a
+                  <button
                     key={index}
                     aria-current="page"
                     className={` scroll-to-top-button relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
@@ -150,7 +148,7 @@ export default function Pages({
                     onClick={() => handlePageClick(pageNumber)}
                   >
                     {pageNumber}
-                  </a>
+                  </button>
                 ) : (
                   pageNumber
                 )
@@ -159,14 +157,13 @@ export default function Pages({
               {currentPage === totalPages ? (
                 <></>
               ) : (
-                <a
-                  href="#"
+                <button
                   className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   onClick={handleNextClick}
                 >
                   <span className="sr-only">Next</span>
                   <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                </a>
+                </button>
               )}
             </nav>
           </div>

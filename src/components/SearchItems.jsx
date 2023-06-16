@@ -2,17 +2,19 @@ import React, { useState, useRef, useEffect } from 'react'
 
 export const SearchItems = ({ post }) => {
   const [showAllItems, setShowAllItems] = useState(false)
-  const displayItems = showAllItems ? post : post.slice(0, 12)
+  const uniqueItems = [
+    ...new Map(post.map((item) => [item.product_id, item])).values(),
+  ]
+  const displayItems = showAllItems ? uniqueItems : uniqueItems.slice(0, 12)
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
 
   useEffect(() => {
-    // Check if description text exceeds 3 lines
     const descriptionElement = descriptionRef.current
     if (descriptionElement) {
       const { clientHeight, scrollHeight } = descriptionElement
       if (scrollHeight > clientHeight) {
-        setExpandedPostId(null) // Reset expanded post if it exceeds 3 lines
+        setExpandedPostId(null)
       }
     }
   }, [post])
@@ -20,13 +22,7 @@ export const SearchItems = ({ post }) => {
   const handleShowMoreClick = (postId) => {
     setExpandedPostId(postId)
   }
-  const calculateDiscountPercentage = (item) => {
-    const discount =
-      parseFloat(item.target_original_price) - parseFloat(item.sale_price)
-    const discountPercentage =
-      (discount / parseFloat(item.target_original_price)) * 100
-    return Math.round(discountPercentage)
-  }
+
   const handleShareClick = (url) => {
     if (navigator.share) {
       navigator
@@ -73,14 +69,14 @@ export const SearchItems = ({ post }) => {
 
   return (
     <>
-      {post && (
+      {displayItems && (
         <div className="lg:col-span-3">
           <div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
               <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
-                {post.map((item) => (
+                {displayItems.map((item, index) => (
                   <article
-                    key={item.ProductId}
+                    key={`${item.product_id}-${index}`}
                     className="flex-col items-start justify-between"
                   >
                     <a
@@ -215,7 +211,7 @@ export const SearchItems = ({ post }) => {
         </div>
       )}
 
-      {!showAllItems && post.length > 10 && (
+      {!showAllItems && displayItems.length > 10 && (
         <button
           onClick={() => setShowAllItems(true)}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
@@ -223,7 +219,7 @@ export const SearchItems = ({ post }) => {
           Show more
         </button>
       )}
-      {showAllItems && post.length > 10 && (
+      {showAllItems && displayItems.length > 10 && (
         <button
           onClick={() => setShowAllItems(false)}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
