@@ -13,18 +13,18 @@ import { House } from './components/House'
 export const routes = [
   {
     path: '/',
-    redirect: '/top-products/page/:pageNumber',
+    redirect: '/top-products',
   },
   {
-    path: '/top-products/page/:pageNumber',
+    path: '/top-products',
     component: <TopProducts />,
   },
   {
-    path: '/Featured/page/:pageNumber',
+    path: '/Featured',
     component: <Featured />,
   },
   {
-    path: '/SuperDeals/page/:pageNumber',
+    path: '/SuperDeals',
     component: <SuperDeals />,
   },
   {
@@ -36,27 +36,27 @@ export const routes = [
     component: <HomePage />,
   },
   {
-    path: '/Men/page/:pageNumber',
+    path: '/Men',
     component: <Men />,
   },
   {
-    path: '/Women/page/:pageNumber',
+    path: '/Women',
     component: <Women />,
   },
   {
-    path: '/Kids/page/:pageNumber',
+    path: '/Kids',
     component: <Kids />,
   },
   {
-    path: '/Sport/page/:pageNumber',
+    path: '/Sport',
     component: <Sport />,
   },
   {
-    path: '/House/page/:pageNumber',
+    path: '/House',
     component: <House />,
   },
   {
-    path: '/Recommendation/page/:pageNumber',
+    path: '/Recommendation',
     component: <Recommendation />,
   },
   {

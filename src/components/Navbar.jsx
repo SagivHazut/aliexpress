@@ -31,25 +31,25 @@ export const Navbar = ({ setCountry, country }) => {
   const [navigation, setNavigation] = useState([
     {
       name: 'Hot Deals',
-      href: '/top-products/page/:pageNumber',
+      href: '/top-products',
       state: 'isToggled',
       onClick: () => handleToggle('isToggled'),
     },
     {
       name: 'SuperDeals',
-      href: '/SuperDeals/page/:pageNumber',
+      href: '/SuperDeals',
       state: 'isToggled1',
       onClick: () => handleToggle('isToggled1'),
     },
     {
       name: 'Featured Products',
-      href: '/Featured/page/:pageNumber',
+      href: '/Featured',
       state: 'isToggled3',
       onClick: () => handleToggle('isToggled3'),
     },
     {
       name: 'Our Recommendation',
-      href: '/Recommendation/page/:pageNumber',
+      href: '/Recommendation',
       state: 'isToggled4',
       onClick: () => handleToggle('isToggled4'),
     },
@@ -57,31 +57,31 @@ export const Navbar = ({ setCountry, country }) => {
   const [dropdownNav, setDropdownNav] = useState([
     {
       name: 'Sport',
-      href: '/Sport/page/:pageNumber',
+      href: '/Sport',
       state: 'isToggled',
       onClick: () => handleToggle('isToggled5', handleOptionSelect()),
     },
     {
       name: 'Kids',
-      href: '/Kids/page/:pageNumber',
+      href: '/Kids',
       state: 'isToggled1',
       onClick: () => handleToggle('isToggled6', handleOptionSelect()),
     },
     {
       name: 'Women',
-      href: '/Women/page/:pageNumber',
+      href: '/Women',
       state: 'isToggled3',
       onClick: () => handleToggle('isToggled7', handleOptionSelect()),
     },
     {
       name: 'Men',
-      href: '/Men/page/:pageNumber',
+      href: '/Men',
       state: 'isToggled4',
       onClick: () => handleToggle('isToggled8', handleOptionSelect()),
     },
     {
       name: 'House',
-      href: '/House/page/:pageNumber',
+      href: '/House',
       state: 'isToggled4',
       onClick: () => handleToggle('isToggled9', handleOptionSelect()),
     },

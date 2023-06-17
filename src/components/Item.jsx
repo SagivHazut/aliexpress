@@ -13,6 +13,7 @@ export const Item = ({
   showFilter,
   setCountry,
   isLoading,
+  setMaxPrice1,
 }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
@@ -129,6 +130,7 @@ export const Item = ({
           setShowFilter={setShowFilter}
           showFilter={showFilter}
           setCountry={setCountry}
+          setMaxPrice1={setMaxPrice1}
         />
       </div>
 

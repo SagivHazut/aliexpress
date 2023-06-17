@@ -4,80 +4,31 @@ import LanguageDropdown from './CustomOption'
 
 export const Filters = ({
   setLayout,
-  setItemsPerPage,
-  itemsPerPage,
   setParsedDataFilter,
-  originalData,
   country,
   showFilter,
   setShowFilter,
   setCountry,
+  setMaxPrice1,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
+
   const [selectedFilter, setSelectedFilter] = useState('')
   const [selectedFilter2, setSelectedFilter2] = useState('')
   const [layoutShape, setLayoutShape] = useState(true)
-  const [filteredProducts, setFilteredProducts] = useState([])
-
-  useEffect(() => {
-    let products = [...originalData]
-
-    if (selectedFilter === 'highToLow') {
-      products.sort((a, b) => {
-        const priceA = parseFloat(a.app_sale_price)
-        const priceB = parseFloat(b.app_sale_price)
-        return priceB - priceA
-      })
-    } else if (selectedFilter === 'lowToHigh') {
-      products.sort((a, b) => {
-        const priceA = parseFloat(a.app_sale_price)
-        const priceB = parseFloat(b.app_sale_price)
-        return priceA - priceB
-      })
-    }
-
-    const filtered = products.filter((item) => {
-      const price = extractPriceValue(item.app_sale_price)
-      if (minPrice === '' && maxPrice === '') {
-        return true // No filter applied, return all items
-      } else if (minPrice === '') {
-        return price <= parseFloat(maxPrice) // Only maximum price filter applied
-      } else if (maxPrice === '') {
-        return price >= parseFloat(minPrice) // Only minimum price filter applied
-      } else {
-        return price >= parseFloat(minPrice) && price <= parseFloat(maxPrice) // Both minimum and maximum price filters applied
-      }
-    })
-
-    setFilteredProducts(filtered)
-  }, [minPrice, maxPrice, selectedFilter])
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
     setShowFilter(!showFilter)
   }
 
-  const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(parseInt(e.target.value))
-  }
-
-  const extractPriceValue = (price) => {
-    const numericValue = parseFloat(price)
-    return isNaN(numericValue) ? 0 : numericValue
-  }
-
-  const handleFilter = (sortOrder) => {
-    setSelectedFilter(sortOrder)
-  }
-
   const handleMaxMin = () => {
     setShowFilter(false)
-
     setIsOpen(false)
     setLayout(layoutShape)
-    setParsedDataFilter(filteredProducts)
+    setParsedDataFilter(selectedFilter)
+    setMaxPrice1(maxPrice)
   }
 
   return (
@@ -202,11 +153,11 @@ export const Filters = ({
                   className={`block w-full ${
                     country === 'IL' ? 'text-right' : ' text-left '
                   } px-2 py-2 text-gray-800  ${
-                    selectedFilter === 'lowToHigh'
+                    selectedFilter === 'SALE_PRICE_ASC'
                       ? 'bg-gray-800 text-white rounded'
                       : ''
                   }`}
-                  onClick={() => handleFilter('lowToHigh')}
+                  onClick={() => setSelectedFilter('SALE_PRICE_ASC')}
                 >
                   {country === 'IL' ? 'מנמוך לגבוה' : ' Low to High'}
                 </button>
@@ -214,11 +165,11 @@ export const Filters = ({
                   className={`block w-full ${
                     country === 'IL' ? 'text-right' : ' text-left '
                   } px-2 py-2 text-gray-800   ${
-                    selectedFilter === 'highToLow'
+                    selectedFilter === 'SALE_PRICE_DESC'
                       ? 'bg-gray-800 text-white rounded'
                       : ''
                   }`}
-                  onClick={() => handleFilter('highToLow')}
+                  onClick={() => setSelectedFilter('SALE_PRICE_DESC')}
                 >
                   {country === 'IL' ? 'מגבוה לנמוך' : '   High to Low'}
                 </button>
@@ -264,7 +215,7 @@ export const Filters = ({
                 </div> */}
                 {country === 'IL' ? (
                   <>
-                    <div className="flex items-center py-2 ">
+                    {/* <div className="flex items-center py-2 ">
                       <input
                         type="number"
                         id="min-price"
@@ -280,7 +231,7 @@ export const Filters = ({
                       >
                         :החל מ
                       </label>
-                    </div>
+                    </div> */}
                     <div className="flex items-center py-2 md:flex justify-end">
                       <input
                         type="number"
@@ -296,7 +247,7 @@ export const Filters = ({
                   </>
                 ) : (
                   <>
-                    {' '}
+                    {/* {' '}
                     <div className="flex items-center px-2 py-2">
                       <label
                         htmlFor="min-price"
@@ -313,7 +264,7 @@ export const Filters = ({
                         onChange={(e) => setMinPrice(e.target.value)}
                         className="border border-gray-300 rounded px-2 py-1 text-gray-800"
                       />
-                    </div>
+                    </div> */}
                     <div className="flex items-center px-2 py-2">
                       <label htmlFor="max-price" className="text-left mr-2">
                         Max Price:
