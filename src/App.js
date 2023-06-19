@@ -15,6 +15,7 @@ function App() {
       setCountry(storedCountry)
     }
   }, [])
+  const [searchRes, setSearchRes] = useState(false)
 
   return (
     <div className="App">
@@ -32,6 +33,8 @@ function App() {
                 React.cloneElement(route.component, {
                   country,
                   setCountry,
+                  setSearchRes,
+                  searchRes,
                 })
               )
             }

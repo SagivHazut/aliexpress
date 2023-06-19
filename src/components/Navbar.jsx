@@ -192,7 +192,6 @@ export const Navbar = ({ setCountry, country }) => {
     handleToggle(selectedOption) // Set the selected option as the current state
     setSideBar(false) // Reset the sideBar state to false
   }
-  const isMobile = useMediaQuery({ maxWidth: 768 })
   return (
     <>
       <Disclosure as="nav" className="bg-gray-900">

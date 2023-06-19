@@ -5,156 +5,129 @@ import SearchBar from './SearchBar'
 import Item from './Item'
 import Pages from './Pages'
 import { SearchItems } from './SearchItems'
-import { useNavigate } from 'react-router-dom'
+import LoadingSpinner from './LoadingSpinner'
 
-export const Women = ({ country, setCountry }) => {
+export const Women = ({ country, setCountry, searchRes, setSearchRes }) => {
   const name = 'Search in Women section....'
-
   const { page } = useParams()
   const [searchQuery, setSearchQuery] = useState('')
   const [parsedData, setParsedData] = useState([])
-  const [parsedDataFilter, setParsedDataFilter] = useState('')
   const [originalData, setOriginalData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(parseInt(page, 10) || 1)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [showFilter, setShowFilter] = useState(false)
-  const [fetchedPages, setFetchedPages] = useState([])
-  const navigate = useNavigate()
+  const itemsPerPage = 48
+  const [currentPage, setCurrentPage] = useState(parseInt(page, 10) || 1)
+  const [maxPrice1, setMaxPrice1] = useState('')
+  const [prevNumber, setPrevNumber] = useState(0)
+  const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
+  const [reachedBottom, setReachedBottom] = useState(false)
 
   useEffect(() => {
-    const storedData = localStorage.getItem('parsedData')
-    setParsedData(JSON.parse(storedData))
-    fetchData(currentPage, currentPage + 6)
-  }, [currentPage, country])
+    if (!initialFetchCompleted) {
+      fetchData(currentPage)
+      setInitialFetchCompleted(true)
+    } else {
+      if (maxPrice1 !== prevNumber) {
+        setOriginalData([])
+        fetchData(currentPage)
+      }
+    }
+    setPrevNumber(maxPrice1)
+  }, [currentPage, maxPrice1, initialFetchCompleted])
 
-  async function fetchData(startPage, endPage) {
+  async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
-
-    // Check if all the pages have already been fetched
-    if (fetchedPages.includes(startPage) && fetchedPages.includes(endPage)) {
-      setIsLoading(false)
-      return
-    }
-
     try {
-      const pageRequests = []
-      for (let i = startPage; i <= endPage; i++) {
-        // Push the axios request promises for each page
-        pageRequests.push(
-          axios.get(
-            'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
-            {
-              params: {
-                language: storedCountry === 'IL' ? 'he' : 'en',
-                currency: 'EUR',
-                category_ids:
-                  '200000500,200332157,200332158,200364142,201273175,200001330,201671802,310,200362145,200133142,200000854,200001894,200003494,200000345,201336907',
-                page_size: '25',
-                page_no: i.toString(),
-              },
-              mode: 'no-cors',
-            }
-          )
-        )
+      setIsLoadingMore(true)
+
+      let finalMaxPrice = maxPrice1.toString()
+
+      if (!isNaN(maxPrice1) && maxPrice1) {
+        finalMaxPrice = maxPrice1.padEnd(maxPrice1.length + 2, '0')
+      }
+      const response = await axios.get(
+        'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
+        {
+          params: {
+            language: storedCountry === 'IL' ? 'he' : 'en',
+            category_ids: '',
+            page_size: 50,
+            page_no: page ? page : 1,
+            max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
+            min_sale_price: '300',
+            sort: 'SALE_PRICE_DESC',
+            keywords: 'phone',
+          },
+          mode: 'no-cors',
+        }
+      )
+
+      const newData = response.data
+      if (response.status === 500) {
+        fetchData(page)
+      }
+      if (maxPrice1) {
+        setOriginalData((prevData) => [
+          ...prevData,
+          ...originalData,
+          ...newData,
+        ])
+      } else {
+        setParsedData((prevData) => [...prevData, ...newData])
       }
 
-      // Fetch all pages concurrently
-      const responses = await Promise.all(pageRequests)
-
-      // Extract the data from each response
-      const pageData = responses.map((res) => res.data)
-
-      // Merge the fetched data with the existing data, excluding items with duplicate IDs
-      const updatedData = [
-        ...parsedData,
-        ...pageData.flatMap((newData) =>
-          newData.filter(
-            (item) =>
-              !parsedData.some(
-                (existingItem) => existingItem.product_id === item.product_id
-              )
-          )
-        ),
-      ]
-
-      setParsedData(updatedData)
       setIsLoading(false)
-
-      // Save the updated data to the local storage
-      localStorage.setItem('parsedData', JSON.stringify(updatedData))
-
-      // Add the fetched pages to the fetchedPages array
-      const newFetchedPages = []
-      for (let i = startPage; i <= endPage; i++) {
-        newFetchedPages.push(i)
-      }
-      setFetchedPages([...fetchedPages, ...newFetchedPages])
+      setIsLoadingMore(false)
     } catch (error) {
-      console.log(error)
+      setIsLoading(true)
+      setIsLoadingMore(true)
     }
   }
-
-  const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion.product_title)
-  }
-
-  const [itemsPerPage, setItemsPerPage] = useState(25)
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value)
   }
 
-  let filteredItems = []
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
 
-  if (parsedData) {
-    filteredItems = parsedData.filter((item) => {
-      return (
-        !searchQuery ||
-        (item.product_title &&
-          item.product_title.toLowerCase &&
-          item.product_title.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
-    })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [maxPrice1])
+
+  const handleScroll = () => {
+    const scrollTop =
+      (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop
+    const scrollHeight =
+      (document.documentElement && document.documentElement.scrollHeight) ||
+      document.body.scrollHeight
+    const clientHeight =
+      document.documentElement.clientHeight || window.innerHeight
+    if (scrollTop + clientHeight >= scrollHeight && !reachedBottom) {
+      setReachedBottom(true)
+      if (maxPrice1) {
+        setMaxPrice1((prevMaxPrice1) => {
+          const updatedMaxPrice1 = String(parseInt(prevMaxPrice1) - 1)
+          fetchData()
+          return updatedMaxPrice1
+        })
+      } else {
+        setCurrentPage((prevPage) => {
+          const nextPage = prevPage + 1
+          fetchData(nextPage)
+          return nextPage
+        })
+      }
+      setReachedBottom(false)
+    }
   }
 
-  const lastItemIndex = currentPage * itemsPerPage
-  const firstItemIndex = lastItemIndex - itemsPerPage
   const visibleItems =
-    parsedDataFilter && parsedDataFilter.length > 0
-      ? parsedDataFilter.slice(firstItemIndex, lastItemIndex)
-      : parsedData.slice(firstItemIndex, lastItemIndex)
+    originalData && originalData.length > 0 ? originalData : parsedData
 
-  const totalPages = 600
-
-  const pageNumbers = Array.from(
-    { length: totalPages },
-    (_, index) => index + 1
-  )
-  const handlePageClick = (pageNumber) => {
-    const startPage = (pageNumber - 1) * 7 + 1
-    const endPage = startPage + 6
-    setCurrentPage(pageNumber)
-    fetchData(startPage, endPage)
-    navigate(`/Women/page/${pageNumber}`)
-  }
-
-  const handlePreviousClick = () => {
-    if (currentPage > 1) {
-      const newPageNumber = currentPage - 1
-      setCurrentPage(newPageNumber)
-      fetchData()
-      navigate(`/Women/page/${newPageNumber}`)
-    }
-  }
-
-  const handleNextClick = () => {
-    if (currentPage < totalPages) {
-      const newPageNumber = currentPage + 1
-      setCurrentPage(newPageNumber)
-      fetchData()
-      navigate(`/Women/page/${newPageNumber}`)
-    }
-  }
   return (
     <>
       <div
@@ -169,14 +142,16 @@ export const Women = ({ country, setCountry }) => {
       <div>
         <SearchBar
           handleInputChange={handleInputChange}
-          items={filteredItems}
+          setSearchRes={setSearchRes}
           searchQuery={searchQuery}
-          handleSuggestionSelect={handleSuggestionSelect}
+          country={country}
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
           name={country === 'IL' ? ' ...חיפוש בקטגוריית נשים ' : name}
         />
-        {filteredItems.length > 0 && searchQuery ? (
+        {searchRes.length > 0 && searchRes ? (
           <div>
-            <SearchItems key={filteredItems.id} post={filteredItems} />
+            <SearchItems key={searchRes.id} post={searchRes} />
           </div>
         ) : (
           <div>
@@ -185,35 +160,21 @@ export const Women = ({ country, setCountry }) => {
               key={visibleItems.product_id}
               post={visibleItems}
               filteredProducts={parsedData}
-              setItemsPerPage={setItemsPerPage}
               itemsPerPage={itemsPerPage}
               parsedData={parsedData}
-              setParsedDataFilter={setParsedDataFilter}
               originalData={originalData}
               country={country}
               setShowFilter={setShowFilter}
               showFilter={showFilter}
               setCountry={setCountry}
+              setMaxPrice1={setMaxPrice1}
+              isLoadingMore={isLoadingMore}
+              handleInputChange={handleInputChange}
+              searchQuery={searchQuery}
+              name={country === 'IL' ? ' ...חיפוש בקטגוריית נשים ' : name}
+              searchRes={searchRes}
+              setSearchRes={setSearchRes}
             />
-            {filteredItems.length > 10 && (
-              <Pages
-                pageNumbers={pageNumbers}
-                currentPage={currentPage}
-                handlePageClick={handlePageClick}
-                setCurrentPage={setCurrentPage}
-                totalPages={totalPages}
-                handlePreviousClick={handlePreviousClick}
-                handleNextClick={handleNextClick}
-                itemsNumber={
-                  parsedDataFilter && parsedDataFilter.length > 0
-                    ? parsedDataFilter
-                    : parsedData
-                }
-                firstItemIndex={firstItemIndex}
-                itemsPerPage={itemsPerPage}
-                country={country}
-              />
-            )}
           </div>
         )}
       </div>

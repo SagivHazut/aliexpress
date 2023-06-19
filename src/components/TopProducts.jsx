@@ -4,15 +4,18 @@ import axios from 'axios'
 import SearchBar from './SearchBar'
 import Item from './Item'
 import { SearchItems } from './SearchItems'
-import LoadingSpinner from './LoadingSpinner'
+import { useRef } from 'react'
 
-export const TopProducts = ({ country, setCountry }) => {
+export const TopProducts = ({
+  country,
+  setCountry,
+  setSearchRes,
+  searchRes,
+}) => {
   const { page } = useParams()
   const name = 'Search in Hot Deals...'
   const [searchQuery, setSearchQuery] = useState('')
   const [parsedData, setParsedData] = useState([])
-  const [parsedDataFilter, setParsedDataFilter] = useState('')
-  const [parsedDataFilterChanger, setParsedDataFilterChanger] = useState('')
   const [originalData, setOriginalData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
@@ -21,82 +24,82 @@ export const TopProducts = ({ country, setCountry }) => {
   const [currentPage, setCurrentPage] = useState(parseInt(page, 10) || 1)
   const [maxPrice1, setMaxPrice1] = useState('')
   const [prevNumber, setPrevNumber] = useState(0)
+  const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
+  const [reachedBottom, setReachedBottom] = useState(false)
 
   useEffect(() => {
-    fetchData()
-    if (
-      maxPrice1 !== prevNumber ||
-      parsedDataFilter !== parsedDataFilterChanger
-    ) {
-      setOriginalData('')
-      fetchData()
+    if (!initialFetchCompleted) {
+      fetchData(currentPage)
+      setInitialFetchCompleted(true)
+    } else {
+      if (maxPrice1 !== prevNumber) {
+        setOriginalData([])
+        fetchData(currentPage)
+      }
     }
     setPrevNumber(maxPrice1)
-    setParsedDataFilterChanger(parsedDataFilter)
-  }, [currentPage, parsedDataFilter, maxPrice1])
+  }, [currentPage, maxPrice1, initialFetchCompleted])
 
-  async function fetchData() {
+  async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
     try {
       setIsLoadingMore(true)
 
       let finalMaxPrice = maxPrice1.toString()
 
-      if (maxPrice1) {
+      if (!isNaN(maxPrice1) && maxPrice1) {
         finalMaxPrice = maxPrice1.padEnd(maxPrice1.length + 2, '0')
       }
-
       const response = await axios.get(
         'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            currency: 'EUR',
-            category_ids:
-              '34,1509,201161809,200003494,200000345,201336907,200003892,5090301,4099,201084002,4003,100001205',
+            category_ids: '',
             page_size: 50,
-            page_no: currentPage,
+            page_no: page ? page : 1,
             max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
             min_sale_price: '300',
-            sort: parsedDataFilter ? parsedDataFilter : 'None',
+            sort: 'SALE_PRICE_DESC',
+            keywords: 'phone',
           },
           mode: 'no-cors',
         }
       )
+
       const newData = response.data
-      if (parsedDataFilter || maxPrice1) {
-        setOriginalData((prevData) => [...prevData, ...newData])
+      if (response.status === 500) {
+        fetchData(page)
+      }
+      if (maxPrice1) {
+        setOriginalData((prevData) => [
+          ...prevData,
+          ...originalData,
+          ...newData,
+        ])
       } else {
         setParsedData((prevData) => [...prevData, ...newData])
       }
+
       setIsLoading(false)
       setIsLoadingMore(false)
     } catch (error) {
-      setIsLoading(false)
-      setIsLoadingMore(false)
+      setIsLoading(true)
+      setIsLoadingMore(true)
     }
-  }
-
-  const handleSuggestionSelect = (suggestion) => {
-    setSearchQuery(suggestion.product_title)
   }
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value)
   }
 
-  let filteredItems = []
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
 
-  if (parsedData) {
-    filteredItems = parsedData.filter((item) => {
-      return (
-        !searchQuery ||
-        (item.product_title &&
-          item.product_title.toLowerCase &&
-          item.product_title.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
-    })
-  }
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [maxPrice1])
 
   const handleScroll = () => {
     const scrollTop =
@@ -107,18 +110,24 @@ export const TopProducts = ({ country, setCountry }) => {
       document.body.scrollHeight
     const clientHeight =
       document.documentElement.clientHeight || window.innerHeight
-
-    if (scrollTop + clientHeight >= scrollHeight && !isLoadingMore) {
-      setCurrentPage((prevPage) => prevPage + 1)
+    if (scrollTop + clientHeight >= scrollHeight && !reachedBottom) {
+      setReachedBottom(true)
+      if (maxPrice1) {
+        setMaxPrice1((prevMaxPrice1) => {
+          const updatedMaxPrice1 = String(parseInt(prevMaxPrice1) - 1)
+          fetchData()
+          return updatedMaxPrice1
+        })
+      } else {
+        setCurrentPage((prevPage) => {
+          const nextPage = prevPage + 1
+          fetchData(nextPage)
+          return nextPage
+        })
+      }
+      setReachedBottom(false)
     }
   }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   const visibleItems =
     originalData && originalData.length > 0 ? originalData : parsedData
@@ -137,14 +146,16 @@ export const TopProducts = ({ country, setCountry }) => {
       <div>
         <SearchBar
           handleInputChange={handleInputChange}
-          items={filteredItems}
+          setSearchRes={setSearchRes}
           searchQuery={searchQuery}
-          handleSuggestionSelect={handleSuggestionSelect}
+          country={country}
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
           name={country === 'IL' ? ' ...חיפוש מבצעים החמים שלנו' : name}
         />
-        {filteredItems.length > 0 && searchQuery ? (
+        {searchRes.length > 0 && searchRes ? (
           <div>
-            <SearchItems key={filteredItems.id} post={filteredItems} />
+            <SearchItems key={searchRes.id} post={searchRes} />
           </div>
         ) : (
           <div>
@@ -155,15 +166,19 @@ export const TopProducts = ({ country, setCountry }) => {
               filteredProducts={parsedData}
               itemsPerPage={itemsPerPage}
               parsedData={parsedData}
-              setParsedDataFilter={setParsedDataFilter}
               originalData={originalData}
               country={country}
               setShowFilter={setShowFilter}
               showFilter={showFilter}
               setCountry={setCountry}
               setMaxPrice1={setMaxPrice1}
+              isLoadingMore={isLoadingMore}
+              handleInputChange={handleInputChange}
+              searchQuery={searchQuery}
+              name={country === 'IL' ? ' ...חיפוש מבצעים החמים שלנו' : name}
+              searchRes={searchRes}
+              setSearchRes={setSearchRes}
             />
-            {isLoadingMore && <LoadingSpinner />}
           </div>
         )}
       </div>

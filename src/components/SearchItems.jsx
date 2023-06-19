@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-export const SearchItems = ({ post }) => {
+export const SearchItems = ({ post, searchRes }) => {
   const [showAllItems, setShowAllItems] = useState(false)
   const uniqueItems = [
     ...new Map(post.map((item) => [item.product_id, item])).values(),

@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Filters } from './Filters'
+import { ChevronUpIcon } from '@heroicons/react/24/outline'
+import LoadingSpinner from './LoadingSpinner'
 
 export const Item = ({
   post,
   setItemsPerPage,
   itemsPerPage,
   parsedData,
-  setParsedDataFilter,
   originalData,
   country,
   setShowFilter,
@@ -14,11 +15,36 @@ export const Item = ({
   setCountry,
   isLoading,
   setMaxPrice1,
+  isLoadingMore,
+  handleInputChange,
+  items,
+  searchQuery,
+  handleSuggestionSelect,
+  searchRes,
+  setSearchRes,
+  name,
 }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const [layout, setLayout] = useState(true)
   const [uniquePosts, setUniquePosts] = useState([])
+  const [isVisible, setIsVisible] = useState(false)
+  const handleScroll = () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+    setIsVisible(scrollTop > 300) // Show the button when scrolling down 300px or more
+  }
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Enable smooth scrolling
+    })
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current
@@ -97,13 +123,14 @@ export const Item = ({
 
     setUniquePosts(filterUniquePosts(post))
   }, [post])
-  if (isLoading) {
+
+  const Loading = () => {
     return (
       <div className="lg:col-span-3">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
             {/* Placeholder layout without pictures and data */}
-            {Array.from({ length: 12 }).map((_, index) => (
+            {Array.from({ length: 8 }).map((_, index) => (
               <div
                 key={index}
                 className="animate-pulse bg-gray-100 rounded-2xl h-64"
@@ -117,25 +144,41 @@ export const Item = ({
 
   return (
     <>
-      <div>
-        <Filters
-          setLayout={setLayout}
-          setItemsPerPage={setItemsPerPage}
-          itemsPerPage={itemsPerPage}
-          parsedData={parsedData}
-          setParsedDataFilter={setParsedDataFilter}
-          parsedDataFilter={post}
-          originalData={originalData}
-          country={country}
-          setShowFilter={setShowFilter}
-          showFilter={showFilter}
-          setCountry={setCountry}
-          setMaxPrice1={setMaxPrice1}
-        />
-      </div>
-
+      {window.location.pathname !== '/Recommendation' && (
+        <div>
+          <Filters
+            setLayout={setLayout}
+            setItemsPerPage={setItemsPerPage}
+            itemsPerPage={itemsPerPage}
+            parsedData={parsedData}
+            parsedDataFilter={post}
+            originalData={originalData}
+            country={country}
+            setShowFilter={setShowFilter}
+            showFilter={showFilter}
+            setCountry={setCountry}
+            setMaxPrice1={setMaxPrice1}
+            handleInputChange={handleInputChange}
+            items={items}
+            searchQuery={searchQuery}
+            handleSuggestionSelect={handleSuggestionSelect}
+            name={country === 'IL' ? ' ...חיפוש מבצעים החמים שלנו' : name}
+            searchRes={searchRes}
+            setSearchRes={setSearchRes}
+          />
+        </div>
+      )}
       {layout ? (
         <>
+          <button
+            onClick={scrollToTop}
+            id="scrollButton"
+            title="Go to top"
+            style={{ display: isVisible ? 'block' : 'none' }}
+            className="fixed bottom-8 right-4 z-10 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-800 transition-all"
+          >
+            <ChevronUpIcon className="h-5 w-5" />
+          </button>
           {uniquePosts && (
             <div className="lg:col-span-3">
               <div>
@@ -320,14 +363,17 @@ export const Item = ({
                   </div>
                 </div>
               </div>
+              {isLoadingMore && <LoadingSpinner />}
             </div>
           )}
+          {isLoading && <Loading />}
         </>
       ) : (
         <>
           {uniquePosts && (
             <div className="lg:col-span-">
               <div>
+                {isLoadingMore && <LoadingSpinner />}
                 <div className="mx-auto max-w-7xl px-10 lg:px-2">
                   <div className="mx-auto mt-12 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-6">
                     {uniquePosts.map((item) => (
@@ -487,6 +533,8 @@ export const Item = ({
               </div>
             </div>
           )}
+          {isLoadingMore && <LoadingSpinner />}
+          {isLoading && <Loading />}
         </>
       )}
     </>
