@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Popup from './Popup'
+import VideoScroll from './VideoScroll'
 
 export const HomePage = () => {
   const [darkMode, setDarkMode] = useState(false)
@@ -11,7 +12,8 @@ export const HomePage = () => {
 
   return (
     <>
-      <Popup />
+      <VideoScroll />
+      {/* <Popup />
       <div className={`bg-${darkMode ? 'gray-900' : 'gray-100'} min-h-screen`}>
         <div className="container mx-auto py-10">
           <div
@@ -143,7 +145,7 @@ export const HomePage = () => {
             )}
           </button>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

@@ -21,6 +21,7 @@ export const Filters = ({
   const [maxPrice, setMaxPrice] = useState('')
   const [selectedFilter2, setSelectedFilter2] = useState('')
   const [layoutShape, setLayoutShape] = useState(true)
+  const [applyCountry, setApplyCountry] = useState('')
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -32,10 +33,13 @@ export const Filters = ({
   }
 
   const handleMaxMin = () => {
+    localStorage.setItem('country', applyCountry)
     setShowFilter(false)
     setIsOpen(false)
     setLayout(layoutShape)
     setMaxPrice1(maxPrice)
+    setCountry(applyCountry)
+    window.location.reload()
   }
 
   return (
@@ -357,7 +361,12 @@ export const Filters = ({
                   />
                 </div>
 
-                <LanguageDropdown setCountry={setCountry} country={country} />
+                <LanguageDropdown
+                  setCountry={setCountry}
+                  country={country}
+                  setApplyCountry={setApplyCountry}
+                  applyCountry={applyCountry}
+                />
 
                 <div className="flex justify-center mt-4">
                   <button

@@ -43,18 +43,16 @@ const customStyles = {
   }),
 }
 
-const LanguageDropdown = ({ country, setCountry }) => {
+const LanguageDropdown = ({ setApplyCountry, applyCountry, country }) => {
   const handleChange = (selectedOption) => {
-    localStorage.setItem('country', selectedOption.value)
-    setCountry(selectedOption.value)
-    window.location.reload()
+    setApplyCountry(selectedOption.value)
   }
 
   return (
     <Select
       options={countryOptions}
       placeholder={country}
-      value={countryOptions.find((option) => option.value === country)}
+      value={countryOptions.find((option) => option.value === applyCountry)}
       onChange={handleChange}
       styles={customStyles}
       components={{ Option: CustomOption }}

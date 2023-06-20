@@ -55,13 +55,12 @@ export const TopProducts = ({
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: '',
+            category_ids: '6,30,34',
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
             min_sale_price: '300',
             sort: 'SALE_PRICE_DESC',
-            keywords: 'phone',
           },
           mode: 'no-cors',
         }

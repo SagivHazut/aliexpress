@@ -51,13 +51,13 @@ export const Women = ({ country, setCountry, searchRes, setSearchRes }) => {
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: '',
+            category_ids:
+              '200133142,200000854,200003494,200000345,201336907,201169002',
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
             min_sale_price: '300',
             sort: 'SALE_PRICE_DESC',
-            keywords: 'phone',
           },
           mode: 'no-cors',
         }
