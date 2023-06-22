@@ -20,7 +20,6 @@ export const Filters = ({
   const [searchOpen, setSearchOpen] = useState(false)
   const [maxPrice, setMaxPrice] = useState('')
   const [selectedFilter2, setSelectedFilter2] = useState('')
-  const [layoutShape, setLayoutShape] = useState(true)
   const [applyCountry, setApplyCountry] = useState('')
 
   const toggleDropdown = () => {
@@ -36,7 +35,6 @@ export const Filters = ({
     localStorage.setItem('country', applyCountry)
     setShowFilter(false)
     setIsOpen(false)
-    setLayout(layoutShape)
     setMaxPrice1(maxPrice)
     setCountry(applyCountry)
     window.location.reload()
@@ -92,7 +90,7 @@ export const Filters = ({
         </>
       )}
       <div className="fixed top-5 right-4 z-50 flex items-center">
-        <div className="relative inline-block mr-4">
+        <div className="relative inline-block ">
           <button
             className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
             onClick={toggleSearch}
@@ -179,51 +177,7 @@ export const Filters = ({
                     </>
                   )}
                 </div>
-                <div className="product-display ml-0">
-                  <div className="md:hidden">
-                    <div className="flex justify-start mt-4">
-                      <button
-                        onClick={() => {
-                          setLayoutShape(false)
-                          setSelectedFilter2('layoutSquare')
-                        }}
-                        className={`${
-                          selectedFilter2 === 'layoutSquare'
-                            ? 'bg-gray-800 text-white rounded'
-                            : ''
-                        }`}
-                      >
-                        <Squares2X2Icon className="h-10 w-10 mr-1" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setLayoutShape(true)
-                          setSelectedFilter2('layoutFunnel')
-                        }}
-                        className={`${
-                          selectedFilter2 === 'layoutFunnel'
-                            ? 'bg-gray-800 text-white rounded'
-                            : ''
-                        }`}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="h-10 w-10 ml-1"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+
                 {/* <div className="py-1 ">
                 <span className="font-bold">
                   {' '}

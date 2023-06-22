@@ -23,8 +23,8 @@ export const Recommendation = ({ country, setCountry }) => {
     discount: item['Discount'],
     product_id: item['ProductId'],
     promotion_link: item['Promotion Url'],
+    evaluate_rate: item['Positive Feedback'],
   }))
-
   useEffect(() => {
     setOriginalData(data2)
   }, [data2])

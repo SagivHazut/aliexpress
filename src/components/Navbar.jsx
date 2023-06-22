@@ -4,9 +4,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
 import logonobackground from '../image/logonobackground.png'
 import Dropdown from './Dropdown'
-
-import LanguageDropdown from './CustomOption'
-import { useMediaQuery } from 'react-responsive'
+import { VideoCameraIcon } from '@heroicons/react/24/outline'
 
 export const Navbar = ({ setCountry, country }) => {
   const [isToggled, setIsToggled] = useState(() =>
@@ -169,7 +167,7 @@ export const Navbar = ({ setCountry, country }) => {
   const handleToggle = (state) => {
     setIsToggled((prevState) => ({
       ...prevState,
-      [state]: !prevState[state], // Toggle the value of the selected state
+      [state]: !prevState[state],
     }))
     clearOtherStates(state)
     setSideBar(false)
@@ -189,9 +187,21 @@ export const Navbar = ({ setCountry, country }) => {
   }
 
   const handleDropdownSelect = (selectedOption) => {
-    handleToggle(selectedOption) // Set the selected option as the current state
-    setSideBar(false) // Reset the sideBar state to false
+    handleToggle(selectedOption)
+    setSideBar(false)
   }
+  const [isDesktop, setIsDesktop] = useState(true)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 640)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
   return (
     <>
       <Disclosure as="nav" className="bg-gray-900">
@@ -213,8 +223,18 @@ export const Navbar = ({ setCountry, country }) => {
                 </div>
 
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                  {!isDesktop && (
+                    <NavLink
+                      onClick={() => clearOtherStates()}
+                      to="/VideoScroll"
+                    >
+                      <div className="flex flex-shrink-1 items-center z-50">
+                        <VideoCameraIcon class="h-7 w-7 text-gray-500" />
+                      </div>
+                    </NavLink>
+                  )}
                   <NavLink onClick={() => clearOtherStates()} to="/homepage">
-                    <div className="flex flex-shrink-1 items-center z-50">
+                    <div className="flex flex-shrink-1 items-center z-50  ml-12 mr-20">
                       <img
                         className="block h-8 w-auto lg:hidden z-50"
                         src={logonobackground}
@@ -227,6 +247,7 @@ export const Navbar = ({ setCountry, country }) => {
                       />
                     </div>
                   </NavLink>
+
                   <div className="hidden sm:ml-10 sm:block">
                     <div className="flex space-x-9">
                       {navigation.map((item) => (

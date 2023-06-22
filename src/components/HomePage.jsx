@@ -12,8 +12,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <VideoScroll />
-      {/* <Popup />
+      <Popup />
       <div className={`bg-${darkMode ? 'gray-900' : 'gray-100'} min-h-screen`}>
         <div className="container mx-auto py-10">
           <div
@@ -145,7 +144,7 @@ export const HomePage = () => {
             )}
           </button>
         </div>
-      </div> */}
+      </div>
     </>
   )
 }

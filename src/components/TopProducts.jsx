@@ -4,7 +4,7 @@ import axios from 'axios'
 import SearchBar from './SearchBar'
 import Item from './Item'
 import { SearchItems } from './SearchItems'
-import { useRef } from 'react'
+import { withTranslation } from 'react-i18next'
 
 export const TopProducts = ({
   country,

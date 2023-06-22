@@ -9,6 +9,7 @@ import { Women } from './components/Women'
 import { Kids } from './components/Kids'
 import { Sport } from './components/Sport'
 import { House } from './components/House'
+import VideoScroll from './components/VideoScroll'
 
 export const routes = [
   {
@@ -58,6 +59,10 @@ export const routes = [
   {
     path: '/Recommendation',
     component: <Recommendation />,
+  },
+  {
+    path: '/VideoScroll',
+    component: <VideoScroll />,
   },
   {
     path: '/*',
