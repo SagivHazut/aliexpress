@@ -126,7 +126,7 @@ const VideoScroll = () => {
       visibleVideos.forEach((video) => {
         const videoElement = document.getElementById(`video-${video.id}`)
         if (videoElement) {
-          observer.observe(videoElement)
+          observer.observe(videoElement, { passive: false }) // Set passive: false
         }
       })
     }
@@ -205,12 +205,6 @@ const VideoScroll = () => {
   }, [])
 
   const handleVideoClick = (videoElement, index) => {
-    const currentVideoElement = currentVideo
-
-    if (currentVideoElement && currentVideoElement !== videoElement) {
-      currentVideoElement.pause()
-    }
-
     if (videoElement.paused) {
       videoElement.play().catch((error) => {
         console.error('Failed to play video:', error)
@@ -251,7 +245,14 @@ const VideoScroll = () => {
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <div ref={containerRef} style={{ height: '857px', overflow: 'scroll' }}>
+        <div
+          ref={containerRef}
+          style={{ height: '857px', overflow: 'scroll' }}
+          onTouchStart={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+        >
           {uniquePosts.map((video, index) => {
             const videoElementRef =
               videoElementsRef.current[index] || React.createRef()
@@ -282,6 +283,7 @@ const VideoScroll = () => {
                     }}
                     autoPlay={false}
                     controls={false}
+                    playsInline // Play the video within the element itself
                     onClick={() =>
                       handleVideoClick(videoElementRef.current, index)
                     }
@@ -329,17 +331,40 @@ const VideoScroll = () => {
                         backgroundSize: '600% 100%',
                         backgroundClip: 'text',
                         WebkitBackgroundClip: 'text',
-                        color: 'transparent',
-                        textDecoration: 'underline',
-                        cursor: 'pointer',
-                        backgroundPosition: `${percentage}% 0`,
-                        transition: 'background-position 0.3s linear',
+                        WebkitTextFillColor: 'transparent',
+                        animation: `animated-gradient 3s linear infinite`,
+                        fontSize: 22,
                       }}
                     >
-                      Click here
+                      click here{' '}
                     </span>
                   </span>
                 </a>
+                <a
+                  href={video.seller_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="seller-link"
+                  style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    left: '10px',
+                    fontSize: '12px',
+                    color: 'white',
+                  }}
+                >
+                  {video.seller_name}
+                </a>
+                <div
+                  className="duration-bar"
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    width: `${percentage}%`,
+                    height: '2px',
+                    backgroundColor: 'red',
+                  }}
+                ></div>
               </div>
             )
           })}
