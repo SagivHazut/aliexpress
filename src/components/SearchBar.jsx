@@ -6,11 +6,14 @@ import { useEffect } from 'react'
 function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
   const [value, setValue] = useState('')
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   async function fetchProductDetails(value) {
     const storedCountry = localStorage.getItem('country')
 
     try {
+      setLoading(true) // Start loading
+
       const response = await axios.get(
         'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
         {
@@ -27,6 +30,9 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
           mode: 'no-cors',
         }
       )
+
+      setLoading(false) // Stop loading
+
       if (response.status !== 200) {
         fetchProductDetails()
       } else if (response.status === 200) {
@@ -40,6 +46,8 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
         )
       }
     } catch (error) {
+      setLoading(false) // Stop loading
+
       setError(
         storedCountry === 'IL'
           ? `לא נמצאו תוצאות נסה שנית`
@@ -67,6 +75,9 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
       setShowFilter(!showFilter)
     }
   }, [error])
+  useEffect(() => {
+    setSearchRes([])
+  }, [window.location.pathname, setSearchRes])
 
   return (
     <>
@@ -92,6 +103,7 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
             marginTop: '10px',
           }}
         />
+
         <button
           onClick={handleButtonClick}
           style={{
@@ -106,7 +118,7 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
             marginTop: 10,
           }}
         >
-          Search
+          {loading ? 'Searching' : 'Search'}
         </button>
       </div>
     </>
