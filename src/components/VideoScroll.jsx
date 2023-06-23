@@ -14,6 +14,8 @@ const VideoScroll = () => {
   const videoElementsRef = useRef([])
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null)
   const [percentage, setPercentage] = useState(0)
+  const [isPageLoaded, setIsPageLoaded] = useState(false) // New state variable
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +43,7 @@ const VideoScroll = () => {
 
         setVideos((prevVideos) => [...prevVideos, ...newData])
         setIsLoading(false)
+        setIsPageLoaded(true)
       } catch (error) {
         console.error(error)
         setIsLoading(false)
@@ -53,6 +56,24 @@ const VideoScroll = () => {
   useEffect(() => {
     const filteredVideos = videos.filter((video) => video.product_video_url)
     setVisibleVideos(filteredVideos)
+    const isAutoplayBlocked = () => {
+      const testVideo = document.createElement('video')
+      const promise = testVideo.play()
+
+      if (promise !== undefined) {
+        promise
+          .then(() => {
+            // Autoplay is not blocked
+            testVideo.pause()
+          })
+          .catch(() => {
+            // Autoplay is blocked
+            setAutoplayBlocked(true)
+          })
+      }
+    }
+
+    isAutoplayBlocked()
   }, [videos])
 
   const handleVideoEnded = (videoElement, index) => {
@@ -155,31 +176,37 @@ const VideoScroll = () => {
         setPageCounting((prevPageCounting) => prevPageCounting + 1)
       }
 
-      visibleVideos.forEach((video, index) => {
-        const videoElementRef = videoElementsRef.current[index]
-        if (videoElementRef) {
-          const videoElement = videoElementRef.current
-          const { top, height } = videoElement.getBoundingClientRect()
-          const isVisible =
-            top + height >= 0 && top - height <= clientHeight * threshold
-          if (isVisible && videoElement.paused) {
-            videoElement.play().catch((error) => {
-              console.error('Failed to play video:', error)
-            })
-            setCurrentVideo(videoElement)
-            setCurrentVideoIndex(videoElement.dataset.index)
-          } else if (!isVisible && !videoElement.paused) {
-            videoElement.pause()
-          }
+      if (isPageLoaded) {
+        // Add conditional check for isPageLoaded
+        visibleVideos.forEach((video, index) => {
+          const videoElementRef = videoElementsRef.current[index]
+          if (videoElementRef) {
+            const videoElement = videoElementRef.current
+            const { top, height } = videoElement.getBoundingClientRect()
+            const isVisible =
+              top + height >= 0 && top - height <= clientHeight * threshold
+            if (isVisible && videoElement.paused) {
+              videoElement.play().catch((error) => {
+                console.error('Failed to play video:', error)
+              })
+              setCurrentVideo(videoElement)
+              setCurrentVideoIndex(videoElement.dataset.index)
+            } else if (!isVisible && !videoElement.paused) {
+              videoElement.pause()
+            }
 
-          if (
-            isVisible &&
-            videoElement.currentTime >= videoElement.duration - 1
-          ) {
-            handleVideoEnded(videoElement, parseInt(videoElement.dataset.index))
+            if (
+              isVisible &&
+              videoElement.currentTime >= videoElement.duration - 1
+            ) {
+              handleVideoEnded(
+                videoElement,
+                parseInt(videoElement.dataset.index)
+              )
+            }
           }
-        }
-      })
+        })
+      }
     }
 
     const container = containerRef.current
@@ -281,9 +308,11 @@ const VideoScroll = () => {
                       backgroundColor: 'transparent',
                       height: 700,
                     }}
-                    autoPlay={false}
+                    autoPlay={
+                      autoplayBlocked ? false : index === playingVideoIndex
+                    }
                     controls={false}
-                    playsInline // Play the video within the element itself
+                    playsInline
                     onClick={() =>
                       handleVideoClick(videoElementRef.current, index)
                     }

@@ -55,6 +55,7 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
       )
     }
   }
+
   const handleButtonClick = () => {
     fetchProductDetails(value, [])
       .then((data) => {})
@@ -66,15 +67,28 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
   const handleInputChange = (event) => {
     setValue(event.target.value)
   }
+
+  const handleInputKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      fetchProductDetails(value)
+        .then((data) => {})
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }
+
   const handleCloseError = () => {
     setError(null)
     setShowFilter(!showFilter)
   }
+
   useEffect(() => {
     if (error) {
       setShowFilter(!showFilter)
     }
   }, [error])
+
   useEffect(() => {
     setSearchRes([])
   }, [window.location.pathname, setSearchRes])
@@ -89,6 +103,7 @@ function SearchBar({ setSearchRes, name, showFilter, setShowFilter }) {
           placeholder={name}
           value={value}
           onChange={handleInputChange}
+          onKeyDown={handleInputKeyDown}
           style={{
             padding: '8px',
             borderRadius: '4px',
