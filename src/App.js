@@ -15,7 +15,7 @@ function App() {
       setCountry(storedCountry)
     }
   }, [])
-  const [searchRes, setSearchRes] = useState(false)
+  const [searchRes, setSearchRes] = useState(null)
 
   return (
     <div className="App">

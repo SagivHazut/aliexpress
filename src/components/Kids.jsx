@@ -136,45 +136,27 @@ export const Kids = ({ country, setCountry, setSearchRes, searchRes }) => {
           boxShadow: showFilter ? '0px 0px 10px 5px rgba(0, 0, 0, 0.5)' : '',
         }}
       ></div>
-
       <div>
-        <SearchBar
-          handleInputChange={handleInputChange}
-          setSearchRes={setSearchRes}
-          searchQuery={searchQuery}
+        <Item
+          isLoading={isLoading}
+          key={visibleItems.product_id}
+          post={visibleItems}
+          filteredProducts={parsedData}
+          itemsPerPage={itemsPerPage}
+          parsedData={parsedData}
+          originalData={originalData}
           country={country}
           setShowFilter={setShowFilter}
           showFilter={showFilter}
+          setCountry={setCountry}
+          setMaxPrice1={setMaxPrice1}
+          isLoadingMore={isLoadingMore}
+          handleInputChange={handleInputChange}
+          searchQuery={searchQuery}
           name={country === 'IL' ? ' ...חיפוש בקטגוריית ילדים' : name}
+          searchRes={searchRes}
+          setSearchRes={setSearchRes}
         />
-        {searchRes.length > 0 && searchRes ? (
-          <div>
-            <SearchItems key={searchRes.id} post={searchRes} />
-          </div>
-        ) : (
-          <div>
-            <Item
-              isLoading={isLoading}
-              key={visibleItems.product_id}
-              post={visibleItems}
-              filteredProducts={parsedData}
-              itemsPerPage={itemsPerPage}
-              parsedData={parsedData}
-              originalData={originalData}
-              country={country}
-              setShowFilter={setShowFilter}
-              showFilter={showFilter}
-              setCountry={setCountry}
-              setMaxPrice1={setMaxPrice1}
-              isLoadingMore={isLoadingMore}
-              handleInputChange={handleInputChange}
-              searchQuery={searchQuery}
-              name={country === 'IL' ? ' ...חיפוש בקטגוריית ילדים' : name}
-              searchRes={searchRes}
-              setSearchRes={setSearchRes}
-            />
-          </div>
-        )}
       </div>
     </>
   )

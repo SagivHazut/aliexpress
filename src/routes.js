@@ -10,6 +10,8 @@ import { Kids } from './components/Kids'
 import { Sport } from './components/Sport'
 import { House } from './components/House'
 import VideoScroll from './components/VideoScroll'
+import SearchBar from './components/SearchBar'
+import { SearchItems } from './components/SearchItems'
 
 export const routes = [
   {
@@ -63,6 +65,14 @@ export const routes = [
   {
     path: '/VideoScroll',
     component: <VideoScroll />,
+  },
+  {
+    path: '/SearchBar',
+    component: <SearchBar />,
+  },
+  {
+    path: '/SearchItems',
+    component: <SearchItems />,
   },
   {
     path: '/*',
