@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import LoadingSpinner from './LoadingSpinner'
 import { PauseCircleIcon } from '@heroicons/react/24/outline'
+import CookiesPopup from './CookiesPopup'
+import { Cookies } from 'react-cookie'
 
 const VideoScroll = () => {
   const [videos, setVideos] = useState([])
@@ -14,9 +16,39 @@ const VideoScroll = () => {
   const videoElementsRef = useRef([])
   const [playingVideoIndex, setPlayingVideoIndex] = useState(null)
   const [percentage, setPercentage] = useState(0)
-  const [isPageLoaded, setIsPageLoaded] = useState(false) // New state variable
+  const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
 
+  const isAutoplayBlocked = () => {
+    const testVideo = document.createElement('video')
+    const promise = testVideo.play()
+
+    if (promise !== undefined) {
+      promise
+        .then(() => {
+          // Autoplay is not blocked
+          testVideo.pause()
+          setAutoplayBlocked(false)
+          cookies.set('autoplayPermission', true) // Set the cookie to allow autoplay
+        })
+        .catch(() => {
+          // Autoplay is blocked
+          setAutoplayBlocked(true)
+          cookies.set('autoplayPermission', false) // Set the cookie to block autoplay
+        })
+    }
+  }
+  useEffect(() => {
+    const autoplayPermission = cookies.get('autoplayPermission')
+
+    if (autoplayPermission === undefined) {
+      // Cookie doesn't exist, check for autoplay permission
+      isAutoplayBlocked()
+    } else {
+      // Use the existing cookie value
+      setAutoplayBlocked(!autoplayPermission)
+    }
+  }, [])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -123,7 +155,9 @@ const VideoScroll = () => {
     const handleIntersection = (entries) => {
       entries.forEach((entry) => {
         const videoElement = entry.target
-        if (entry.isIntersecting) {
+        const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2
+
+        if (isVisible) {
           videoElement.play().catch((error) => {
             console.error('Failed to play video:', error)
           })
@@ -266,9 +300,19 @@ const VideoScroll = () => {
 
     setUniquePosts(filterUniquePosts(visibleVideos))
   }, [visibleVideos])
+  const cookies = new Cookies()
+
+  const handleAutoplayPermission = (permission) => {
+    setAutoplayBlocked(!permission)
+    cookies.set('autoplayPermission', permission)
+  }
 
   return (
     <>
+      {autoplayBlocked && (
+        <CookiesPopup handleAutoplayPermission={handleAutoplayPermission} />
+      )}
+
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -308,9 +352,7 @@ const VideoScroll = () => {
                       backgroundColor: 'transparent',
                       height: 700,
                     }}
-                    autoPlay={
-                      autoplayBlocked ? false : index === playingVideoIndex
-                    }
+                    autoPlay={index === playingVideoIndex}
                     controls={false}
                     playsInline
                     onClick={() =>
@@ -338,7 +380,7 @@ const VideoScroll = () => {
                   alt={video.product_title}
                   id="poster"
                   className="poster"
-                  src={video.product_image_url}
+                  src={video.product_main_image_url}
                   style={{ display: 'none' }}
                   data-spm-anchor-id="a2g0o.detail.1000017.i0.73684deeF61nkB"
                 />
