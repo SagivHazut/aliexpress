@@ -227,6 +227,11 @@ export const Navbar = ({ setCountry, country }) => {
                     <NavLink
                       onClick={() => clearOtherStates()}
                       to="/VideoScroll"
+                      className={`${
+                        isCurrent('/VideoScroll')
+                          ? 'bg-gray-700 rounded-lg border border-gray-100'
+                          : 'text-gray-100 hover:bg-gray-100 hover:text-white'
+                      } rounded-md px-3 py-2 text-sm font-medium`}
                     >
                       <div className="flex flex-shrink-1 items-center z-50">
                         <VideoCameraIcon class="h-7 w-7 text-gray-500" />

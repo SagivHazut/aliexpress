@@ -4,8 +4,9 @@ import LoadingSpinner from './LoadingSpinner'
 import { PauseCircleIcon } from '@heroicons/react/24/outline'
 import CookiesPopup from './CookiesPopup'
 import { Cookies } from 'react-cookie'
+import LanguageDropdown from './CustomOption'
 
-const VideoScroll = () => {
+const VideoScroll = ({ setCountry, country }) => {
   const [videos, setVideos] = useState([])
   const [visibleVideos, setVisibleVideos] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -18,6 +19,7 @@ const VideoScroll = () => {
   const [percentage, setPercentage] = useState(0)
   const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
+  const [applyCountry, setApplyCountry] = useState(country)
 
   const isAutoplayBlocked = () => {
     const testVideo = document.createElement('video')
@@ -26,15 +28,13 @@ const VideoScroll = () => {
     if (promise !== undefined) {
       promise
         .then(() => {
-          // Autoplay is not blocked
           testVideo.pause()
           setAutoplayBlocked(false)
-          cookies.set('autoplayPermission', true) // Set the cookie to allow autoplay
+          cookies.set('autoplayPermission', true)
         })
         .catch(() => {
-          // Autoplay is blocked
           setAutoplayBlocked(true)
-          cookies.set('autoplayPermission', false) // Set the cookie to block autoplay
+          cookies.set('autoplayPermission', false)
         })
     }
   }
@@ -51,12 +51,13 @@ const VideoScroll = () => {
   }, [])
   useEffect(() => {
     const fetchData = async () => {
+      const storedCountry = localStorage.getItem('country')
       try {
         const response = await axios.get(
           'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
           {
             params: {
-              language: 'en',
+              language: storedCountry === 'IL' ? 'he' : 'en',
               category_ids: '320,3,200133142,200131145,200003494,',
               page_size: 50,
               page_no: pageCounting,
@@ -83,7 +84,12 @@ const VideoScroll = () => {
     }
 
     fetchData()
-  }, [pageCounting])
+    if (applyCountry !== country) {
+      setCountry(applyCountry)
+      localStorage.setItem('country', applyCountry)
+      window.location.reload()
+    }
+  }, [pageCounting, applyCountry])
 
   useEffect(() => {
     const filteredVideos = videos.filter((video) => video.product_video_url)
@@ -309,6 +315,22 @@ const VideoScroll = () => {
 
   return (
     <>
+      <div
+        className="fixed flex justify-center items-center z-50"
+        style={{
+          height: '0vh',
+          right: 15,
+          top: 40,
+        }}
+      >
+        {' '}
+        <LanguageDropdown
+          setCountry={setCountry}
+          country={country}
+          setApplyCountry={setApplyCountry}
+          applyCountry={applyCountry}
+        />
+      </div>
       {autoplayBlocked && (
         <CookiesPopup handleAutoplayPermission={handleAutoplayPermission} />
       )}
@@ -401,7 +423,7 @@ const VideoScroll = () => {
                         fontSize: 22,
                       }}
                     >
-                      click here{' '}
+                      {country === 'IL' ? 'לחץ כאן' : 'Click here'}
                     </span>
                   </span>
                 </a>
