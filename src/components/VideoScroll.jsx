@@ -57,7 +57,7 @@ const VideoScroll = () => {
           {
             params: {
               language: 'en',
-              category_ids: '320,3,100001205,200133142,200131145,200003494',
+              category_ids: '320,3,200133142,200131145,200003494,',
               page_size: 50,
               page_no: pageCounting,
               max_sale_price: '3000',
@@ -352,7 +352,8 @@ const VideoScroll = () => {
                       backgroundColor: 'transparent',
                       height: 700,
                     }}
-                    autoPlay={index === playingVideoIndex}
+                    muted
+                    autoPlay=""
                     controls={false}
                     playsInline
                     onClick={() =>
@@ -376,14 +377,7 @@ const VideoScroll = () => {
                     </div>
                   )}
                 </div>
-                <img
-                  alt={video.product_title}
-                  id="poster"
-                  className="poster"
-                  src={video.product_main_image_url}
-                  style={{ display: 'none' }}
-                  data-spm-anchor-id="a2g0o.detail.1000017.i0.73684deeF61nkB"
-                />
+
                 <a
                   href={video.promotion_link}
                   target="_blank"
