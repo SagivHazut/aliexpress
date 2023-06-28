@@ -2,27 +2,20 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Filters } from './Filters'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from './LoadingSpinner'
+import axios from 'axios'
 
 export const Item = ({
   post,
-  setItemsPerPage,
-  itemsPerPage,
-  parsedData,
-  originalData,
-  country,
   setShowFilter,
   showFilter,
-  setCountry,
   isLoading,
   setMaxPrice1,
   isLoadingMore,
   handleInputChange,
-  items,
   searchQuery,
   handleSuggestionSelect,
   searchRes,
   setSearchRes,
-  name,
 }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
@@ -59,11 +52,13 @@ export const Item = ({
     setExpandedPostId(key)
   }
 
-  const handleShareClick = (url) => {
+  const handleShareClick = async (url) => {
+    const res = await axios(`https://api.shrtco.de/v2/shorten?url=${url}`)
+    const copyUrl = res.data.result.full_short_link
     if (navigator.share) {
       navigator
         .share({
-          url: url,
+          url: copyUrl,
         })
         .then(() => {
           console.log('URL shared successfully')
@@ -77,19 +72,22 @@ export const Item = ({
   }
 
   const [copiedItemId, setCopiedItemId] = useState(null)
+  const [verfidUrl, setVerfidUrl] = useState(null)
 
-  const handleCopyUrlClick = (url, post) => {
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
+  const handleCopyUrlClick = async (url, post) => {
+    try {
+      const res = await axios(`https://api.shrtco.de/v2/shorten?url=${url}`)
+      const copyUrl = res.data.result.full_short_link
+      navigator.clipboard.writeText(copyUrl).then(() => {
         setCopiedItemId(url)
+        setVerfidUrl(copyUrl)
         setTimeout(() => {
           setCopiedItemId(null)
-        }, 5000) // 5 seconds
+        }, 5000)
       })
-      .catch((error) => {
-        console.error('Error copying URL:', error)
-      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const [isDesktop, setIsDesktop] = useState(true)
@@ -145,21 +143,12 @@ export const Item = ({
       {window.location.pathname !== '/Recommendation' && (
         <div>
           <Filters
-            setItemsPerPage={setItemsPerPage}
-            itemsPerPage={itemsPerPage}
-            parsedData={parsedData}
-            parsedDataFilter={post}
-            originalData={originalData}
-            country={country}
             setShowFilter={setShowFilter}
             showFilter={showFilter}
-            setCountry={setCountry}
             setMaxPrice1={setMaxPrice1}
             handleInputChange={handleInputChange}
-            items={items}
             searchQuery={searchQuery}
             handleSuggestionSelect={handleSuggestionSelect}
-            name={country === 'IL' ? ' ...חיפוש מבצעים החמים שלנו' : name}
             searchRes={searchRes}
             setSearchRes={setSearchRes}
           />

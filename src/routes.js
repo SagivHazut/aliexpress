@@ -12,6 +12,7 @@ import { House } from './components/House'
 import VideoScroll from './components/VideoScroll'
 import SearchBar from './components/SearchBar'
 import { SearchItems } from './components/SearchItems'
+import { Products } from './components/Product'
 
 export const routes = [
   {
@@ -69,6 +70,10 @@ export const routes = [
   {
     path: '/SearchBar',
     component: <SearchBar />,
+  },
+  {
+    path: '/Products',
+    component: <Products />,
   },
   {
     path: '/SearchItems',

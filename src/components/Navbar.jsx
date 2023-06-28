@@ -1,15 +1,19 @@
+import '../App.css'
 import React, { useState, useEffect } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
 import logonobackground from '../image/logonobackground.png'
 import Dropdown from './Dropdown'
-import { VideoCameraIcon } from '@heroicons/react/24/outline'
+import { LiaYoutube } from 'react-icons/lia'
+import { useDispatch } from 'react-redux'
 
-export const Navbar = ({ setCountry, country }) => {
-  const [isToggled, setIsToggled] = useState(() =>
-    JSON.parse(localStorage.getItem('isToggled'))
-  )
+export const Navbar = ({ country }) => {
+  const dispatch = useDispatch()
+  const [isToggled, setIsToggled] = useState(() => {
+    const storedValue = JSON.parse(localStorage.getItem('isToggled'))
+    return storedValue !== null ? storedValue : {}
+  })
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [sideBar, setSideBar] = useState(false)
@@ -22,28 +26,31 @@ export const Navbar = ({ setCountry, country }) => {
     setIsOpen(!isOpen)
   }
 
-  const handleOptionSelect = (DropdownNav) => {
-    handleDropdownSelect(DropdownNav)
-    setIsOpen(false)
-  }
   const [navigation, setNavigation] = useState([
     {
       name: 'Hot Deals',
       href: '/top-products',
       state: 'isToggled',
-      onClick: () => handleToggle('isToggled'),
+      onClick: () => handleToggle('isToggled', '6,30,34', 'top-products'),
     },
+
     {
       name: 'SuperDeals',
       href: '/SuperDeals',
       state: 'isToggled1',
-      onClick: () => handleToggle('isToggled1'),
+      onClick: () =>
+        handleToggle('isToggled1', '320,3,100001205', 'SuperDeals'),
     },
     {
       name: 'Featured Products',
       href: '/Featured',
       state: 'isToggled3',
-      onClick: () => handleToggle('isToggled3'),
+      onClick: () =>
+        handleToggle(
+          'isToggled3',
+          '200048142,200000920,200003782,100000041',
+          'Featured Products'
+        ),
     },
     {
       name: 'Our Recommendation',
@@ -56,34 +63,51 @@ export const Navbar = ({ setCountry, country }) => {
     {
       name: 'Sport',
       href: '/Sport',
-      state: 'isToggled',
-      onClick: () => handleToggle('isToggled5', handleOptionSelect()),
+      state: 'isToggled5',
+      onClick: () =>
+        handleOptionSelect(
+          '201768104,200003274,200004217,200004217,200297143',
+          'Sport'
+        ),
     },
     {
       name: 'Kids',
       href: '/Kids',
       state: 'isToggled1',
-      onClick: () => handleToggle('isToggled6', handleOptionSelect()),
+      onClick: () => handleOptionSelect('1501,26,21', 'Kids'),
     },
     {
       name: 'Women',
       href: '/Women',
       state: 'isToggled3',
-      onClick: () => handleToggle('isToggled7', handleOptionSelect()),
+      onClick: () =>
+        handleOptionSelect(
+          '200133142,200000854,200003494,200000345,201336907,201169002',
+          'Women'
+        ),
     },
     {
       name: 'Men',
       href: '/Men',
       state: 'isToggled4',
-      onClick: () => handleToggle('isToggled8', handleOptionSelect()),
+      onClick: () =>
+        handleOptionSelect(
+          '200131145,142003,200003955,12503,200003495,200000343',
+          'Men'
+        ),
     },
     {
       name: 'House',
       href: '/House',
       state: 'isToggled4',
-      onClick: () => handleToggle('isToggled9', handleOptionSelect()),
+      onClick: () =>
+        handleOptionSelect(
+          '200294142,6,628,100000039,100000308,405,1541',
+          'House'
+        ),
     },
   ])
+
   useEffect(() => {
     let isIL = country === 'IL'
 
@@ -164,14 +188,20 @@ export const Navbar = ({ setCountry, country }) => {
     localStorage.setItem('isToggled', JSON.stringify(isToggled))
   }, [isToggled])
 
-  const handleToggle = (state) => {
+  const handleToggle = (state, category_ids, name) => {
     setIsToggled((prevState) => ({
       ...prevState,
       [state]: !prevState[state],
     }))
-    clearOtherStates(state)
     setSideBar(false)
     setIsOpen(false)
+    dispatch({
+      type: 'UPDATE_PARAMS',
+      payload: {
+        category_ids: category_ids,
+        name: name,
+      },
+    })
   }
 
   const clearOtherStates = (currentState) => {
@@ -181,15 +211,29 @@ export const Navbar = ({ setCountry, country }) => {
       }
     })
   }
+  const handleOptionSelect = (categoryIds, name) => {
+    setIsOpen(false)
+    handleDropdownSelect(categoryIds, name)
+  }
+
+  const handleDropdownSelect = (categoryIds, name) => {
+    setIsToggled((prevState) => ({
+      ...prevState,
+      [name]: !prevState[name],
+    }))
+    dispatch({
+      type: 'UPDATE_PARAMS',
+      payload: {
+        category_ids: categoryIds,
+        name: name,
+      },
+    })
+  }
 
   const isCurrent = (href) => {
     return location.pathname === href
   }
 
-  const handleDropdownSelect = (selectedOption) => {
-    handleToggle(selectedOption)
-    setSideBar(false)
-  }
   const [isDesktop, setIsDesktop] = useState(true)
 
   useEffect(() => {
@@ -204,7 +248,7 @@ export const Navbar = ({ setCountry, country }) => {
   }, [])
   return (
     <>
-      <Disclosure as="nav" className="bg-gray-900">
+      <Disclosure as="nav" className="bg-gray-900 semicircle">
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-1">
@@ -222,36 +266,57 @@ export const Navbar = ({ setCountry, country }) => {
                   </Disclosure.Button>
                 </div>
 
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                  {!isDesktop && (
-                    <NavLink
-                      onClick={() => clearOtherStates()}
-                      to="/VideoScroll"
-                      className={`${
-                        isCurrent('/VideoScroll')
-                          ? 'bg-gray-700 rounded-lg border border-gray-100'
-                          : 'text-gray-100 hover:bg-gray-100 hover:text-white'
-                      } rounded-md px-3 py-2 text-sm font-medium`}
-                    >
-                      <div className="flex flex-shrink-1 items-center z-50">
-                        <VideoCameraIcon class="h-7 w-7 text-gray-500" />
-                      </div>
-                    </NavLink>
-                  )}
-                  <NavLink onClick={() => clearOtherStates()} to="/homepage">
-                    <div className="flex flex-shrink-1 items-center z-50  ml-12 mr-20">
-                      <img
-                        className="block h-8 w-auto lg:hidden z-50"
-                        src={logonobackground}
-                        alt="Your Company"
-                      />
-                      <img
-                        className="hidden h-12 w-19 lg:block z-50"
-                        src={logonobackground}
-                        alt="Your Company"
-                      />
+                <div
+                  className={
+                    !isDesktop
+                      ? 'flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'
+                      : 'flex  items-center justify-center sm:items-stretch sm:justify-start'
+                  }
+                >
+                  <div className="flex flex-shrink-1 items-center z-50 mx-auto">
+                    <div className="relative right-12 flex items-center">
+                      <NavLink
+                        onClick={() => clearOtherStates()}
+                        to="/VideoScroll"
+                      >
+                        {!isDesktop && (
+                          <div
+                            className={`${
+                              isCurrent('/VideoScroll')
+                                ? 'bg-gray-700 rounded-lg border border-gray-100'
+                                : 'text-gray-100 hover:bg-gray-100 hover:text-white'
+                            } rounded-md px-1 py-1 text-sm font-medium top-2`}
+                          >
+                            <LiaYoutube className="h-7 w-7 text-gray-500 animated-youtube-icon" />
+                          </div>
+                        )}
+                      </NavLink>
                     </div>
-                  </NavLink>
+
+                    <div
+                      className={
+                        !isDesktop
+                          ? 'relative right-4 top-14'
+                          : 'absolute flex items-center justify-center inset-0 top-24'
+                      }
+                    >
+                      <NavLink
+                        onClick={() => clearOtherStates()}
+                        to="/homepage"
+                      >
+                        <img
+                          className="block h-12 w-auto lg:hidden z-50"
+                          src={logonobackground}
+                          alt="Your Company"
+                        />
+                        <img
+                          className="hidden h-14 w-18 lg:block z-50"
+                          src={logonobackground}
+                          alt="Your Company"
+                        />
+                      </NavLink>
+                    </div>
+                  </div>
 
                   <div className="hidden sm:ml-10 sm:block">
                     <div className="flex space-x-9">
@@ -282,6 +347,7 @@ export const Navbar = ({ setCountry, country }) => {
                     </div>
                   </div>
                 </div>
+
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"></div>
               </div>
             </div>

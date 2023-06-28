@@ -121,6 +121,25 @@
   top: 56px;
   left: 12px;
 }
+.semicircle {
+  position: relative;
+  background: #111827;
+  height: 10vh;
+}
+
+.semicircle::before {
+  position: absolute;
+  content: '';
+  left: 50%;
+  z-index: 10;
+  width: 141px;
+  height: 204px;
+  border-radius: 50%;
+  background: inherit;
+  transform: translateX(-50%) translateY(30%);
+  bottom: 0px;
+  z-index: 0;
+}
 @keyframes lds-roller {
   0% {
     transform: rotate(0deg);
@@ -128,4 +147,20 @@
   100% {
     transform: rotate(360deg);
   }
+  
+}
+@keyframes pulsateAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animated-youtube-icon {
+  animation: pulsateAnimation 1.5s ease-in-out infinite;
 }

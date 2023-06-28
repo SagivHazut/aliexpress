@@ -144,19 +144,18 @@ const VideoScroll = ({ setCountry, country }) => {
       }
     })
 
-    return () => {
-      visibleVideos.forEach((video, index) => {
-        const videoElementRef = videoElementsRef.current[index]
-        if (videoElementRef) {
-          const videoElement = videoElementRef.current
-          videoElement.removeEventListener('ended', () => {
-            handleVideoEnded(videoElement, index)
-          })
-        }
-      })
+    return (index) => {
+      if (videoElementsRef.current.length > 0) {
+        videoElementsRef.current.forEach((videoElement) => {
+          if (videoElement.current) {
+            videoElement.current.removeEventListener('ended', () => {
+              handleVideoEnded(videoElement.current, index)
+            })
+          }
+        })
+      }
     }
   }, [visibleVideos])
-
   useEffect(() => {
     const handleIntersection = (entries) => {
       entries.forEach((entry) => {

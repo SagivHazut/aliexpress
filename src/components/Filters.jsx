@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
-import { FunnelIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
 import LanguageDropdown from './CustomOption'
 import SearchBar from './SearchBar'
 
 export const Filters = ({
-  setLayout,
-  country,
   showFilter,
   setShowFilter,
-  setCountry,
   setMaxPrice1,
   handleInputChange,
   searchQuery,
@@ -19,9 +15,11 @@ export const Filters = ({
   const [isOpen, setIsOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [maxPrice, setMaxPrice] = useState('')
-  const [selectedFilter2, setSelectedFilter2] = useState('')
   const [applyCountry, setApplyCountry] = useState('')
 
+  const [country, setCountry] = useState(
+    localStorage.getItem('country') || 'USA'
+  )
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
     setShowFilter(!showFilter)
@@ -36,10 +34,8 @@ export const Filters = ({
     setShowFilter(false)
     setIsOpen(false)
     setMaxPrice1(maxPrice)
-    setCountry(applyCountry)
     window.location.reload()
   }
-
   return (
     <>
       {searchOpen && (
@@ -92,7 +88,7 @@ export const Filters = ({
       <div className="fixed top-5 right-4 z-50 flex items-center">
         <div className="relative inline-block ">
           <button
-            className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
+            className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2  rounded flex items-center fixed top-5 right-24 px-5"
             onClick={toggleSearch}
           >
             <svg

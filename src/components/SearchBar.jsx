@@ -4,8 +4,8 @@ import ErrorPopup from './ErrorPopup'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function SearchBar({ setSearchRes, searchRes }) {
-  const name = 'Search in Hot Deals...'
+function SearchBar({ setSearchRes }) {
+  const name = 'Search...'
   const [showFilter, setShowFilter] = useState(false)
   const [value, setValue] = useState('')
   const [error, setError] = useState(null)
