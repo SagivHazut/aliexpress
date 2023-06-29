@@ -251,8 +251,8 @@ export const Navbar = ({ country }) => {
       <Disclosure as="nav" className="bg-gray-900 semicircle">
         {({ open }) => (
           <>
-            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-1">
-              <div className="relative flex h-20 items-center justify-between">
+            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-1 ">
+              <div className="relative flex h-20 items-center justify-center">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   <Disclosure.Button
                     className="fixed top-5 left-4 z-50 text-2xl text-white  hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 bg-gray-900"
@@ -318,8 +318,8 @@ export const Navbar = ({ country }) => {
                     </div>
                   </div>
 
-                  <div className="hidden sm:ml-10 sm:block">
-                    <div className="flex space-x-9">
+                  <div className="relative hidden sm:ml-10 sm:block right-4 ">
+                    <div className="flex space-x-9 ">
                       {navigation.map((item) => (
                         <NavLink
                           onClick={item.onClick}
@@ -329,7 +329,7 @@ export const Navbar = ({ country }) => {
                             isCurrent(item.href)
                               ? 'bg-gray-600 text-white'
                               : 'text-gray-100 hover:bg-gray-100 hover:text-white'
-                          } rounded-md px-3 py-2 text-sm font-medium`}
+                          } rounded-md px-3 py-2 text-sm font-medium `}
                           aria-current={
                             isCurrent(item.href) ? 'page' : undefined
                           }

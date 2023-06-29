@@ -336,7 +336,7 @@ export const Item = ({
                                 )}
                               </div>
                             </a>
-                            <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
+                            <a className="relative rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
                               {'sales'}: <strong>{item.lastest_volume}</strong>{' '}
                               <br />
                               {'positive Feedback'}:{' '}
