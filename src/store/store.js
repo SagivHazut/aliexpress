@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 const initialState = {
   category_ids: '',
   name: '',
+  searchRes: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         category_ids: action.payload.category_ids,
         name: action.payload.name,
+      }
+    case 'UPDATE_SEARCH_RES':
+      return {
+        ...state,
+        searchRes: action.payload.searchRes,
       }
     default:
       return state

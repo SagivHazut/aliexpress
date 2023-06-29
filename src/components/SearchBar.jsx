@@ -3,14 +3,16 @@ import React, { useState } from 'react'
 import ErrorPopup from './ErrorPopup'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-function SearchBar({ setSearchRes }) {
+function SearchBar({}) {
   const name = 'Search...'
   const [showFilter, setShowFilter] = useState(false)
   const [value, setValue] = useState('')
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   async function fetchProductDetails(value) {
     const storedCountry = localStorage.getItem('country')
@@ -40,7 +42,7 @@ function SearchBar({ setSearchRes }) {
       setLoading(false)
 
       if (response.status === 200) {
-        setSearchRes(newData)
+        dispatch({ type: 'UPDATE_SEARCH_RES', payload: { searchRes: newData } })
 
         if (window.location.pathname !== '/SearchItems') {
           navigate('/SearchItems')

@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 import Item from './Item'
-import Pages from './Pages'
-import SearchBar from './SearchBar'
-import { SearchItems } from './SearchItems'
 import Papa from 'papaparse'
 import csvData from '../csv/Recommendation.csv'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export const Recommendation = ({ country, setCountry }) => {
-  const location = useLocation()
+export const Recommendation = () => {
   const [parsedData, setParsedData] = useState([])
   const [originalData, setOriginalData] = useState([])
 

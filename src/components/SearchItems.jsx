@@ -4,8 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import LoadingSpinner from './LoadingSpinner'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-export const SearchItems = ({ setSearchRes, searchRes }) => {
+export const SearchItems = () => {
   const { page } = useParams()
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
@@ -17,7 +19,10 @@ export const SearchItems = ({ setSearchRes, searchRes }) => {
   const [searchOpen, setSearchOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const dispatch = useDispatch()
 
+  const searchRes = useSelector((state) => state.searchRes)
+  console.log(searchRes)
   useEffect(() => {
     if (searchRes === null) {
       navigate('/top-products')
@@ -115,7 +120,10 @@ export const SearchItems = ({ setSearchRes, searchRes }) => {
       } else if (response.status === 200) {
         setIsLoading(false)
         setIsLoadingMore(false)
-        setSearchRes((prevData) => [...prevData, ...newData])
+        dispatch({
+          type: 'UPDATE_SEARCH_RES',
+          payload: { searchRes: [...searchRes, ...newData] },
+        })
         return response.data
       } else {
         setIsLoading(true)
@@ -224,7 +232,7 @@ export const SearchItems = ({ setSearchRes, searchRes }) => {
           >
             <div className="bg-white border border-gray-300 rounded shadow-lg p-4 relative">
               <div className="flex justify-between items-center mb-4">
-                <SearchBar setSearchRes={setSearchRes} searchRes={searchRes} />
+                <SearchBar />
                 <button
                   className="text-gray-600 hover:text-gray-800 absolute top-0 right-0"
                   onClick={toggleSearch}
