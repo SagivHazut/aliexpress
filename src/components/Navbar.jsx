@@ -246,6 +246,7 @@ export const Navbar = ({ country }) => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
   return (
     <>
       <Disclosure as="nav" className="bg-gray-900 semicircle">
@@ -274,7 +275,7 @@ export const Navbar = ({ country }) => {
                   }
                 >
                   <div className="flex flex-shrink-1 items-center z-50 mx-auto">
-                    <div className="relative right-12 flex items-center">
+                    <div className="relative right-16 flex items-center">
                       <NavLink
                         onClick={() => clearOtherStates()}
                         to="/VideoScroll"
@@ -300,21 +301,40 @@ export const Navbar = ({ country }) => {
                           : 'absolute flex items-center justify-center inset-0 top-24'
                       }
                     >
-                      <NavLink
-                        onClick={() => clearOtherStates()}
-                        to="/homepage"
-                      >
-                        <img
-                          className="block h-12 w-auto lg:hidden z-50"
-                          src={logonobackground}
-                          alt="Your Company"
-                        />
-                        <img
-                          className="hidden h-14 w-18 lg:block z-50"
-                          src={logonobackground}
-                          alt="Your Company"
-                        />
-                      </NavLink>
+                      {location.pathname === '/VideoScroll' ? (
+                        <NavLink
+                          style={{ position: 'relative', bottom: 55 }}
+                          onClick={() => clearOtherStates()}
+                          to="/homepage"
+                        >
+                          <img
+                            className="block h-12 w-auto lg:hidden z-50"
+                            src={logonobackground}
+                            alt="Your Company"
+                          />
+                          <img
+                            className="hidden h-14 w-18 lg:block z-50"
+                            src={logonobackground}
+                            alt="Your Company"
+                          />
+                        </NavLink>
+                      ) : (
+                        <NavLink
+                          onClick={() => clearOtherStates()}
+                          to="/homepage"
+                        >
+                          <img
+                            className="block h-12 w-auto lg:hidden z-50"
+                            src={logonobackground}
+                            alt="Your Company"
+                          />
+                          <img
+                            className="hidden h-14 w-18 lg:block z-50"
+                            src={logonobackground}
+                            alt="Your Company"
+                          />
+                        </NavLink>
+                      )}
                     </div>
                   </div>
 
@@ -325,7 +345,7 @@ export const Navbar = ({ country }) => {
                           onClick={item.onClick}
                           key={item.name}
                           to={item.href}
-                          className={`${
+                          className={`navbar-font-bold ${
                             isCurrent(item.href)
                               ? 'bg-gray-600 text-white'
                               : 'text-gray-100 hover:bg-gray-100 hover:text-white'

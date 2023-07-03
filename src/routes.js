@@ -17,7 +17,7 @@ import { Products } from './components/Product'
 export const routes = [
   {
     path: '/',
-    redirect: '/top-products',
+    redirect: '/Recommendation',
   },
   {
     path: '/top-products',

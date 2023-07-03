@@ -1,11 +1,22 @@
 .App {
   text-align: center;
-  
+  font-family: 'Roboto', sans-serif;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.text-font{
+  font-family: 'Roboto', sans-serif;
+}
+.text-font-bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
+}
+.navbar-font-bold{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
 }
 
 @media (prefers-reduced-motion: no-preference) {

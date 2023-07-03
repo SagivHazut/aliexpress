@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import Item from './Item'
 import { useSelector } from 'react-redux'
+import ErrorPopup from './ErrorPopup'
 
 export const Products = ({ setSearchRes, searchRes }) => {
   const { category_ids } = useSelector((state) => state)
@@ -18,6 +19,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
   const [prevNumber, setPrevNumber] = useState(0)
   const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
   const [reachedBottom, setReachedBottom] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (!initialFetchCompleted) {
@@ -34,6 +36,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
   async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
+
     try {
       setIsLoadingMore(true)
 
@@ -75,6 +78,11 @@ export const Products = ({ setSearchRes, searchRes }) => {
       setIsLoading(false)
       setIsLoadingMore(false)
     } catch (error) {
+      setError(
+        storedCountry === 'IL'
+          ? 'לפעמים צריך רק רענון קטן בשביל שזה יעבוד '
+          : " Often, a slight refresh is all that's needed to optimize its performance"
+      )
       setIsLoading(true)
       setIsLoadingMore(true)
     }
@@ -83,7 +91,11 @@ export const Products = ({ setSearchRes, searchRes }) => {
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value)
   }
-
+  const handleCloseError = () => {
+    setError(null)
+    setShowFilter(false)
+    fetchData()
+  }
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
 
@@ -125,6 +137,8 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
   return (
     <>
+      {error && <ErrorPopup message={error} onClose={handleCloseError} />}
+
       <div
         className={`fixed ${
           showFilter ? 'z-50 bg-black opacity-50 inset-0 ' : ''

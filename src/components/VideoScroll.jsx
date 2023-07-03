@@ -5,6 +5,7 @@ import { PauseCircleIcon } from '@heroicons/react/24/outline'
 import CookiesPopup from './CookiesPopup'
 import { Cookies } from 'react-cookie'
 import LanguageDropdown from './CustomOption'
+import '../App.css'
 
 const VideoScroll = ({ setCountry, country }) => {
   const [videos, setVideos] = useState([])
@@ -42,10 +43,8 @@ const VideoScroll = ({ setCountry, country }) => {
     const autoplayPermission = cookies.get('autoplayPermission')
 
     if (autoplayPermission === undefined) {
-      // Cookie doesn't exist, check for autoplay permission
       isAutoplayBlocked()
     } else {
-      // Use the existing cookie value
       setAutoplayBlocked(!autoplayPermission)
     }
   }, [])
@@ -426,29 +425,16 @@ const VideoScroll = ({ setCountry, country }) => {
                     </span>
                   </span>
                 </a>
-                <a
-                  href={video.seller_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="seller-link"
-                  style={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    left: '10px',
-                    fontSize: '12px',
-                    color: 'white',
-                  }}
-                >
-                  {video.seller_name}
-                </a>
                 <div
                   className="duration-bar"
                   style={{
                     position: 'absolute',
                     bottom: 0,
+                    left: '50%',
+                    transform: `translateX(-50%)`,
                     width: `${percentage}%`,
-                    height: '2px',
-                    backgroundColor: 'red',
+                    height: '3px',
+                    backgroundColor: `hsl(0, 90%, ${50 + percentage / 1.5}%)`,
                   }}
                 ></div>
               </div>
