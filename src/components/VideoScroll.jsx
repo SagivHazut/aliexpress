@@ -6,6 +6,8 @@ import CookiesPopup from './CookiesPopup'
 import { Cookies } from 'react-cookie'
 import LanguageDropdown from './CustomOption'
 import '../App.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateVisible } from '../store/actions'
 
 const VideoScroll = ({ setCountry, country }) => {
   const [videos, setVideos] = useState([])
@@ -21,6 +23,9 @@ const VideoScroll = ({ setCountry, country }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [applyCountry, setApplyCountry] = useState(country)
+  const visible = useSelector((state) => state.visible)
+  const dispatch = useDispatch()
+  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset)
 
   const isAutoplayBlocked = () => {
     const testVideo = document.createElement('video')
@@ -90,7 +95,7 @@ const VideoScroll = ({ setCountry, country }) => {
       localStorage.setItem('country', applyCountry)
       window.location.reload()
     }
-  }, [pageCounting, applyCountry])
+  }, [pageCounting, applyCountry, visible])
 
   useEffect(() => {
     const filteredVideos = videos.filter((video) => video.product_video_url)
@@ -316,14 +321,9 @@ const VideoScroll = ({ setCountry, country }) => {
   return (
     <>
       <div
-        className="fixed flex justify-center items-center z-50"
-        style={{
-          height: '0vh',
-          right: 15,
-          top: 40,
-        }}
+        className="fixed flex justify-center items-center "
+        style={{ right: 15, top: 20, zIndex: 9999 }}
       >
-        {' '}
         <LanguageDropdown
           setCountry={setCountry}
           country={country}
@@ -331,12 +331,18 @@ const VideoScroll = ({ setCountry, country }) => {
           applyCountry={applyCountry}
         />
       </div>
+
       {autoplayBlocked && (
         <CookiesPopup handleAutoplayPermission={handleAutoplayPermission} />
       )}
       <div
         ref={containerRef}
-        style={{ height: '857px', overflow: 'scroll' }}
+        style={{
+          height: '857px',
+          overflow: 'scroll',
+          top: 0,
+          position: 'absolute',
+        }}
         onTouchStart={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -369,6 +375,7 @@ const VideoScroll = ({ setCountry, country }) => {
                   style={{
                     backgroundColor: 'transparent',
                     height: 700,
+                    top: 10,
                   }}
                   muted
                   autoPlay=""
@@ -439,7 +446,12 @@ const VideoScroll = ({ setCountry, country }) => {
           )
         })}
       </div>
-      {isLoading && <LoadingSpinner />}
+
+      {isLoading && (
+        <div style={{ top: 60, position: 'relative' }}>
+          <LoadingSpinner />
+        </div>
+      )}
     </>
   )
 }

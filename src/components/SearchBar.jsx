@@ -5,12 +5,14 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-function SearchBar({}) {
+function SearchBar() {
   const name = 'Search...'
   const [showFilter, setShowFilter] = useState(false)
   const [value, setValue] = useState('')
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [sorting, setSorting] = useState('LAST_VOLUME_DESC')
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -30,7 +32,7 @@ function SearchBar({}) {
             page_no: 1,
             max_sale_price: '1000',
             min_sale_price: '',
-            sort: 'SALE_PRICE_ASC',
+            sort: sorting,
             keywords: value,
           },
           mode: 'no-cors',
@@ -50,6 +52,7 @@ function SearchBar({}) {
 
         return newData
       } else {
+        setSorting('SALE_PRICE_ASC')
         setError(
           !storedCountry === 'IL'
             ? 'No results found, please try again'
@@ -58,6 +61,7 @@ function SearchBar({}) {
       }
     } catch (error) {
       setLoading(false)
+      setSorting('SALE_PRICE_ASC')
 
       setError(
         storedCountry === 'IL'

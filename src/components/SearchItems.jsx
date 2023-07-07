@@ -23,9 +23,9 @@ export const SearchItems = () => {
   const storedCountry = localStorage.getItem('country')
   const [exchangeRate, setExchangeRate] = useState(null)
   const searchRes = useSelector((state) => state.searchRes)
+  const visible = useSelector((state) => state.visible)
 
   useEffect(() => {
-    // Fetch exchange rate from API
     fetch('https://api.exchangerate-api.com/v4/latest/USD')
       .then((response) => response.json())
       .then((data) => {
@@ -243,11 +243,9 @@ export const SearchItems = () => {
       {searchOpen && (
         <>
           <div
-            className="fixed flex justify-center items-center z-50 "
+            className="fixed inset-0 flex justify-center items-center z-50"
             style={{
-              height: '0vh',
-              left: 0,
-              right: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
             }}
           >
             <div className="bg-white border border-gray-300 rounded shadow-lg p-4 relative">
@@ -277,7 +275,12 @@ export const SearchItems = () => {
           </div>
         </>
       )}{' '}
-      <div className="fixed top-5 right-4 z-50 flex items-center ">
+      <div
+        className={`navbar ${
+          visible ? 'slide-in' : 'slide-out'
+        } fixed top-5 right-4 z-50 flex items-center `}
+        style={{ zIndex: '9000' }}
+      >
         <div className="relative inline-block ">
           <button
             className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"

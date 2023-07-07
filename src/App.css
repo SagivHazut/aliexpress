@@ -132,6 +132,19 @@
   top: 56px;
   left: 12px;
 }
+.navbar {
+  /* Your existing styles */
+  transition: transform 0.3s ease;
+}
+
+.slide-in {
+  transform: translateY(0%);
+}
+
+.slide-out {
+  transform: translateY(-175%);
+}
+
 .semicircle {
   position: relative;
   background: #111827;

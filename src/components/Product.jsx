@@ -55,7 +55,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
             min_sale_price: '300',
-            sort: 'SALE_PRICE_DESC',
+            sort: 'LAST_VOLUME_DESC',
           },
           mode: 'no-cors',
         }
@@ -65,7 +65,6 @@ export const Products = ({ setSearchRes, searchRes }) => {
         ...item,
         name: 'aliexpress',
       }))
-      console.log(newData)
       if (response.status === 500) {
         fetchData(page)
       }

@@ -11,11 +11,6 @@ export const Item = ({
   isLoading,
   setMaxPrice1,
   isLoadingMore,
-  handleInputChange,
-  searchQuery,
-  handleSuggestionSelect,
-  searchRes,
-  setSearchRes,
 }) => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
@@ -151,20 +146,14 @@ export const Item = ({
 
   return (
     <>
-      {window.location.pathname !== '/Recommendation' && (
-        <div>
-          <Filters
-            setShowFilter={setShowFilter}
-            showFilter={showFilter}
-            setMaxPrice1={setMaxPrice1}
-            handleInputChange={handleInputChange}
-            searchQuery={searchQuery}
-            handleSuggestionSelect={handleSuggestionSelect}
-            searchRes={searchRes}
-            setSearchRes={setSearchRes}
-          />
-        </div>
-      )}
+      <div>
+        <Filters
+          setShowFilter={setShowFilter}
+          showFilter={showFilter}
+          setMaxPrice1={setMaxPrice1}
+        />
+      </div>
+
       <>
         <button
           onClick={scrollToTop}

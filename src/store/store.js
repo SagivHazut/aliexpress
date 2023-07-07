@@ -6,6 +6,7 @@ const initialState = {
   category_ids: '',
   name: '',
   searchRes: [],
+  visible: true,
 }
 
 const reducer = (state = initialState, action) => {
@@ -20,6 +21,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         searchRes: action.payload.searchRes,
+      }
+    case 'UPDATE_VISIBLE':
+      return {
+        ...state,
+        visible: action.payload.visible,
       }
     default:
       return state

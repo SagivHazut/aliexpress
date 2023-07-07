@@ -8,7 +8,7 @@ import Dropdown from './Dropdown'
 import { LiaYoutube } from 'react-icons/lia'
 import { useDispatch } from 'react-redux'
 
-export const Navbar = ({ country }) => {
+export const Navbar = ({ country, isVisible }) => {
   const dispatch = useDispatch()
   const [isToggled, setIsToggled] = useState(() => {
     const storedValue = JSON.parse(localStorage.getItem('isToggled'))
@@ -147,7 +147,6 @@ export const Navbar = ({ country }) => {
         return updatedDropdownNav
       })
     } else {
-      // Revert the changes back to original values
       setNavigation((prevNavigation) => {
         const updatedNavigation = prevNavigation.map((item) => {
           if (item.name === 'מבצעים חמים') {
@@ -249,14 +248,20 @@ export const Navbar = ({ country }) => {
 
   return (
     <>
-      <Disclosure as="nav" className="bg-gray-900 semicircle">
+      <Disclosure
+        as="nav"
+        className={`navbar ${
+          isVisible ? 'slide-in' : 'slide-out'
+        } bg-gray-900 semicircle`}
+        style={{ position: 'sticky', top: '0', zIndex: '9000' }}
+      >
         {({ open }) => (
           <>
-            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-1 ">
-              <div className="relative flex h-20 items-center justify-center">
+            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-1">
+              <div className=" relative flex h-20 items-center justify-center">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   <Disclosure.Button
-                    className="fixed top-5 left-4 z-50 text-2xl text-white  hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 bg-gray-900"
+                    className=" top-5 left-4 z-50 text-2xl text-white  hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 bg-gray-900"
                     onClick={toggleDropdown}
                   >
                     {open ? (
@@ -301,40 +306,21 @@ export const Navbar = ({ country }) => {
                           : 'absolute flex items-center justify-center inset-0 top-24'
                       }
                     >
-                      {location.pathname === '/VideoScroll' ? (
-                        <NavLink
-                          style={{ position: 'relative', bottom: 55 }}
-                          onClick={() => clearOtherStates()}
-                          to="/homepage"
-                        >
-                          <img
-                            className="block h-12 w-auto lg:hidden z-50"
-                            src={logonobackground}
-                            alt="Your Company"
-                          />
-                          <img
-                            className="hidden h-14 w-18 lg:block z-50"
-                            src={logonobackground}
-                            alt="Your Company"
-                          />
-                        </NavLink>
-                      ) : (
-                        <NavLink
-                          onClick={() => clearOtherStates()}
-                          to="/homepage"
-                        >
-                          <img
-                            className="block h-12 w-auto lg:hidden z-50"
-                            src={logonobackground}
-                            alt="Your Company"
-                          />
-                          <img
-                            className="hidden h-14 w-18 lg:block z-50"
-                            src={logonobackground}
-                            alt="Your Company"
-                          />
-                        </NavLink>
-                      )}
+                      <NavLink
+                        onClick={() => clearOtherStates()}
+                        to="/homepage"
+                      >
+                        <img
+                          className="block h-12 w-auto lg:hidden z-50"
+                          src={logonobackground}
+                          alt="Your Company"
+                        />
+                        <img
+                          className="hidden h-14 w-18 lg:block z-50"
+                          src={logonobackground}
+                          alt="Your Company"
+                        />
+                      </NavLink>
                     </div>
                   </div>
 
@@ -367,8 +353,6 @@ export const Navbar = ({ country }) => {
                     </div>
                   </div>
                 </div>
-
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"></div>
               </div>
             </div>
             <Disclosure.Panel>
