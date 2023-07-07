@@ -10,10 +10,10 @@ export const Recommendation = () => {
   const [originalData, setOriginalData] = useState([])
 
   const data2 = parsedData.map((item) => ({
-    original_price_currency: item['Origin Price'],
+    original_price_currency: item['Origin Price'].replace('USD', ''),
     product_main_image_url: item['Image Url'],
-    original_price: item['Origin Price'],
-    sale_price: item['Discount Price'],
+    original_price: item['Origin Price'].replace('USD', ''),
+    sale_price: item['Discount Price'].replace('USD', ''),
     lastest_volume: item['Sales180Day'],
     product_title: item['Product Desc'],
     discount: item['Discount'],

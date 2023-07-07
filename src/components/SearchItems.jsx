@@ -20,9 +20,23 @@ export const SearchItems = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const dispatch = useDispatch()
-
+  const storedCountry = localStorage.getItem('country')
+  const [exchangeRate, setExchangeRate] = useState(null)
   const searchRes = useSelector((state) => state.searchRes)
-  console.log(searchRes)
+
+  useEffect(() => {
+    // Fetch exchange rate from API
+    fetch('https://api.exchangerate-api.com/v4/latest/USD')
+      .then((response) => response.json())
+      .then((data) => {
+        const rate = data.rates.ILS
+        setExchangeRate(rate)
+      })
+      .catch((error) => {
+        console.error('Error fetching exchange rate:', error)
+      })
+  }, [])
+
   useEffect(() => {
     if (searchRes === null) {
       navigate('/top-products')
@@ -433,9 +447,18 @@ export const SearchItems = () => {
                               {item.sale_price !== item.original_price ? (
                                 <>
                                   <div>
-                                    <strong>{item.sale_price}$</strong>{' '}
+                                    <strong>
+                                      {storedCountry === 'IL'
+                                        ? `${
+                                            (
+                                              item.sale_price * exchangeRate
+                                            ).toFixed(2) + ' ₪'
+                                          }`
+                                        : `${'$' + item.sale_price}`}
+                                    </strong>
                                     <span className="text-green-600">
-                                      <br /> &nbsp;({'save'} {item.discount})
+                                      <br /> &nbsp;{'save'}
+                                      {item.discount}
                                     </span>
                                   </div>
                                   <div>
@@ -445,13 +468,27 @@ export const SearchItems = () => {
                                         textDecoration: 'line-through',
                                       }}
                                     >
-                                      {item.original_price} $
+                                      {storedCountry === 'IL'
+                                        ? `${
+                                            (
+                                              item.original_price * exchangeRate
+                                            ).toFixed(2) + ' ₪'
+                                          }`
+                                        : `${'$' + item.original_price}`}
                                     </span>
                                   </div>
                                 </>
                               ) : (
                                 <div>
-                                  <strong>{item.sale_price} $</strong>{' '}
+                                  <strong>
+                                    {storedCountry === 'IL'
+                                      ? `${
+                                          (
+                                            item.sale_price * exchangeRate
+                                          ).toFixed(2) + ' ₪'
+                                        }`
+                                      : `${'$' + item.sale_price}`}
+                                  </strong>
                                 </div>
                               )}
                             </div>

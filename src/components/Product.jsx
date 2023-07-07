@@ -61,7 +61,11 @@ export const Products = ({ setSearchRes, searchRes }) => {
         }
       )
 
-      const newData = response.data
+      const newData = response.data.map((item) => ({
+        ...item,
+        name: 'aliexpress',
+      }))
+      console.log(newData)
       if (response.status === 500) {
         fetchData(page)
       }

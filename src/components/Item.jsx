@@ -21,6 +21,22 @@ export const Item = ({
   const descriptionRef = useRef(null)
   const [uniquePosts, setUniquePosts] = useState([])
   const [isVisible, setIsVisible] = useState(false)
+  const storedCountry = localStorage.getItem('country')
+  const [exchangeRate, setExchangeRate] = useState(null)
+
+  useEffect(() => {
+    // Fetch exchange rate from API
+    fetch('https://api.exchangerate-api.com/v4/latest/USD')
+      .then((response) => response.json())
+      .then((data) => {
+        const rate = data.rates.ILS
+        setExchangeRate(rate)
+      })
+      .catch((error) => {
+        console.error('Error fetching exchange rate:', error)
+      })
+  }, [])
+
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
     setIsVisible(scrollTop > 300)
@@ -36,17 +52,6 @@ export const Item = ({
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  // useEffect(() => {
-  //   const descriptionElement = descriptionRef.current
-
-  //   if (descriptionElement) {
-  //     const { clientHeight, scrollHeight } = descriptionElement
-  //     if (scrollHeight > clientHeight) {
-  //       setExpandedPostId(null)
-  //     }
-  //   }
-  // }, [post])
 
   const handleShowMoreClick = (key) => {
     setExpandedPostId(key)
@@ -74,17 +79,23 @@ export const Item = ({
   const [copiedItemId, setCopiedItemId] = useState(null)
   const [verfidUrl, setVerfidUrl] = useState(null)
 
-  const handleCopyUrlClick = async (url, post) => {
+  const handleCopyUrlClick = async (url) => {
     try {
-      const res = await axios(`https://api.shrtco.de/v2/shorten?url=${url}`)
-      const copyUrl = res.data.result.full_short_link
-      navigator.clipboard.writeText(copyUrl).then(() => {
+      const response = await axios.get(
+        `https://api.shrtco.de/v2/shorten?url=${url}`
+      )
+      const copyUrl = response.data.result.full_short_link
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(copyUrl)
         setCopiedItemId(url)
         setVerfidUrl(copyUrl)
         setTimeout(() => {
           setCopiedItemId(null)
         }, 5000)
-      })
+      } else {
+        console.log('Clipboard API not supported')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -186,21 +197,28 @@ export const Item = ({
                               alt=""
                               className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
                             />
+
                             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-                            <img
-                              src={
-                                'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
-                              }
-                              alt="AliExpress Logo"
-                              // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
-                              style={{
-                                display: 'flex',
-                                position: 'absolute',
-                                top: -10,
-                                left: -40,
-                                transform: 'rotate(310deg)  ',
-                              }}
-                            />
+                            {item.name === 'aliexpress' ? (
+                              <>
+                                <img
+                                  src={
+                                    'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  alt="AliExpress Logo"
+                                  // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
+                                  style={{
+                                    display: 'flex',
+                                    position: 'absolute',
+                                    top: -10,
+                                    left: -40,
+                                    transform: 'rotate(310deg)  ',
+                                  }}
+                                />
+                              </>
+                            ) : (
+                              <></>
+                            )}
                           </div>
                         </a>
 
@@ -247,31 +265,18 @@ export const Item = ({
                                 stroke="currentColor"
                                 className="w-6 h-6 text-font-bold"
                               ></svg>
+
                               {copiedItemId === item.promotion_link ? (
                                 <p className="text-font-bold">
-                                  Copied{' '}
+                                  Copied
                                   <span role="img" aria-label="Thumbs Up">
                                     👍
                                   </span>
                                 </p>
                               ) : (
-                                <div>
-                                  {isDesktop ? (
-                                    <div
-                                      className="text-font-bold"
-                                      style={{
-                                        marginLeft: 60,
-                                      }}
-                                    >
-                                      Copy Links
-                                      <hr />
-                                    </div>
-                                  ) : (
-                                    <div className="text-font-bold">
-                                      Copy Link
-                                      <hr />
-                                    </div>
-                                  )}
+                                <div className="text-font-bold">
+                                  Copy Link
+                                  <hr />
                                 </div>
                               )}
                             </button>
@@ -311,9 +316,18 @@ export const Item = ({
                                 {item.sale_price !== item.original_price ? (
                                   <>
                                     <div>
-                                      <strong>{item.sale_price}$</strong>{' '}
+                                      <strong>
+                                        {storedCountry === 'IL'
+                                          ? `${
+                                              (
+                                                item.sale_price * exchangeRate
+                                              ).toFixed(2) + ' ₪'
+                                            }`
+                                          : `${'$' + item.sale_price}`}
+                                      </strong>
                                       <span className="text-green-600">
-                                        <br /> &nbsp;({'save'} {item.discount})
+                                        <br /> &nbsp;{'save'}
+                                        {item.discount}
                                       </span>
                                     </div>
                                     <div>
@@ -323,21 +337,36 @@ export const Item = ({
                                           textDecoration: 'line-through',
                                         }}
                                       >
-                                        {item.original_price} $
+                                        {storedCountry === 'IL'
+                                          ? `${
+                                              (
+                                                item.original_price *
+                                                exchangeRate
+                                              ).toFixed(2) + ' ₪'
+                                            }`
+                                          : `${'$' + item.original_price}`}
                                       </span>
                                     </div>
                                   </>
                                 ) : (
                                   <div>
-                                    <strong>{item.sale_price} $</strong>{' '}
+                                    <strong>
+                                      {storedCountry === 'IL'
+                                        ? `${
+                                            (
+                                              item.sale_price * exchangeRate
+                                            ).toFixed(2) + ' ₪'
+                                          }`
+                                        : `${'$' + item.sale_price}`}
+                                    </strong>
                                   </div>
                                 )}
                               </div>
                             </a>
                             <a className="relative rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
-                              {'sales'}: <strong>{item.lastest_volume}</strong>{' '}
+                              {'sales'}: <strong>{item.lastest_volume}</strong>
                               <br />
-                              {'positive Feedback'}:{' '}
+                              {'positive Feedback'}:
                               <strong>{item.evaluate_rate}</strong>
                             </a>
                           </div>

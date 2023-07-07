@@ -50,6 +50,8 @@ const VideoScroll = ({ setCountry, country }) => {
   }, [])
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
+
       const storedCountry = localStorage.getItem('country')
       try {
         const response = await axios.get(
@@ -332,116 +334,112 @@ const VideoScroll = ({ setCountry, country }) => {
       {autoplayBlocked && (
         <CookiesPopup handleAutoplayPermission={handleAutoplayPermission} />
       )}
+      <div
+        ref={containerRef}
+        style={{ height: '857px', overflow: 'scroll' }}
+        onTouchStart={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
+      >
+        {uniquePosts.map((video, index) => {
+          const videoElementRef =
+            videoElementsRef.current[index] || React.createRef()
+          videoElementsRef.current[index] = videoElementRef
 
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <div
-          ref={containerRef}
-          style={{ height: '857px', overflow: 'scroll' }}
-          onTouchStart={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-          }}
-        >
-          {uniquePosts.map((video, index) => {
-            const videoElementRef =
-              videoElementsRef.current[index] || React.createRef()
-            videoElementsRef.current[index] = videoElementRef
-
-            return (
-              <div
-                className="video-container"
-                style={{ background: 'black', position: 'relative' }}
-                key={index}
-              >
-                <div className="video-wrap">
-                  <video
-                    width="560"
-                    height="315"
-                    data-index={index}
-                    poster={video.product_image_url}
-                    className="disable-download"
-                    controlsList="nodownload"
-                    id={`video-${video.id}`}
-                    src={video.product_video_url.replace(
-                      'http://cloud.video.taobao.com',
-                      'https://video.aliexpress-media.com'
-                    )}
-                    style={{
-                      backgroundColor: 'transparent',
-                      height: 700,
-                    }}
-                    muted
-                    autoPlay=""
-                    controls={false}
-                    playsInline
-                    onClick={() =>
-                      handleVideoClick(videoElementRef.current, index)
-                    }
-                    ref={videoElementRef}
-                  ></video>
-                  {!currentVideo && currentVideoIndex !== index && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '40%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        zIndex: 10,
-                        fontSize: '48px',
-                        color: 'white',
-                      }}
-                    >
-                      <PauseCircleIcon className="h-12 w-12 text-white-500" />
-                    </div>
+          return (
+            <div
+              className="video-container"
+              style={{ background: 'black', position: 'relative' }}
+              key={index}
+            >
+              <div className="video-wrap">
+                <video
+                  width="560"
+                  height="315"
+                  data-index={index}
+                  poster={video.product_image_url}
+                  className="disable-download"
+                  controlsList="nodownload"
+                  id={`video-${video.id}`}
+                  src={video.product_video_url.replace(
+                    'http://cloud.video.taobao.com',
+                    'https://video.aliexpress-media.com'
                   )}
-                </div>
-
-                <a
-                  href={video.promotion_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span
-                    className="play-icon"
-                    data-spm-anchor-id="a2g0o.detail.1000017.i1.73684deeF61nkB"
-                    style={{ background: 'none', color: 'white' }}
-                  >
-                    {video.product_title}
-                    <br />
-                    <span
-                      style={{
-                        background: `linear-gradient(to left, #ff0000 0%, #ff7f00 16.6%, #ffff00 33.3%, #00ff00 50%, #0000ff 66.6%, #8b00ff 83.3%, #ff0000 100%)`,
-                        backgroundSize: '600% 100%',
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        animation: `animated-gradient 3s linear infinite`,
-                        fontSize: 22,
-                      }}
-                    >
-                      {country === 'IL' ? 'לחץ כאן' : 'Click here'}
-                    </span>
-                  </span>
-                </a>
-                <div
-                  className="duration-bar"
                   style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: '50%',
-                    transform: `translateX(-50%)`,
-                    width: `${percentage}%`,
-                    height: '3px',
-                    backgroundColor: `hsl(0, 90%, ${50 + percentage / 1.5}%)`,
+                    backgroundColor: 'transparent',
+                    height: 700,
                   }}
-                ></div>
+                  muted
+                  autoPlay=""
+                  controls={false}
+                  playsInline
+                  onClick={() =>
+                    handleVideoClick(videoElementRef.current, index)
+                  }
+                  ref={videoElementRef}
+                ></video>
+                {!currentVideo && currentVideoIndex !== index && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '40%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      zIndex: 10,
+                      fontSize: '48px',
+                      color: 'white',
+                    }}
+                  >
+                    <PauseCircleIcon className="h-12 w-12 text-white-500" />
+                  </div>
+                )}
               </div>
-            )
-          })}
-        </div>
-      )}
+
+              <a
+                href={video.promotion_link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span
+                  className="play-icon"
+                  data-spm-anchor-id="a2g0o.detail.1000017.i1.73684deeF61nkB"
+                  style={{ background: 'none', color: 'white' }}
+                >
+                  {video.product_title}
+                  <br />
+                  <span
+                    style={{
+                      background: `linear-gradient(to left, #ff0000 0%, #ff7f00 16.6%, #ffff00 33.3%, #00ff00 50%, #0000ff 66.6%, #8b00ff 83.3%, #ff0000 100%)`,
+                      backgroundSize: '600% 100%',
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      animation: `animated-gradient 3s linear infinite`,
+                      fontSize: 22,
+                    }}
+                  >
+                    {country === 'IL' ? 'לחץ כאן' : 'Click here'}
+                  </span>
+                </span>
+              </a>
+              <div
+                className="duration-bar"
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: '50%',
+                  transform: `translateX(-50%)`,
+                  width: `${percentage}%`,
+                  height: '3px',
+                  backgroundColor: `hsl(0, 90%, ${50 + percentage / 1.5}%)`,
+                }}
+              ></div>
+            </div>
+          )
+        })}
+      </div>
+      {isLoading && <LoadingSpinner />}
     </>
   )
 }
