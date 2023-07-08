@@ -69,7 +69,7 @@ const VideoScroll = ({ setCountry, country }) => {
               page_no: pageCounting,
               max_sale_price: '3000',
               min_sale_price: '300',
-              sort: 'SALE_PRICE_DESC',
+              sort: 'LAST_VOLUME_DESC',
             },
             mode: 'no-cors',
           }

@@ -20,6 +20,7 @@ export const Recommendation = () => {
     product_id: item['ProductId'],
     promotion_link: item['Promotion Url'],
     evaluate_rate: item['Positive Feedback'],
+    name: 'aliexpress',
   }))
   useEffect(() => {
     setOriginalData(data2)

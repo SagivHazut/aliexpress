@@ -236,282 +236,450 @@ export const SearchItems = () => {
         id="scrollButton"
         title="Go to top"
         style={{ display: isVisible ? 'block' : 'none' }}
-        className="fixed bottom-8 right-4 z-10 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-800 transition-all"
+        className="fixed bottom-8 right-4 z-50 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-800 transition-all"
       >
         <ChevronUpIcon className="h-5 w-5" />
       </button>
-      {searchOpen && (
+      {isDesktop ? (
         <>
-          <div
-            className="fixed inset-0 flex justify-center items-center z-50"
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            <div className="bg-white border border-gray-300 rounded shadow-lg p-4 relative">
-              <div className="flex justify-between items-center mb-4">
-                <SearchBar />
-                <button
-                  className="text-gray-600 hover:text-gray-800 absolute top-0 right-0"
-                  onClick={toggleSearch}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </button>
+          {searchOpen && (
+            <>
+              <div
+                className="fixed inset-0 flex justify-center items-center z-50"
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                }}
+              >
+                <div className="bg-white border border-gray-300 rounded shadow-lg p-4 relative">
+                  <div className="flex justify-between items-center mb-4">
+                    <SearchBar />
+                    <button
+                      className="text-gray-600 hover:text-gray-800 absolute top-0 right-0"
+                      onClick={toggleSearch}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
+            </>
+          )}{' '}
+          <div
+            className={`navbar ${
+              visible ? 'slide-in' : 'slide-out'
+            } fixed top-5 right-4 z-50 flex items-center `}
+            style={{ zIndex: '9000' }}
+          >
+            <div className="relative inline-block ">
+              <button
+                className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
+                onClick={toggleSearch}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
+          {searchRes && (
+            <div className="lg:col-span-3 ">
+              <div>
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                  <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+                    {searchRes.map((item, index) => (
+                      <>
+                        <article
+                          key={item.product_id}
+                          className="flex-col items-start justify-between"
+                        >
+                          <a
+                            href={item.promotion_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <div className="relative w-full">
+                              <img
+                                src={item.product_main_image_url}
+                                alt=""
+                                className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
+                              />
+                              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                              <img
+                                src={
+                                  'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                }
+                                alt="AliExpress Logo"
+                                // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
+                                style={{
+                                  display: 'flex',
+                                  position: 'absolute',
+                                  top: -10,
+                                  left: -40,
+                                  transform: 'rotate(310deg)  ',
+                                }}
+                              />
+                            </div>
+                          </a>
+
+                          <div className="mt-3 flex items-center justify-between">
+                            {!isDesktop && (
+                              <button
+                                className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
+                                onClick={() =>
+                                  handleShareClick(item.promotion_link)
+                                }
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                                  />
+                                </svg>
+                                <div className="text-font-bold">
+                                  Share
+                                  <hr />
+                                </div>
+                              </button>
+                            )}
+                            <div>
+                              <button
+                                className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
+                                onClick={() =>
+                                  handleCopyUrlClick(item.promotion_link)
+                                }
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  {/* SVG path */}
+                                </svg>
+                                {copiedItemId === item.promotion_link ? (
+                                  <p className="text-font-bold">
+                                    Copied{' '}
+                                    <span role="img" aria-label="Thumbs Up">
+                                      👍
+                                    </span>
+                                  </p>
+                                ) : (
+                                  <div>
+                                    {isDesktop ? (
+                                      <div
+                                        className="text-font-bold"
+                                        style={{
+                                          marginLeft: 60,
+                                        }}
+                                      >
+                                        Copy Links
+                                        <hr />
+                                      </div>
+                                    ) : (
+                                      <div className="text-font-bold">
+                                        Copy Link
+                                        <hr />
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="max-w-xl">
+                            <div className="group relative">
+                              <p
+                                ref={descriptionRef}
+                                className={`mt-5 text-font ${
+                                  expandedPostId === item.product_id
+                                    ? 'text-sm'
+                                    : 'line-clamp-2'
+                                } leading-6 text-gray-600`}
+                                style={{
+                                  userSelect: 'none',
+                                }} // Add this style property
+                              >
+                                {item.product_title}
+                              </p>
+
+                              <button
+                                className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                                onClick={() =>
+                                  handleShowMoreClick(item.product_id)
+                                }
+                              >
+                                {expandedPostId !== item.product_id
+                                  ? 'showMore'
+                                  : ''}
+                              </button>
+                            </div>
+                            <div className="mt-3 flex items-center justify-between text-xs">
+                              <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
+                                <div>
+                                  {item.sale_price !== item.original_price ? (
+                                    <>
+                                      <div>
+                                        <strong>
+                                          {storedCountry === 'IL'
+                                            ? `${
+                                                (
+                                                  item.sale_price * exchangeRate
+                                                ).toFixed(2) + ' ₪'
+                                              }`
+                                            : `${'$' + item.sale_price}`}
+                                        </strong>
+                                        <span className="text-green-600">
+                                          <br /> &nbsp;{'save'}
+                                          {item.discount}
+                                        </span>
+                                      </div>
+                                      <div>
+                                        <span
+                                          className="items-start"
+                                          style={{
+                                            textDecoration: 'line-through',
+                                          }}
+                                        >
+                                          {storedCountry === 'IL'
+                                            ? `${
+                                                (
+                                                  item.original_price *
+                                                  exchangeRate
+                                                ).toFixed(2) + ' ₪'
+                                              }`
+                                            : `${'$' + item.original_price}`}
+                                        </span>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div>
+                                      <strong>
+                                        {storedCountry === 'IL'
+                                          ? `${
+                                              (
+                                                item.sale_price * exchangeRate
+                                              ).toFixed(2) + ' ₪'
+                                            }`
+                                          : `${'$' + item.sale_price}`}
+                                      </strong>
+                                    </div>
+                                  )}
+                                </div>
+                              </a>
+                              <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
+                                {'sales'}:{' '}
+                                <strong>{item.lastest_volume}</strong> <br />
+                                {'positive Feedback'}:{' '}
+                                <strong>{item.evaluate_rate}</strong>
+                              </a>
+                            </div>
+                          </div>
+                        </article>
+                      </>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {isLoadingMore && <LoadingSpinner />}
+            </div>
+          )}
         </>
-      )}{' '}
-      <div
-        className={`navbar ${
-          visible ? 'slide-in' : 'slide-out'
-        } fixed top-5 right-4 z-50 flex items-center `}
-        style={{ zIndex: '9000' }}
-      >
-        <div className="relative inline-block ">
-          <button
-            className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
-            onClick={toggleSearch}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      {searchRes && (
-        <div className="lg:col-span-3 ">
-          <div>
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-              <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
-                {searchRes.map((item, index) => (
-                  <>
-                    <article
-                      key={item.product_id}
-                      className="flex-col items-start justify-between"
-                    >
-                      <a
-                        href={item.promotion_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <div className="relative w-full">
+      ) : (
+        <>
+          {' '}
+          <>
+            {searchRes && (
+              <div className="lg:col-span-3">
+                <div>
+                  <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+                      {searchRes.map((item) => (
+                        <div
+                          key={item.product_id}
+                          className="flex flex-col justify-between p-4 border rounded-lg"
+                        >
                           <img
-                            src={item.product_main_image_url}
                             alt=""
-                            className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
-                          />
-                          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-                          <img
                             src={
                               'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
                             }
-                            alt="AliExpress Logo"
-                            // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
-                            style={{
-                              display: 'flex',
-                              position: 'absolute',
-                              top: -10,
-                              left: -40,
-                              transform: 'rotate(310deg)  ',
-                            }}
+                            className="absolute w-16 h-6 rounded-lg z-50 transform rotate-45 right-6 bg-gray-200"
                           />
-                        </div>
-                      </a>
-
-                      <div className="mt-3 flex items-center justify-between">
-                        {!isDesktop && (
-                          <button
-                            className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
-                            onClick={() =>
-                              handleShareClick(item.promotion_link)
-                            }
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="w-6 h-6"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
-                              />
-                            </svg>
-                            <div className="text-font-bold">
-                              Share
-                              <hr />
-                            </div>
-                          </button>
-                        )}
-                        <div>
-                          <button
-                            className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
-                            onClick={() =>
-                              handleCopyUrlClick(item.promotion_link)
-                            }
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="w-6 h-6"
-                            >
-                              {/* SVG path */}
-                            </svg>
-                            {copiedItemId === item.promotion_link ? (
-                              <p className="text-font-bold">
-                                Copied{' '}
-                                <span role="img" aria-label="Thumbs Up">
-                                  👍
-                                </span>
+                          <div className="relative aspect-w-4 aspect-h-2 mb-4">
+                            <div className="flex justify-end">
+                              <p
+                                ref={descriptionRef}
+                                className="leading-6 text-gray-600 mr-3"
+                              >
+                                {item.product_title}
                               </p>
-                            ) : (
-                              <div>
-                                {isDesktop ? (
-                                  <div
-                                    className="text-font-bold"
-                                    style={{
-                                      marginLeft: 60,
-                                    }}
-                                  >
-                                    Copy Links
-                                    <hr />
-                                  </div>
-                                ) : (
-                                  <div className="text-font-bold">
-                                    Copy Link
-                                    <hr />
-                                  </div>
+                              <a
+                                href={item.promotion_link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {item.name === 'aliexpress' && (
+                                  <img
+                                    src={item.product_main_image_url}
+                                    alt="AliExpress Logo"
+                                    className="relative z-10 w-96 h-32 border-2 border-black rounded-lg"
+                                  />
                                 )}
-                              </div>
+                              </a>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between mb-2">
+                            {!isDesktop && (
+                              <button
+                                className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
+                                onClick={() =>
+                                  handleShareClick(item.promotion_link)
+                                }
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                                  />
+                                </svg>
+                                <span className="ml-2">Share</span>
+                              </button>
                             )}
-                          </button>
-                        </div>
-                      </div>
+                            <button
+                              className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
+                              onClick={() =>
+                                handleCopyUrlClick(item.promotion_link)
+                              }
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6 text-font-bold"
+                              ></svg>
+                              {copiedItemId === item.promotion_link ? (
+                                <p className="text-font-bold">
+                                  Copied
+                                  <span role="img" aria-label="Thumbs Up">
+                                    👍
+                                  </span>
+                                </p>
+                              ) : (
+                                <span className="ml-2">Copy Link</span>
+                              )}
+                            </button>
+                          </div>
 
-                      <div className="max-w-xl">
-                        <div className="group relative">
-                          <p
-                            ref={descriptionRef}
-                            className={`mt-5 text-font ${
-                              expandedPostId === item.product_id
-                                ? 'text-sm'
-                                : 'line-clamp-2'
-                            } leading-6 text-gray-600`}
-                            style={{
-                              userSelect: 'none',
-                            }} // Add this style property
-                          >
-                            {item.product_title}
-                          </p>
-
-                          <button
-                            className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                            onClick={() => handleShowMoreClick(item.product_id)}
-                          >
-                            {expandedPostId !== item.product_id
-                              ? 'showMore'
-                              : ''}
-                          </button>
-                        </div>
-                        <div className="mt-3 flex items-center justify-between text-xs">
-                          <a className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 ml-0">
-                            <div>
-                              {item.sale_price !== item.original_price ? (
-                                <>
+                          <div className="flex justify-between text-s mt-4">
+                            <div className="flex items-center">
+                              <div className="rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+                                {item.sale_price !== item.original_price ? (
+                                  <>
+                                    <div>
+                                      <strong>
+                                        {storedCountry === 'IL'
+                                          ? `${(
+                                              item.sale_price * exchangeRate
+                                            ).toFixed(2)} ₪`
+                                          : `$${item.sale_price}`}
+                                      </strong>
+                                      <span className="text-green-600">
+                                        <br /> &nbsp;{'save'}
+                                        {item.discount}
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <span className="line-through">
+                                        {storedCountry === 'IL'
+                                          ? `${(
+                                              item.original_price * exchangeRate
+                                            ).toFixed(2)} ₪`
+                                          : `$${item.original_price}`}
+                                      </span>
+                                    </div>
+                                  </>
+                                ) : (
                                   <div>
                                     <strong>
                                       {storedCountry === 'IL'
-                                        ? `${
-                                            (
-                                              item.sale_price * exchangeRate
-                                            ).toFixed(2) + ' ₪'
-                                          }`
-                                        : `${'$' + item.sale_price}`}
-                                    </strong>
-                                    <span className="text-green-600">
-                                      <br /> &nbsp;{'save'}
-                                      {item.discount}
-                                    </span>
-                                  </div>
-                                  <div>
-                                    <span
-                                      className="items-start"
-                                      style={{
-                                        textDecoration: 'line-through',
-                                      }}
-                                    >
-                                      {storedCountry === 'IL'
-                                        ? `${
-                                            (
-                                              item.original_price * exchangeRate
-                                            ).toFixed(2) + ' ₪'
-                                          }`
-                                        : `${'$' + item.original_price}`}
-                                    </span>
-                                  </div>
-                                </>
-                              ) : (
-                                <div>
-                                  <strong>
-                                    {storedCountry === 'IL'
-                                      ? `${
-                                          (
+                                        ? `${(
                                             item.sale_price * exchangeRate
-                                          ).toFixed(2) + ' ₪'
-                                        }`
-                                      : `${'$' + item.sale_price}`}
-                                  </strong>
-                                </div>
-                              )}
+                                          ).toFixed(2)} ₪`
+                                        : `$${item.sale_price}`}
+                                    </strong>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </a>
-                          <a className="relative z-10 rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
-                            {'sales'}: <strong>{item.lastest_volume}</strong>{' '}
-                            <br />
-                            {'positive Feedback'}:{' '}
-                            <strong>{item.evaluate_rate}</strong>
-                          </a>
+                            <div className="flex items-center">
+                              <div className="rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+                                <div className="mr-2">
+                                  {'sales'}:{' '}
+                                  <strong>{item.lastest_volume}</strong>
+                                </div>
+                                <div>
+                                  {'positive Feedback'}:
+                                  <strong>{item.evaluate_rate}</strong>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </article>
-                  </>
-                ))}
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                {isLoadingMore && <LoadingSpinner />}
               </div>
-            </div>
-          </div>
-          {isLoadingMore && <LoadingSpinner />}
-        </div>
+            )}
+          </>
+        </>
       )}
       {isLoading && <Loading />}
     </>

@@ -39,8 +39,10 @@ function SearchBar() {
         }
       )
 
-      const newData = response.data
-
+      const newData = response.data.map((item) => ({
+        ...item,
+        name: 'aliexpress',
+      }))
       setLoading(false)
 
       if (response.status === 200) {
