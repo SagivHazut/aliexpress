@@ -261,7 +261,7 @@ export const Navbar = ({ country, isVisible }) => {
               <div className=" relative flex h-20 items-center justify-center">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   <Disclosure.Button
-                    className=" top-5 left-4 z-50 text-2xl text-white  hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 bg-gray-900"
+                    className=" top-5 left-4 z-50 text-2xl text-white  hover:text-white focus:outline-none ring-2 focus:ring-inset ring-white inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 "
                     onClick={toggleDropdown}
                   >
                     {open ? (
@@ -289,7 +289,7 @@ export const Navbar = ({ country, isVisible }) => {
                           <div
                             className={`${
                               isCurrent('/VideoScroll')
-                                ? 'bg-gray-700 rounded-lg border border-gray-100'
+                                ? 'bg-orange-500 rounded-lg border border-gray-100'
                                 : 'text-gray-100 hover:bg-gray-100 hover:text-white'
                             } rounded-md px-1 py-1 text-sm font-medium top-2`}
                           >
@@ -333,7 +333,7 @@ export const Navbar = ({ country, isVisible }) => {
                           to={item.href}
                           className={`navbar-font-bold ${
                             isCurrent(item.href)
-                              ? 'bg-gray-600 text-white'
+                              ? 'bg-orange-500 text-white'
                               : 'text-gray-100 hover:bg-gray-100 hover:text-white'
                           } rounded-md px-3 py-2 text-sm font-medium `}
                           aria-current={
@@ -344,11 +344,58 @@ export const Navbar = ({ country, isVisible }) => {
                         </NavLink>
                       ))}
                       <div className="relative">
-                        <Dropdown
-                          country={country}
-                          options={dropdownNav}
-                          onSelect={handleDropdownSelect}
-                        />
+                        <div className="relative inline-block">
+                          <button
+                            className={`text-gray-400 hover:bg-gray-700 hover:text-white py-2 px-4 rounded flex items-center focus:outline-none ${
+                              isOpen ? 'bg-gray-600 text-white' : ''
+                            }`}
+                            onClick={toggleDropdown}
+                          >
+                            <span className="mr-2 text-white">
+                              {country === 'IL' ? 'קטגוריות' : 'Categories'}
+                            </span>
+                            <svg
+                              className={`w-4 h-4 transition-transform duration-300 transform ${
+                                isOpen ? 'rotate-180' : ''
+                              }`}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+                          {isOpen && (
+                            <div className="absolute mt-2 w-48 bg-red-500 border border-gray-900 rounded shadow-lg z-10 ">
+                              <ul className="py-1">
+                                {dropdownNav.map((item) => (
+                                  <li key={item.name}>
+                                    <NavLink
+                                      onClick={item.onClick}
+                                      to={item.href}
+                                      className={`${
+                                        isCurrent(item.href)
+                                          ? 'bg-orange-500 text-white'
+                                          : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                                      } block rounded-md px-3 py-2 text-base font-medium`}
+                                      aria-current={
+                                        isCurrent(item.href)
+                                          ? 'page'
+                                          : undefined
+                                      }
+                                    >
+                                      {item.name}
+                                    </NavLink>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -374,7 +421,7 @@ export const Navbar = ({ country, isVisible }) => {
                               onClick={item.onClick}
                               className={`${
                                 isCurrent(item.href)
-                                  ? 'bg-gray-600 text-white'
+                                  ? 'bg-orange-500 text-white'
                                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                               } block rounded-md px-3 py-2 text-base font-medium`}
                               aria-current={
@@ -423,7 +470,7 @@ export const Navbar = ({ country, isVisible }) => {
                                     onClick={item.onClick}
                                     className={`${
                                       isCurrent(item.href)
-                                        ? 'bg-gray-600 text-white'
+                                        ? 'bg-orange-500 text-white'
                                         : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                                     } block rounded-md px-10 py-2 text-base font-medium`}
                                     aria-current={

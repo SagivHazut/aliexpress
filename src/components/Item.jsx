@@ -183,33 +183,29 @@ export const Item = ({
                               rel="noopener noreferrer"
                             >
                               <div className="relative w-full">
-                                <img
-                                  src={item.product_main_image_url}
-                                  alt=""
-                                  className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
-                                />
+                                {item.name === 'aliexpress' && (
+                                  <img
+                                    src={item.product_main_image_url}
+                                    alt=""
+                                    className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
+                                  />
+                                )}
 
                                 <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-                                {item.name === 'aliexpress' ? (
-                                  <>
-                                    <img
-                                      src={
-                                        'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
-                                      }
-                                      alt="AliExpress Logo"
-                                      // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
-                                      style={{
-                                        display: 'flex',
-                                        position: 'absolute',
-                                        top: -10,
-                                        left: -40,
-                                        transform: 'rotate(310deg)  ',
-                                      }}
-                                    />
-                                  </>
-                                ) : (
-                                  <></>
-                                )}
+                                <img
+                                  src={
+                                    'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  alt="AliExpress Logo"
+                                  // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
+                                  style={{
+                                    display: 'flex',
+                                    position: 'absolute',
+                                    top: -10,
+                                    left: -40,
+                                    transform: 'rotate(310deg)  ',
+                                  }}
+                                />
                               </div>
                             </a>
 
@@ -386,13 +382,22 @@ export const Item = ({
                           key={item.product_id}
                           className="flex flex-col justify-between p-4 border rounded-lg"
                         >
-                          <img
-                            alt=""
-                            src={
-                              'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
-                            }
-                            className="absolute w-16 h-6 rounded-lg z-50 transform rotate-45 right-6 bg-gray-200"
-                          />
+                          {item.name === 'aliexpress' && (
+                            <div className="ribbon-bow-container">
+                              <div className="ribbon-bow">
+                                <img
+                                  alt=""
+                                  src={
+                                    'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  className=" absolute w-32 h-6  z-30  "
+                                />
+                                <div className="ribbon"></div>
+                                <div className="knot"></div>
+                              </div>
+                            </div>
+                          )}
+
                           <div className="relative aspect-w-4 aspect-h-2 mb-4">
                             <div className="flex justify-end">
                               <p
@@ -406,13 +411,11 @@ export const Item = ({
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                {item.name === 'aliexpress' && (
-                                  <img
-                                    src={item.product_main_image_url}
-                                    alt="AliExpress Logo"
-                                    className="relative z-10 w-96 h-32 border-2 border-black rounded-lg"
-                                  />
-                                )}
+                                <img
+                                  src={item.product_main_image_url}
+                                  alt="AliExpress Logo"
+                                  className="relative z-10 w-96 h-32 border-2 border-black rounded-lg"
+                                />
                               </a>
                             </div>
                           </div>

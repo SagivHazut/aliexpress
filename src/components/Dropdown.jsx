@@ -45,7 +45,7 @@ const Dropdown = ({ options, onSelect, isNavbarOpen, country }) => {
         </svg>
       </button>
       {isOpen && (
-        <div className="absolute mt-2 w-48 bg-gray-900 border border-gray-900 rounded shadow-lg z-10 ">
+        <div className="absolute mt-2 w-48 bg-red-500 border border-gray-900 rounded shadow-lg z-10 ">
           <ul className="py-1">
             {options.map((item) => (
               <li key={item.name}>

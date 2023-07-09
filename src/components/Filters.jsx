@@ -163,7 +163,7 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
       >
         <div className="relative inline-block ">
           <button
-            className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2  rounded flex items-center fixed top-0 right-20 px-5"
+            className="bg-red-500 hover:bg-orange-500 text-white font-bold py-2  rounded flex items-center fixed top-0 right-20 px-5"
             onClick={toggleSearch}
           >
             <svg
@@ -187,7 +187,7 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
         ) : (
           <div className="relative inline-block">
             <button
-              className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
+              className="bg-red-500 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded flex items-center"
               onClick={toggleDropdown}
             >
               {country === 'IL' ? 'סינון' : 'Filter'}

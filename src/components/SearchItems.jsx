@@ -285,7 +285,7 @@ export const SearchItems = () => {
           >
             <div className="relative inline-block ">
               <button
-                className="bg-gray-900 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
+                className="bg-red-500 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
                 onClick={toggleSearch}
               >
                 <svg
@@ -538,7 +538,7 @@ export const SearchItems = () => {
                             src={
                               'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
                             }
-                            className="absolute w-16 h-6 rounded-lg z-50 transform rotate-45 right-6 bg-gray-200"
+                            className="absolute w-16 h-6 rounded-lg z-30 transform rotate-45 right-6 bg-gray-200"
                           />
                           <div className="relative aspect-w-4 aspect-h-2 mb-4">
                             <div className="flex justify-end">

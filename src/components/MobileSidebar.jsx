@@ -10,7 +10,7 @@ const MobileSidebar = () => {
   }
 
   return (
-    <div className="relative flex h-20 items-center justify-between bg-gray-900">
+    <div className="relative flex h-20 items-center justify-between bg-red-500">
       <button
         className="fixed top-7 left-4 z-50 text-2xl text-white"
         onClick={toggleSidebar}
@@ -22,7 +22,7 @@ const MobileSidebar = () => {
         )}
       </button>
       <aside
-        className={`fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white transition-transform transform ${
+        className={`fixed top-0 left-0 h-screen w-64 bg-red-500 text-white transition-transform transform ${
           sideBar ? 'translate-x-0' : '-translate-x-full'
         } z-40`}
       >
