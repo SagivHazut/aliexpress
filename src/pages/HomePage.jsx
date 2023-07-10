@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import Popup from './Popup'
+import Popup from '../components/Popup'
 import VideoScroll from './VideoScroll'
 
 export const HomePage = () => {

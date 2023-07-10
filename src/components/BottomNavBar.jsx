@@ -24,9 +24,9 @@ const BottomNavBar = () => {
       </NavLink>
 
       <NavLink
-        to="/UnordinaryPicsComponent"
+        to="/GallreyScroll"
         className={`${
-          isCurrent('/UnordinaryPicsComponent')
+          isCurrent('/GallreyScroll')
             ? 'rounded-s border border-orange-500 p-1 '
             : 'text-gray-100 hover:bg-gray-100 hover:text-white animated-youtube-icon'
         } text-gray-600`}

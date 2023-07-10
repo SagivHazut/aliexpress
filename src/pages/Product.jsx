@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import Item from './Item'
+import Item from '../components/Item'
 import { useSelector } from 'react-redux'
-import ErrorPopup from './ErrorPopup'
+import ErrorPopup from '../components/ErrorPopup'
 import _ from 'lodash'
 
 export const Products = ({ setSearchRes, searchRes }) => {
@@ -38,7 +38,8 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
   async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
-
+    const randomCategoryId =
+      category_ids[Math.floor(Math.random() * category_ids.length)]
     try {
       setIsLoadingMore(true)
 
@@ -52,7 +53,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: category_ids,
+            category_ids: randomCategoryId,
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice ? finalMaxPrice : '70',

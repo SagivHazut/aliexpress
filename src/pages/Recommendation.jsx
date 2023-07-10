@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Item from './Item'
+import Item from '../components/Item'
 import Papa from 'papaparse'
 import csvData from '../csv/Recommendation.csv'
 import { useEffect } from 'react'

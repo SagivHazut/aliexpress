@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
-import LoadingSpinner from './LoadingSpinner'
+import LoadingSpinner from '../components/LoadingSpinner'
 import { PauseCircleIcon } from '@heroicons/react/24/outline'
-import CookiesPopup from './CookiesPopup'
+import CookiesPopup from '../components/CookiesPopup'
 import { Cookies } from 'react-cookie'
-import LanguageDropdown from './CustomOption'
+import LanguageDropdown from '../components/CustomOption'
 import '../App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateVisible } from '../store/actions'
-import BottomNavBar from './BottomNavBar'
+import BottomNavBar from '../components/BottomNavBar'
 
 const VideoScroll = ({ setCountry, country }) => {
   const [videos, setVideos] = useState([])
@@ -19,14 +19,11 @@ const VideoScroll = ({ setCountry, country }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(null)
   const [pageCounting, setPageCounting] = useState(1)
   const videoElementsRef = useRef([])
-  const [playingVideoIndex, setPlayingVideoIndex] = useState(null)
   const [percentage, setPercentage] = useState(0)
   const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [applyCountry, setApplyCountry] = useState(country)
   const visible = useSelector((state) => state.visible)
-  const dispatch = useDispatch()
-  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset)
 
   const isAutoplayBlocked = () => {
     const testVideo = document.createElement('video')
@@ -284,12 +281,10 @@ const VideoScroll = ({ setCountry, country }) => {
       })
       setCurrentVideo(videoElement)
       setCurrentVideoIndex(index)
-      setPlayingVideoIndex(index)
     } else {
       videoElement.pause()
       setCurrentVideo(null)
       setCurrentVideoIndex(null)
-      setPlayingVideoIndex(null)
     }
   }
 

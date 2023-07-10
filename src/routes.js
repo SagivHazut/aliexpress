@@ -1,19 +1,19 @@
-import { TopProducts } from './components/TopProducts'
-import { Featured } from './components/Featured'
-import { SuperDeals } from './components/SuperDeals'
-import { Errorsite } from './components/Errorsite'
-import { Recommendation } from './components/Recommendation'
-import { HomePage } from './components/HomePage'
-import { Men } from './components/Men'
-import { Women } from './components/Women'
-import { Kids } from './components/Kids'
-import { Sport } from './components/Sport'
-import { House } from './components/House'
-import VideoScroll from './components/VideoScroll'
+import VideoScroll from './pages/VideoScroll'
 import SearchBar from './components/SearchBar'
 import { SearchItems } from './components/SearchItems'
-import { Products } from './components/Product'
-import UnordinaryPicsComponent from './components/UnordinaryPicsComponent'
+import { Products } from './pages/Product'
+import { Women } from './pages/Page'
+import { HomePage } from './pages/HomePage'
+import { Men } from './pages/Page'
+import { Errorsite } from './pages/Errorsite'
+import { TopProducts } from './pages/Page'
+import { Featured } from './pages/Page'
+import { SuperDeals } from './pages/Page'
+import { Kids } from './pages/Page'
+import { Sport } from './pages/Page'
+import { House } from './pages/Page'
+import { Recommendation } from './pages/Recommendation'
+import GallreyScroll from './pages/GallreyScroll'
 
 export const routes = [
   {
@@ -73,12 +73,12 @@ export const routes = [
     component: <SearchBar />,
   },
   {
-    path: '/Products',
+    path: '/Product/:id',
     component: <Products />,
   },
   {
-    path: '/UnordinaryPicsComponent',
-    component: <UnordinaryPicsComponent />,
+    path: '/GallreyScroll',
+    component: <GallreyScroll />,
   },
   {
     path: '/SearchItems',

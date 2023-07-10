@@ -9,13 +9,13 @@ const CookiesPopup = ({ handleAutoplayPermission }) => {
     const autoplayPermission = cookies.get('autoplayPermission')
 
     if (autoplayPermission === undefined) {
-      setShowPopup(true) // Show the popup if autoplay permission doesn't exist
+      setShowPopup(true)
     }
   }, [])
 
   const handleAllowAutoplay = () => {
     cookies.set('autoplayPermission', true)
-    setShowPopup(false) // Hide the popup after setting the permission
+    setShowPopup(false)
     handleAutoplayPermission(true)
   }
 

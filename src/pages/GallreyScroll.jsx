@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import BottomNavBar from './BottomNavBar'
-import LoadingSpinner from './LoadingSpinner'
+import BottomNavBar from '../components/BottomNavBar'
+import LoadingSpinner from '../components/LoadingSpinner'
 import { useParams } from 'react-router-dom'
 import _ from 'lodash'
 
-const UnordinaryPicsComponent = ({ setCountry, country }) => {
+const GallreyScroll = ({ setCountry, country }) => {
   const { page } = useParams()
   const [images, setImages] = useState([])
   const [visibleVideos, setVisibleVideos] = useState([])
@@ -23,6 +23,16 @@ const UnordinaryPicsComponent = ({ setCountry, country }) => {
   }, [currentPage, initialFetchCompleted])
 
   useEffect(() => {
+    if (visibleVideos && visibleVideos.length <= 100 && currentPage <= 3) {
+      setCurrentPage((prevPage) => {
+        const nextPage = prevPage + 1
+        fetchData(nextPage)
+        return nextPage
+      })
+    }
+  }, [visibleVideos])
+
+  useEffect(() => {
     if (applyCountry !== country) {
       setCountry(applyCountry)
       localStorage.setItem('country', applyCountry)
@@ -38,13 +48,24 @@ const UnordinaryPicsComponent = ({ setCountry, country }) => {
   const fetchData = async (page) => {
     setIsLoading(true)
     const storedCountry = localStorage.getItem('country')
+    const categoryIds = [
+      '200133142',
+      '200131145',
+      '200003494',
+      '15',
+      '100000041',
+    ]
+
+    const randomCategoryId =
+      categoryIds[Math.floor(Math.random() * categoryIds.length)]
+
     try {
       const response = await axios.get(
         'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: '320,3,200133142,200131145,200003494',
+            category_ids: randomCategoryId,
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: '3000',
@@ -176,4 +197,4 @@ const UnordinaryPicsComponent = ({ setCountry, country }) => {
   )
 }
 
-export default UnordinaryPicsComponent
+export default GallreyScroll
