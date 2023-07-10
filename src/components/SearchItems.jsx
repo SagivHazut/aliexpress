@@ -6,6 +6,7 @@ import LoadingSpinner from './LoadingSpinner'
 import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import _ from 'lodash'
 
 export const SearchItems = () => {
   const { page } = useParams()
@@ -131,8 +132,10 @@ export const SearchItems = () => {
           mode: 'no-cors',
         }
       )
-      const newData = response.data
-
+      const newData = response.data.map((item) => ({
+        ...item,
+        name: 'aliexpress',
+      }))
       setLoading(false) // Stop loading
 
       if (response.status !== 200) {
@@ -165,10 +168,10 @@ export const SearchItems = () => {
   }
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', throttledHandleScroll)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('scroll', throttledHandleScroll)
     }
   }, [])
 
@@ -193,6 +196,8 @@ export const SearchItems = () => {
       setReachedBottom(false)
     }
   }
+  const throttledHandleScroll = _.throttle(handleScroll, 3000)
+
   const toggleSearch = () => {
     setSearchOpen(!searchOpen)
   }
@@ -212,34 +217,9 @@ export const SearchItems = () => {
       </div>
     )
   }
-  const [isVisible, setIsVisible] = useState(false)
-  const handleScroll2 = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    setIsVisible(scrollTop > 300)
-  }
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll2)
-    return () => window.removeEventListener('scroll', handleScroll2)
-  }, [])
   return (
     <>
-      <button
-        onClick={scrollToTop}
-        id="scrollButton"
-        title="Go to top"
-        style={{ display: isVisible ? 'block' : 'none' }}
-        className="fixed bottom-8 right-4 z-50 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-800 transition-all"
-      >
-        <ChevronUpIcon className="h-5 w-5" />
-      </button>
       {isDesktop ? (
         <>
           {searchOpen && (
@@ -387,9 +367,7 @@ export const SearchItems = () => {
                                   strokeWidth={1.5}
                                   stroke="currentColor"
                                   className="w-6 h-6"
-                                >
-                                  {/* SVG path */}
-                                </svg>
+                                ></svg>
                                 {copiedItemId === item.promotion_link ? (
                                   <p className="text-font-bold">
                                     Copied{' '}
@@ -533,13 +511,21 @@ export const SearchItems = () => {
                           key={item.product_id}
                           className="flex flex-col justify-between p-4 border rounded-lg"
                         >
-                          <img
-                            alt=""
-                            src={
-                              'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
-                            }
-                            className="absolute w-16 h-6 rounded-lg z-30 transform rotate-45 right-6 bg-gray-200"
-                          />
+                          {item.name === 'aliexpress' && (
+                            <div className="ribbon-bow-container">
+                              <div className="ribbon-bow">
+                                <img
+                                  alt=""
+                                  src={
+                                    'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  className=" absolute w-32 h-6  z-20  "
+                                />
+                                <div className="ribbon"></div>
+                                <div className="knot"></div>
+                              </div>
+                            </div>
+                          )}
                           <div className="relative aspect-w-4 aspect-h-2 mb-4">
                             <div className="flex justify-end">
                               <p
@@ -553,13 +539,11 @@ export const SearchItems = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                {item.name === 'aliexpress' && (
-                                  <img
-                                    src={item.product_main_image_url}
-                                    alt="AliExpress Logo"
-                                    className="relative z-10 w-96 h-32 border-2 border-black rounded-lg"
-                                  />
-                                )}
+                                <img
+                                  src={item.product_main_image_url}
+                                  alt="AliExpress Logo"
+                                  className="relative z-10 w-96 h-32 border-2 border-black rounded-lg"
+                                />
                               </a>
                             </div>
                           </div>

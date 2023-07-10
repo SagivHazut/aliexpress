@@ -8,6 +8,7 @@ import LanguageDropdown from './CustomOption'
 import '../App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateVisible } from '../store/actions'
+import BottomNavBar from './BottomNavBar'
 
 const VideoScroll = ({ setCountry, country }) => {
   const [videos, setVideos] = useState([])
@@ -452,6 +453,7 @@ const VideoScroll = ({ setCountry, country }) => {
           <LoadingSpinner />
         </div>
       )}
+      <BottomNavBar />
     </>
   )
 }

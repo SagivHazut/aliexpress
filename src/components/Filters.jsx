@@ -30,41 +30,6 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
   }
   return (
     <>
-      {searchOpen && (
-        <>
-          <div
-            className="fixed inset-0 flex justify-center items-center z-50"
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            <div className="bg-white border border-gray-300 rounded shadow-lg p-4 relative">
-              <div className="flex justify-between items-center mb-4">
-                <SearchBar />
-                <button
-                  className="text-gray-600 hover:text-gray-800 absolute top-0 right-0"
-                  onClick={toggleSearch}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
       {isOpen && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <div className="bg-white border border-gray-300 rounded shadow-lg p-4 mx-auto">
@@ -161,27 +126,6 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
         } fixed top-5 right-4 flex items-center `}
         style={{ zIndex: '9000' }}
       >
-        <div className="relative inline-block ">
-          <button
-            className="bg-red-500 hover:bg-orange-500 text-white font-bold py-2  rounded flex items-center fixed top-0 right-20 px-5"
-            onClick={toggleSearch}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-          </button>
-        </div>
         {window.location.pathname === '/Recommendation' ? (
           <div className="relative inline-block py-20"></div>
         ) : (

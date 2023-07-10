@@ -13,6 +13,7 @@ import VideoScroll from './components/VideoScroll'
 import SearchBar from './components/SearchBar'
 import { SearchItems } from './components/SearchItems'
 import { Products } from './components/Product'
+import UnordinaryPicsComponent from './components/UnordinaryPicsComponent'
 
 export const routes = [
   {
@@ -74,6 +75,10 @@ export const routes = [
   {
     path: '/Products',
     component: <Products />,
+  },
+  {
+    path: '/UnordinaryPicsComponent',
+    component: <UnordinaryPicsComponent />,
   },
   {
     path: '/SearchItems',

@@ -4,9 +4,9 @@ import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
 import logonobackground from '../image/logonobackground.png'
-import Dropdown from './Dropdown'
 import { LiaYoutube } from 'react-icons/lia'
 import { useDispatch } from 'react-redux'
+import SearchBar from './SearchBar'
 
 export const Navbar = ({ country, isVisible }) => {
   const dispatch = useDispatch()
@@ -17,7 +17,11 @@ export const Navbar = ({ country, isVisible }) => {
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [sideBar, setSideBar] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
 
+  const toggleSearch = () => {
+    setSearchOpen(!searchOpen)
+  }
   const toggleSidebar = () => {
     setSideBar(!sideBar)
   }
@@ -248,6 +252,50 @@ export const Navbar = ({ country, isVisible }) => {
 
   return (
     <>
+      {searchOpen && (
+        <>
+          <div
+            className="fixed inset-0 flex justify-center items-center z-50"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            }}
+          >
+            <div className="bg-white border border-gray-300 rounded shadow-lg p-4 relative">
+              <div className="flex justify-between items-center mb-4">
+                <SearchBar
+                  searchOpen={searchOpen}
+                  setSearchOpen={setSearchOpen}
+                />{' '}
+                <button
+                  className="text-gray-600 hover:text-gray-800 absolute top-0 right-0"
+                  onClick={toggleSearch}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      <div
+        className={`navbar ${
+          isVisible ? 'slide-in' : 'slide-out'
+        } fixed top-5 right-4 flex items-center `}
+        style={{ zIndex: '9000' }}
+      ></div>
       <Disclosure
         as="nav"
         className={`navbar ${
@@ -285,16 +333,12 @@ export const Navbar = ({ country, isVisible }) => {
                         onClick={() => clearOtherStates()}
                         to="/VideoScroll"
                       >
-                        {!isDesktop && (
-                          <div
-                            className={`${
-                              isCurrent('/VideoScroll')
-                                ? 'bg-orange-500 rounded-lg border border-gray-100'
-                                : 'text-gray-100 hover:bg-gray-100 hover:text-white'
-                            } rounded-md px-1 py-1 text-sm font-medium top-2`}
-                          >
-                            <LiaYoutube className="h-7 w-7 text-gray-500 animated-youtube-icon" />
+                        {!isDesktop && !isCurrent('/VideoScroll') ? (
+                          <div className="text-gray-100 hover:bg-gray-900 hover:text-white animated-youtube-icon rounded-md px-1 py-1 text-sm font-medium top-2">
+                            <LiaYoutube className="h-auto w-10 text-gray-500" />
                           </div>
+                        ) : (
+                          <div className=" relative right-12 w-12"></div>
                         )}
                       </NavLink>
                     </div>
@@ -302,7 +346,7 @@ export const Navbar = ({ country, isVisible }) => {
                     <div
                       className={
                         !isDesktop
-                          ? 'relative right-4 top-14'
+                          ? 'relative right-6 top-14'
                           : 'absolute flex items-center justify-center inset-0 top-24'
                       }
                     >
@@ -490,6 +534,27 @@ export const Navbar = ({ country, isVisible }) => {
                 </nav>
               </aside>
             </Disclosure.Panel>
+            <div className="relative inline-block ">
+              <button
+                className="bg-red-500 hover:bg-orange-500 text-white font-bold py-2  rounded flex items-center fixed top-5 right-24 px-5"
+                onClick={toggleSearch}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+              </button>
+            </div>
           </>
         )}
       </Disclosure>

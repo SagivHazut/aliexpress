@@ -4,6 +4,7 @@ import axios from 'axios'
 import Item from './Item'
 import { useSelector } from 'react-redux'
 import ErrorPopup from './ErrorPopup'
+import _ from 'lodash'
 
 export const Products = ({ setSearchRes, searchRes }) => {
   const { category_ids } = useSelector((state) => state)
@@ -20,6 +21,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
   const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
   const [reachedBottom, setReachedBottom] = useState(false)
   const [error, setError] = useState(null)
+  const [timer, setTimer] = useState(null)
 
   useEffect(() => {
     if (!initialFetchCompleted) {
@@ -100,10 +102,10 @@ export const Products = ({ setSearchRes, searchRes }) => {
     fetchData()
   }
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', throttledHandleScroll)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('scroll', throttledHandleScroll)
     }
   }, [maxPrice1])
 
@@ -131,9 +133,10 @@ export const Products = ({ setSearchRes, searchRes }) => {
           return nextPage
         })
       }
-      setReachedBottom(false)
     }
+    setReachedBottom(false)
   }
+  const throttledHandleScroll = _.throttle(handleScroll, 3000)
 
   const visibleItems =
     originalData && originalData.length > 0 ? originalData : parsedData

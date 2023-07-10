@@ -11,7 +11,7 @@ const countryOptions = [
 const customStyles = {
   control: (provided) => ({
     ...provided,
-    width: 120,
+    width: 70,
   }),
   option: (provided, state) => ({
     ...provided,

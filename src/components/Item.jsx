@@ -32,22 +32,6 @@ export const Item = ({
       })
   }, [])
 
-  const handleScroll = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    setIsVisible(scrollTop > 300)
-  }
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   const handleShowMoreClick = (key) => {
     setExpandedPostId(key)
   }
@@ -155,15 +139,6 @@ export const Item = ({
       </div>
 
       <>
-        <button
-          onClick={scrollToTop}
-          id="scrollButton"
-          title="Go to top"
-          style={{ display: isVisible ? 'block' : 'none' }}
-          className="fixed bottom-8 right-4 z-50 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-800 transition-all"
-        >
-          <ChevronUpIcon className="h-5 w-5" />
-        </button>
         {isDesktop ? (
           <>
             {uniquePosts && (
@@ -390,7 +365,7 @@ export const Item = ({
                                   src={
                                     'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
                                   }
-                                  className=" absolute w-32 h-6  z-30  "
+                                  className=" absolute w-32 h-6  z-20  "
                                 />
                                 <div className="ribbon"></div>
                                 <div className="knot"></div>

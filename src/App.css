@@ -165,10 +165,10 @@
   z-index: 0;
 }
 .ribbon-bow-container {
-  position: relative;
-  left: 50%;
+  position: absolute;
+  left: 90%;
   rotate: 45deg;
-  z-index: 99999;
+  z-index: 10;
 }
 
 
@@ -229,4 +229,3 @@
 .animated-youtube-icon {
   animation: pulsateAnimation 1.5s ease-in-out infinite;
 }
-\\
