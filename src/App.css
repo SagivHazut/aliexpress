@@ -1,12 +1,16 @@
 .App {
   text-align: center;
+<<<<<<< HEAD
   font-family: 'Roboto', sans-serif;
+=======
+>>>>>>> 4ba7360d73367df0777a54ff2e481520bb6eaef9
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+<<<<<<< HEAD
 .text-font{
   font-family: 'Roboto', sans-serif;
 }
@@ -18,6 +22,8 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
 }
+=======
+>>>>>>> 4ba7360d73367df0777a54ff2e481520bb6eaef9
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -48,6 +54,7 @@
     transform: rotate(360deg);
   }
 }
+<<<<<<< HEAD
 @keyframes slide-up {
   from {
     transform: translateY(60%);
@@ -229,3 +236,5 @@
 .animated-youtube-icon {
   animation: pulsateAnimation 1.5s ease-in-out infinite;
 }
+=======
+>>>>>>> 4ba7360d73367df0777a54ff2e481520bb6eaef9

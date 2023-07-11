@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import VideoScroll from './pages/VideoScroll'
 import SearchBar from './components/SearchBar'
 import { SearchItems } from './components/SearchItems'
@@ -89,3 +90,29 @@ export const routes = [
     component: <Errorsite />,
   },
 ]
+=======
+import { TopProducts } from "./components/TopProducts";
+import { Average } from "./components/Average";
+import { Newest } from "./components/Newest";
+import { Errorsite } from "./components/Errorsite";
+import { Category } from "./components/Category";
+
+export const routes = [
+  {
+    path: "/",
+    component: <TopProducts />,
+  },
+  {
+    path: "/Featured",
+    component: <Average />,
+  },
+  {
+    path: "/HigherCommission",
+    component: <Newest />,
+  },
+  {
+    path: "/Errorsite",
+    component: <Errorsite />,
+  },
+];
+>>>>>>> 4ba7360d73367df0777a54ff2e481520bb6eaef9

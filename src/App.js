@@ -1,5 +1,6 @@
 import './App.css'
 import { Navbar } from './components/Navbar'
+<<<<<<< HEAD
 import React, { useState } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { routes } from './routes'
@@ -67,11 +68,23 @@ function App() {
         <ChevronUpIcon className="h-5 w-5" />
       </button>
       <Navbar setCountry={setCountry} country={country} isVisible={visible} />
+=======
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { routes } from './routes'
+import Pages from './components/Pages'
+
+function App() {
+  return (
+    <div className="App">
+      <Navbar />
+>>>>>>> 4ba7360d73367df0777a54ff2e481520bb6eaef9
       <Routes>
         {routes.map((route) => (
           <Route
             key={route.path}
             exact
+<<<<<<< HEAD
             element={
               route.redirect ? (
                 <Navigate to={route.redirect} />
@@ -86,8 +99,21 @@ function App() {
           />
         ))}
       </Routes>
+=======
+            element={route.component}
+            path={route.path}
+          />
+        ))}
+      </Routes>{' '}
+>>>>>>> 4ba7360d73367df0777a54ff2e481520bb6eaef9
     </div>
   )
 }
 
 export default App
+<<<<<<< HEAD
+=======
+
+
+// amazon affiliate sport01e3-20
+>>>>>>> 4ba7360d73367df0777a54ff2e481520bb6eaef9
