@@ -56,7 +56,7 @@ function ErrorPopup({ message, onClose }) {
           cursor: 'pointer',
         }}
       >
-        {storedCountry === 'IL' ? 'סגור' : 'Close'}
+        {storedCountry === 'IL' ? 'נסה שנית' : 'Try again'}
       </button>
     </div>
   )

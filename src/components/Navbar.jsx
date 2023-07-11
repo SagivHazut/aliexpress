@@ -36,7 +36,7 @@ export const Navbar = ({ country, isVisible }) => {
       href: '/top-products',
       state: 'isToggled',
       onClick: () =>
-        handleToggle('isToggled', ['6', '30', '34'], 'top-products'),
+        handleToggle('isToggled', ['6,30', '30,34', '34,6'], 'top-products'),
     },
 
     {
@@ -44,7 +44,11 @@ export const Navbar = ({ country, isVisible }) => {
       href: '/SuperDeals',
       state: 'isToggled1',
       onClick: () =>
-        handleToggle('isToggled1', ['320', '3', '100001205'], 'SuperDeals'),
+        handleToggle(
+          'isToggled1',
+          ['320,3', '3,100001205', '100001205,320'],
+          'SuperDeals'
+        ),
     },
     {
       name: 'Featured Products',
@@ -53,7 +57,12 @@ export const Navbar = ({ country, isVisible }) => {
       onClick: () =>
         handleToggle(
           'isToggled3',
-          ['200048142', '200000920', '200003782', '100000041'],
+          [
+            '200048142,200000920',
+            '200000920,100000041',
+            '200003782,200000920',
+            '100000041,200048142',
+          ],
           'Featured Products'
         ),
     },
@@ -71,7 +80,12 @@ export const Navbar = ({ country, isVisible }) => {
       state: 'isToggled5',
       onClick: () =>
         handleOptionSelect(
-          ['201768104', '200003274', '200004217', '200004217', '200297143'],
+          [
+            '201768104,200004217',
+            '200003274',
+            '200004217,200003274',
+            '200297143,201768104',
+          ],
           'Sport'
         ),
     },
@@ -79,7 +93,8 @@ export const Navbar = ({ country, isVisible }) => {
       name: 'Kids',
       href: '/Kids',
       state: 'isToggled1',
-      onClick: () => handleOptionSelect(['1501', '26', '21'], 'Kids'),
+      onClick: () =>
+        handleOptionSelect(['1501,26', '26,21', '21,1501'], 'Kids'),
     },
     {
       name: 'Women',
@@ -88,12 +103,12 @@ export const Navbar = ({ country, isVisible }) => {
       onClick: () =>
         handleOptionSelect(
           [
-            '200133142',
-            '200000854',
-            '200003494',
-            '200000345',
-            '201336907',
-            '201169002',
+            '200133142,201169002',
+            '200000854,201336907',
+            '200003494,200000345',
+            '200000345,201336907',
+            '201336907,201169002',
+            '201169002,200000345',
           ],
           'Women'
         ),
@@ -105,12 +120,12 @@ export const Navbar = ({ country, isVisible }) => {
       onClick: () =>
         handleOptionSelect(
           [
-            '200131145',
-            '142003',
-            '200003955',
-            '12503',
-            '200003495',
-            '200000343',
+            '200131145,200000343',
+            '142003,200003495',
+            '200003955,12503',
+            '12503,200003495',
+            '200003495,200131145',
+            '200000343,12503',
           ],
           'Men'
         ),
@@ -121,7 +136,15 @@ export const Navbar = ({ country, isVisible }) => {
       state: 'isToggled4',
       onClick: () =>
         handleOptionSelect(
-          ['200294142', '6', '628', '100000039', '100000308', '405', '1541'],
+          [
+            '200294142,1541',
+            '6,405',
+            '628,100000308',
+            '100000039,200294142',
+            '100000308,6',
+            '405,200294142',
+            '1541,628',
+          ],
           'House'
         ),
     },
@@ -393,7 +416,7 @@ export const Navbar = ({ country, isVisible }) => {
                           className={`navbar-font-bold ${
                             isCurrent(item.href)
                               ? 'bg-orange-500 text-white'
-                              : 'text-gray-100 hover:bg-gray-100 hover:text-white'
+                              : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                           } rounded-md px-3 py-2 text-sm font-medium `}
                           aria-current={
                             isCurrent(item.href) ? 'page' : undefined

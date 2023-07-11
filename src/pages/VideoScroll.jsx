@@ -413,7 +413,7 @@ const VideoScroll = ({ setCountry, country }) => {
                   <br />
                   <span
                     style={{
-                      background: `linear-gradient(to left, #ff0000 0%, #ff7f00 16.6%, #ffff00 33.3%, #00ff00 50%, #0000ff 66.6%, #8b00ff 83.3%, #ff0000 100%)`,
+                      background: `linear-gradient(to left, #a9c65b 0%, #a9c65b 16.6%, #ef4444 33.3%, #a9c65b 50%, #ef4444 66.6%, #a9c65b 83.3%, #ef4444 100%)`,
                       backgroundSize: '600% 100%',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',

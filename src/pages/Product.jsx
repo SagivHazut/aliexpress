@@ -38,8 +38,11 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
   async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
-    const randomCategoryId =
-      category_ids[Math.floor(Math.random() * category_ids.length)]
+
+    const randomIndex = Math.floor(Math.random() * category_ids.length)
+    const randomCategoryId = category_ids[randomIndex]
+
+    console.log(category_ids[2])
     try {
       setIsLoadingMore(true)
 
