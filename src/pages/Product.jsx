@@ -21,7 +21,6 @@ export const Products = ({ setSearchRes, searchRes }) => {
   const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
   const [reachedBottom, setReachedBottom] = useState(false)
   const [error, setError] = useState(null)
-  const [timer, setTimer] = useState(null)
 
   useEffect(() => {
     if (!initialFetchCompleted) {
@@ -38,8 +37,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
   async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
-    const randomCategoryId =
-      category_ids[Math.floor(Math.random() * category_ids.length)]
+
     try {
       setIsLoadingMore(true)
 
@@ -53,7 +51,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: randomCategoryId,
+            category_ids: category_ids,
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
