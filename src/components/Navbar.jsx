@@ -447,7 +447,7 @@ export const Navbar = ({ country, isVisible }) => {
             </div>
             <Disclosure.Panel>
               <aside
-                className={`fixed top-0 left-0 h-screen w-52 bg-gray-900 text-white transition-transform transform ${
+                className={`fixed top-0 left-0 h-screen w-52 bg-red-500 text-white transition-transform transform ${
                   isOpen ? 'translate-x-0' : '-translate-x-full'
                 } z-40`}
               >
@@ -455,7 +455,7 @@ export const Navbar = ({ country, isVisible }) => {
                   <ul className="space-y-4">
                     <div className="relative">
                       {isOpen && (
-                        <div className="absolute mt-10 left-2/4 transform -translate-x-1/2 w-22 bg-gray-900 border border-gray-900 rounded shadow-lg z-10">
+                        <div className="absolute mt-10 left-2/4 transform -translate-x-1/2 w-22 bg-red-500 border border-red-500 rounded shadow-lg z-10">
                           {navigation.map((item) => (
                             <Disclosure.Button
                               key={item.name}
