@@ -464,9 +464,9 @@ export const Navbar = ({ country, isVisible }) => {
                               onClick={item.onClick}
                               className={`${
                                 isCurrent(item.href)
-                                  ? 'bg-orange-500 text-white'
+                                  ? 'bg-orange-500 text-white '
                                   : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                              } block rounded-md px-3 py-2 text-base font-medium`}
+                              } block rounded-md px-3 py-2 text-base font-medium rounded shadow-lg`}
                               aria-current={
                                 isCurrent(item.href) ? 'page' : undefined
                               }
@@ -482,7 +482,7 @@ export const Navbar = ({ country, isVisible }) => {
                                 }`}
                                 onClick={toggleSidebar}
                               >
-                                <span className="mr-2 text-white">
+                                <span className="block rounded-md px-3 py-2 text-base font-medium focus:outline-none text-white ">
                                   {country === 'IL' ? 'קטגוריות' : 'Categories'}
                                 </span>
                                 <svg
@@ -515,7 +515,7 @@ export const Navbar = ({ country, isVisible }) => {
                                       isCurrent(item.href)
                                         ? 'bg-orange-500 text-white'
                                         : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                                    } block rounded-md px-10 py-2 text-base font-medium`}
+                                    } block rounded-md px-10 py-2 text-base font-medium rounded shadow`}
                                     aria-current={
                                       isCurrent(item.href) ? 'page' : undefined
                                     }

@@ -15,12 +15,12 @@ function SearchBar() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  console.log(value)
   async function fetchProductDetails(value) {
     const storedCountry = localStorage.getItem('country')
 
     try {
-      setLoading(true) // Start loading
+      setLoading(true)
 
       const response = await axios.get(
         'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
@@ -100,6 +100,7 @@ function SearchBar() {
   const handleCloseError = () => {
     setError(null)
     setShowFilter(!showFilter)
+    fetchProductDetails(value)
   }
 
   useEffect(() => {
