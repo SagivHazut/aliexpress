@@ -52,7 +52,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: category_ids,
+            category_ids: category_ids ? category_ids : '6',
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
@@ -101,6 +101,11 @@ export const Products = ({ setSearchRes, searchRes }) => {
     setShowFilter(false)
     fetchData()
   }
+
+  const handleCloseButton = () => {
+    setError(null)
+  }
+
   useEffect(() => {
     window.addEventListener('scroll', throttledHandleScroll)
 
@@ -143,7 +148,13 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
   return (
     <>
-      {error && <ErrorPopup message={error} onClose={handleCloseError} />}
+      {error && (
+        <ErrorPopup
+          message={error}
+          onClose={handleCloseError}
+          handleCloseButton={handleCloseButton}
+        />
+      )}
 
       <div
         className={`fixed ${

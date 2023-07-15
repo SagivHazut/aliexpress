@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import LanguageDropdown from './CustomOption'
-import SearchBar from './SearchBar'
 import { useSelector } from 'react-redux'
 
 export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {

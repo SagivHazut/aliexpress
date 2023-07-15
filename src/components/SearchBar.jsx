@@ -108,11 +108,20 @@ function SearchBar() {
       setShowFilter(!showFilter)
     }
   }, [error])
+  const handleCloseButton = () => {
+    setError(null)
+  }
 
   return (
     <>
       <>
-        {error && <ErrorPopup message={error} onClose={handleCloseError} />}
+        {error && (
+          <ErrorPopup
+            message={error}
+            onClose={handleCloseError}
+            handleCloseButton={handleCloseButton}
+          />
+        )}{' '}
         <div style={{ alignItems: 'center' }}>
           <input
             type="text"
