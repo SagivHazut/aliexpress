@@ -1,31 +1,12 @@
 import React from 'react'
+import '../css/button.css'
 
 function ErrorPopup({ message, onClose, handleCloseButton }) {
   const storedCountry = localStorage.getItem('country')
 
   return (
     <>
-      <div
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: '#fff',
-          padding: '20px',
-          boxShadow: '10px 10px 4px rgba(0, 0, 0, 0.1)',
-          borderRadius: '10px',
-          zIndex: '9999',
-          width: '80vw',
-          height: '25vh',
-          maxWidth: '400px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-        }}
-      >
+      <div className="poopup-continer">
         <span
           style={{
             fontSize: '48px',

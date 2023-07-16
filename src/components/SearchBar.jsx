@@ -4,6 +4,7 @@ import ErrorPopup from './ErrorPopup'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import '../css/button.css'
 
 function SearchBar() {
   const name = 'Search...'
@@ -15,7 +16,7 @@ function SearchBar() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  console.log(value)
+
   async function fetchProductDetails(value) {
     const storedCountry = localStorage.getItem('country')
 
@@ -115,14 +116,16 @@ function SearchBar() {
   return (
     <>
       <>
-        {error && (
-          <ErrorPopup
-            message={error}
-            onClose={handleCloseError}
-            handleCloseButton={handleCloseButton}
-          />
-        )}{' '}
-        <div style={{ alignItems: 'center' }}>
+        <div className="errormsg">
+          {error && (
+            <ErrorPopup
+              message={error}
+              onClose={handleCloseError}
+              handleCloseButton={handleCloseButton}
+            />
+          )}{' '}
+        </div>
+        <div className="popup-module">
           <input
             type="text"
             placeholder={name}
@@ -140,26 +143,21 @@ function SearchBar() {
               width: '100%',
               maxWidth: '400px',
               margin: '0 auto',
-              marginTop: '10px',
+              marginTop: '40px',
+              textAlign: 'center',
             }}
           />
 
-          <button
-            onClick={handleButtonClick}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '4px',
-              border: 'none',
-              backgroundColor: '#4CAF50',
-              color: 'white',
-              fontWeight: 'bold',
-              marginLeft: '8px',
-              cursor: 'pointer',
-              marginTop: 10,
-            }}
-          >
-            {loading ? 'Searching' : 'Search'}
-          </button>
+          <div class="cont">
+            <button class="btn" onClick={handleButtonClick}>
+              <span>Search</span>
+              <img
+                src="https://i.cloudup.com/2ZAX3hVsBE-3000x3000.png"
+                height="62"
+                width="62"
+              />
+            </button>
+          </div>
         </div>
       </>
     </>

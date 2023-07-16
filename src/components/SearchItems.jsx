@@ -257,34 +257,34 @@ export const SearchItems = () => {
               </div>
             </>
           )}{' '}
-          <div
-            className={`navbar ${
-              visible ? 'slide-in' : 'slide-out'
-            } fixed top-5 right-4 z-50 flex items-center `}
-            style={{ zIndex: '9000' }}
-          >
-            <div className="relative inline-block ">
-              <button
-                className="bg-red-500 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
-                onClick={toggleSearch}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
+          {/* <div
+              className={`navbar ${
+                visible ? 'slide-in' : 'slide-out'
+              } fixed top-5 right-4 z-50 flex items-center `}
+              style={{ zIndex: '9000' }}
+            >
+              <div className="relative inline-block ">
+                <button
+                  className="bg-red-500 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
+                  onClick={toggleSearch}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div> */}
           {searchRes && (
             <div className="lg:col-span-3 ">
               <div>
