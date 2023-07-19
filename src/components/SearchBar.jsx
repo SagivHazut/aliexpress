@@ -5,13 +5,13 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import '../css/button.css'
+import LoadingSpinner from './LoadingSpinner'
 
-function SearchBar() {
+function SearchBar({ setLoading }) {
   const name = 'Search...'
   const [showFilter, setShowFilter] = useState(false)
   const [value, setValue] = useState('')
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
   const [sorting, setSorting] = useState('LAST_VOLUME_DESC')
 
   const navigate = useNavigate()
@@ -115,51 +115,27 @@ function SearchBar() {
 
   return (
     <>
-      <>
-        <div className="errormsg">
-          {error && (
-            <ErrorPopup
-              message={error}
-              onClose={handleCloseError}
-              handleCloseButton={handleCloseButton}
-            />
-          )}{' '}
-        </div>
-        <div className="popup-module">
-          <input
-            type="text"
-            placeholder={name}
-            value={value}
-            onChange={handleInputChange}
-            onKeyDown={handleInputKeyDown}
-            style={{
-              padding: '8px',
-              borderRadius: '4px',
-              border: '1px solid #ccc',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-              transition: 'box-shadow 0.2s ease-in-out',
-              outline: 'none',
-              fontSize: '16px',
-              width: '100%',
-              maxWidth: '400px',
-              margin: '0 auto',
-              marginTop: '40px',
-              textAlign: 'center',
-            }}
+      <div className="errormsg">
+        {error && (
+          <ErrorPopup
+            message={error}
+            onClose={handleCloseError}
+            handleCloseButton={handleCloseButton}
           />
-
-          <div class="cont">
-            <button class="btn" onClick={handleButtonClick}>
-              <span>Search</span>
-              <img
-                src="https://i.cloudup.com/2ZAX3hVsBE-3000x3000.png"
-                height="62"
-                width="62"
-              />
-            </button>
-          </div>
-        </div>
-      </>
+        )}
+      </div>
+      <input
+        type="text"
+        className="input-search"
+        placeholder={name}
+        value={value}
+        onChange={handleInputChange}
+        onKeyDown={handleInputKeyDown}
+      />
+      {/* 
+        <button onClick={handleButtonClick}>
+          <span>Search</span>
+        </button> */}
     </>
   )
 }

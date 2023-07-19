@@ -167,7 +167,14 @@ export const HomePage = () => {
                     className="bg-white rounded-lg p-6 shadow-md"
                   >
                     <h2 className="text-xl font-bold mb-2">{coupon.title}</h2>
-                    <img src={coupon.image} alt="" className="mx-auto  mb-2" />
+                    <a href={coupon.href} target="_blank">
+                      <img
+                        src={coupon.image}
+                        alt=""
+                        className="mx-auto  mb-2"
+                      />
+                    </a>
+
                     <p
                       className={`text-gray-600 mb-4 ${
                         coupon.expanded
@@ -183,13 +190,6 @@ export const HomePage = () => {
                       <br />
                       <span className="text-red-400">{coupon.code}</span>
                     </p>
-                    <a
-                      href={coupon.href}
-                      className="text-blue-600 hover:underline"
-                      target="_blank"
-                    >
-                      Go to Website
-                    </a>
                   </div>
                 ))}
               </div>

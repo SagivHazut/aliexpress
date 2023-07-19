@@ -7,6 +7,8 @@ import logonobackground from '../image/logonobackground.png'
 import { LiaYoutube } from 'react-icons/lia'
 import { useDispatch } from 'react-redux'
 import SearchBar from './SearchBar'
+import '../css/button.css'
+import LoadingSpinner from './LoadingSpinner'
 
 export const Navbar = ({ country, isVisible }) => {
   const dispatch = useDispatch()
@@ -18,6 +20,8 @@ export const Navbar = ({ country, isVisible }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [sideBar, setSideBar] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const toggleSearch = () => {
     setSearchOpen(!searchOpen)
@@ -251,49 +255,13 @@ export const Navbar = ({ country, isVisible }) => {
 
   return (
     <>
-      {searchOpen && (
-        <>
-          <div
-            className="fixed inset-0 flex justify-center items-center z-50"
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            <div className="">
-              <div className="flex justify-between items-center mb-4">
-                <div class="card">
-                  <div class="bg">
-                    <SearchBar
-                      searchOpen={searchOpen}
-                      setSearchOpen={setSearchOpen}
-                    />{' '}
-                    <button
-                      className="text-gray-600 hover:text-gray-800 absolute top-0 right-0"
-                      onClick={toggleSearch}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="blob"></div>
-                </div>
-              </div>
-            </div>
+      <div>
+        {loading && (
+          <div className="loading-overlay">
+            <LoadingSpinner />
           </div>
-        </>
-      )}
+        )}
+      </div>
       <div
         className={`navbar ${
           isVisible ? 'slide-in' : 'slide-out'
@@ -538,26 +506,35 @@ export const Navbar = ({ country, isVisible }) => {
                 </nav>
               </aside>
             </Disclosure.Panel>
-            <div className="relative inline-block ">
-              <button
-                className="bg-red-500 hover:bg-orange-500 text-white font-bold py-2  rounded flex items-center fixed top-5 right-24 px-5"
-                onClick={toggleSearch}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+
+            <div className="fixed top-2 right-20">
+              <div className="relative inline-block">
+                <div className="search-box items-center px-5 rounded flex text-white font-bold py-2">
+                  <button className="btn-search" onClick={toggleSearch}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                      />
+                    </svg>
+                  </button>
+                  <SearchBar
+                    searchOpen={searchOpen}
+                    setSearchOpen={setSearchOpen}
+                    setLoading={setLoading}
+                    setError={setError}
+                    error={error}
                   />
-                </svg>
-              </button>
+                </div>
+              </div>
             </div>
           </>
         )}

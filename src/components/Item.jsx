@@ -20,7 +20,6 @@ export const Item = ({
   const [exchangeRate, setExchangeRate] = useState(null)
 
   useEffect(() => {
-    // Fetch exchange rate from API
     fetch('https://api.exchangerate-api.com/v4/latest/USD')
       .then((response) => response.json())
       .then((data) => {

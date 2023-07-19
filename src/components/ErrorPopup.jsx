@@ -41,6 +41,7 @@ function ErrorPopup({ message, onClose, handleCloseButton }) {
             fontSize: '16px',
             fontWeight: 'bold',
             marginBottom: '20px',
+            color: 'red',
           }}
         >
           {message}
