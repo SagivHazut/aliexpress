@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import ErrorPopup from './ErrorPopup'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ function SearchBar({ setLoading }) {
   const [value, setValue] = useState('')
   const [error, setError] = useState(null)
   const [sorting, setSorting] = useState('LAST_VOLUME_DESC')
+  const inputRef = useRef(null)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -125,6 +126,7 @@ function SearchBar({ setLoading }) {
         )}
       </div>
       <input
+        ref={inputRef}
         type="text"
         className="input-search"
         placeholder={name}

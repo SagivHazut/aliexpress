@@ -40,10 +40,12 @@ function App() {
   }, [])
 
   const [isVisible, setIsVisible] = useState(false)
+
   const handleScroll2 = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    setIsVisible(scrollTop > 300)
+    setIsVisible(scrollTop === 0)
   }
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll2)
     return () => window.removeEventListener('scroll', handleScroll2)

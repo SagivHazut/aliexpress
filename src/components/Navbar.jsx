@@ -507,7 +507,7 @@ export const Navbar = ({ country, isVisible }) => {
               </aside>
             </Disclosure.Panel>
 
-            <div className="fixed top-2 right-20">
+            <div className="fixed top-2 right-24">
               <div className="relative inline-block">
                 <div className="search-box items-center px-5 rounded flex text-white font-bold py-2">
                   <button className="btn-search" onClick={toggleSearch}>
@@ -526,13 +526,15 @@ export const Navbar = ({ country, isVisible }) => {
                       />
                     </svg>
                   </button>
-                  <SearchBar
-                    searchOpen={searchOpen}
-                    setSearchOpen={setSearchOpen}
-                    setLoading={setLoading}
-                    setError={setError}
-                    error={error}
-                  />
+                  <div className="left-7 flex relative">
+                    <SearchBar
+                      searchOpen={searchOpen}
+                      setSearchOpen={setSearchOpen}
+                      setLoading={setLoading}
+                      setError={setError}
+                      error={error}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
