@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Popup from '../components/Popup'
 import HandM from '../image/H_M-Logo-PNG1.png'
 import '../css/button.css'
@@ -33,6 +33,7 @@ export const HomePage = () => {
       code: 'JULYOT14',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://s.click.aliexpress.com/e/_DDcWu7b?bz=300*250',
+      expanded: false,
       country:
         'EXCEPT RU, UZ, KR, AM, FR, ES, KZ, BR, TJ, BY, MD, AZ, TM, KG, GE, US, SA, AE, KW, OM, BH, QA',
     },
@@ -42,6 +43,7 @@ export const HomePage = () => {
       code: 'JULYOT6',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://s.click.aliexpress.com/e/_DDcWu7b?bz=300*250',
+      expanded: false,
       country:
         'EXCEPT RU, UZ, KR, AM, FR, ES, KZ, BR, TJ, BY, MD, AZ, TM, KG, GE, US, SA, AE, KW, OM, BH, QA',
     },
@@ -51,6 +53,7 @@ export const HomePage = () => {
       code: 'US6',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/gcp/300000486/tBYDExMyef?wh_weex=true&tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'United States',
     },
     {
@@ -59,6 +62,7 @@ export const HomePage = () => {
       code: 'BRAFF6',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.google.com/url?q=https://www.aliexpress.com/gcp/300000486/PeMeKGaMtY?wh_weex%3Dtrue%26tracelog%3Drowan%26rowan_id1%3Daffnl_1_en_US_2023-07-13%26rowan_msg_id%3D14efb9524e324cceabb269ca6457e829%26ck%3Din_edm_other&source=gmail&ust=1689760120280000&usg=AOvVaw05M2pKd61DLI61X_D6_cRH',
+      expanded: false,
       country: 'Brazil',
     },
     {
@@ -67,6 +71,7 @@ export const HomePage = () => {
       code: 'BRAFF10',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.google.com/url?q=https://www.aliexpress.com/gcp/300000486/PeMeKGaMtY?wh_weex%3Dtrue%26tracelog%3Drowan%26rowan_id1%3Daffnl_1_en_US_2023-07-13%26rowan_msg_id%3D14efb9524e324cceabb269ca6457e829%26ck%3Din_edm_other&source=gmail&ust=1689760120280000&usg=AOvVaw05M2pKd61DLI61X_D6_cRH',
+      expanded: false,
       country: 'Brazil',
     },
     {
@@ -75,6 +80,7 @@ export const HomePage = () => {
       code: 'no need specified CODE',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/campaign/wow/gcp/superdeal-g/index?tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'Brazil',
     },
     {
@@ -83,6 +89,7 @@ export const HomePage = () => {
       code: 'KASTKINGBR5',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/campaign/wow/gcp/superdeal-g/index?tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'Brazil',
     },
     {
@@ -91,6 +98,7 @@ export const HomePage = () => {
       code: 'KASTKINGBR9',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/campaign/wow/gcp/superdeal-g/index?tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'Brazil',
     },
     {
@@ -99,6 +107,7 @@ export const HomePage = () => {
       code: 'KASTKINGBR18',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/campaign/wow/gcp/superdeal-g/index?tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'Brazil',
     },
     {
@@ -107,6 +116,7 @@ export const HomePage = () => {
       code: 'JULY30',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/gcp/300000486/PeMeKGaMtY?wh_weex=true&tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country:
         'Saudi Arabia, United Arab Emirates, Qatar, Bahrain, Oman, Kuwait',
     },
@@ -116,6 +126,7 @@ export const HomePage = () => {
       code: 'FR06',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/gcp/300000768/Gyk3MQ5mAw?wh_weex=true&tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'France',
     },
     {
@@ -124,6 +135,7 @@ export const HomePage = () => {
       code: 'FR14',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/gcp/300000768/Gyk3MQ5mAw?wh_weex=true&tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'France',
     },
     {
@@ -132,6 +144,7 @@ export const HomePage = () => {
       code: 'FR36',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/gcp/300000768/Gyk3MQ5mAw?wh_weex=true&tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'France',
     },
     {
@@ -140,6 +153,7 @@ export const HomePage = () => {
       code: 'ES06',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/gcp/300000511/europe-superdeals?wh_weex=true&tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'Spain',
     },
     {
@@ -148,16 +162,28 @@ export const HomePage = () => {
       code: 'ES12',
       image: 'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-icon.svg',
       href: 'https://www.aliexpress.com/gcp/300000511/europe-superdeals?wh_weex=true&tracelog=rowan&rowan_id1=affnl_1_en_US_2023-07-13&rowan_msg_id=14efb9524e324cceabb269ca6457e829&ck=in_edm_other',
+      expanded: false,
       country: 'Spain',
     },
   ])
+  const handleCouponClick = (index) => {
+    setCoupons((prevCoupons) => {
+      const updatedCoupons = prevCoupons.map((coupon, i) => {
+        if (i === index) {
+          return { ...coupon, expanded: !coupon.expanded }
+        }
+        return coupon
+      })
+      return updatedCoupons
+    })
+  }
 
   return (
     <>
       <Popup />
       <div className={`bg-gray-100 min-h-screen`}>
         <div className="container mx-auto py-10">
-          <div className={`max-w-4xl mx-auto p-8'text-gray-700`}>
+          <div className={`max-w-6xl mx-auto p-8'text-gray-700`}>
             <div className="container p-8">
               <h1 className="text-3xl font-bold mb-4">Coupon Codes</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -190,6 +216,15 @@ export const HomePage = () => {
                       <br />
                       <span className="text-red-400">{coupon.code}</span>
                     </p>
+                    {coupon.country && (
+                      <button
+                        onClick={() => handleCouponClick(index)}
+                        className="text-blue-600 font-semibold underline mb-2"
+                      >
+                        {coupon.expanded ? 'Hide Country' : 'Show Country'}
+                      </button>
+                    )}
+                    {coupon.expanded && <p>Country: {coupon.country}</p>}
                   </div>
                 ))}
               </div>
