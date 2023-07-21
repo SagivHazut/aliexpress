@@ -1,5 +1,5 @@
 import '../App.css'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -19,12 +19,13 @@ export const Navbar = ({ country, isVisible }) => {
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [sideBar, setSideBar] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const [showInput, setShowInput] = useState(false)
+
   const toggleSearch = () => {
-    setSearchOpen(!searchOpen)
+    setShowInput((prevShowInput) => !prevShowInput)
   }
   const toggleSidebar = () => {
     setSideBar(!sideBar)
@@ -510,29 +511,34 @@ export const Navbar = ({ country, isVisible }) => {
             <div className="fixed top-2 right-24">
               <div className="relative inline-block">
                 <div className="search-box items-center px-5 rounded flex text-white font-bold py-2">
-                  <button className="btn-search" onClick={toggleSearch}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                      />
-                    </svg>
-                  </button>
-                  <div className="left-7 flex relative">
+                  <label htmlFor="searchInput">
+                    <button className="btn-search" onClick={toggleSearch}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                        />
+                      </svg>
+                    </button>
+                  </label>
+                  <div
+                    className={`left-7 flex relative ${
+                      showInput ? 'show-input' : ''
+                    }`}
+                  >
                     <SearchBar
-                      searchOpen={searchOpen}
-                      setSearchOpen={setSearchOpen}
                       setLoading={setLoading}
                       setError={setError}
                       error={error}
+                      showInput={showInput}
                     />
                   </div>
                 </div>

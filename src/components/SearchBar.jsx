@@ -1,13 +1,11 @@
 import axios from 'axios'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import ErrorPopup from './ErrorPopup'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import '../css/button.css'
-import LoadingSpinner from './LoadingSpinner'
 
-function SearchBar({ setLoading }) {
+function SearchBar({ setLoading, showInput }) {
   const name = 'Search...'
   const [showFilter, setShowFilter] = useState(false)
   const [value, setValue] = useState('')
@@ -15,8 +13,24 @@ function SearchBar({ setLoading }) {
   const [sorting, setSorting] = useState('LAST_VOLUME_DESC')
   const inputRef = useRef(null)
 
+  useEffect(() => {
+    if (showInput) {
+      inputRef.current.focus()
+    }
+  }, [showInput])
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const queryValue = searchParams.get('')
+    if (queryValue) {
+      setValue(queryValue)
+      fetchProductDetails(queryValue)
+    }
+  }, [location])
 
   async function fetchProductDetails(value) {
     const storedCountry = localStorage.getItem('country')
@@ -50,9 +64,7 @@ function SearchBar({ setLoading }) {
       if (response.status === 200) {
         dispatch({ type: 'UPDATE_SEARCH_RES', payload: { searchRes: newData } })
 
-        if (window.location.pathname !== '/SearchItems') {
-          navigate('/SearchItems')
-        }
+        localStorage.setItem('searchQuery', value)
 
         return newData
       } else {
@@ -75,19 +87,19 @@ function SearchBar({ setLoading }) {
     }
   }
 
-  const handleButtonClick = () => {
-    fetchProductDetails(value)
-      .then((data) => {})
-      .catch((error) => {
-        console.error(error)
-      })
-  }
-
   const handleInputChange = (event) => {
-    localStorage.setItem('value', event.target.value)
-
     setValue(event.target.value)
   }
+
+  // const handleButtonClick = () => {
+  //   fetchProductDetails(value)
+  //     .then((data) => {})
+  //     .catch((error) => {
+  //       console.error(error)
+  //     })
+
+  //   navigate('/SearchItems?=' + encodeURIComponent(value))
+  // }
 
   const handleInputKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -96,6 +108,8 @@ function SearchBar({ setLoading }) {
         .catch((error) => {
           console.error(error)
         })
+
+      navigate('/SearchItems?=' + encodeURIComponent(value))
     }
   }
 
@@ -110,6 +124,7 @@ function SearchBar({ setLoading }) {
       setShowFilter(!showFilter)
     }
   }, [error])
+
   const handleCloseButton = () => {
     setError(null)
   }
@@ -128,16 +143,17 @@ function SearchBar({ setLoading }) {
       <input
         ref={inputRef}
         type="text"
-        className="input-search"
+        className={`input-search ${
+          showInput ? 'input-search-visible' : 'input-search-hidden'
+        }`}
         placeholder={name}
         value={value}
         onChange={handleInputChange}
         onKeyDown={handleInputKeyDown}
       />
-      {/* 
-        <button onClick={handleButtonClick}>
-          <span>Search</span>
-        </button> */}
+      {/* <button onClick={handleButtonClick}>
+        <span>Search</span>
+      </button> */}
     </>
   )
 }
