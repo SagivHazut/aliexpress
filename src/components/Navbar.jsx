@@ -242,6 +242,7 @@ export const Navbar = ({ country, isVisible }) => {
   }
 
   const [isDesktop, setIsDesktop] = useState(true)
+  const isVideoScrollPage = location.pathname === '/VideoScroll'
 
   useEffect(() => {
     const handleResize = () => {
@@ -263,18 +264,16 @@ export const Navbar = ({ country, isVisible }) => {
           </div>
         )}
       </div>
-      <div
-        className={`navbar ${
-          isVisible ? 'slide-in' : 'slide-out'
-        } fixed top-5 right-4 flex items-center `}
-        style={{ zIndex: '9000' }}
-      ></div>
+
       <Disclosure
         as="nav"
         className={`navbar ${
-          isVisible ? 'slide-in' : 'slide-out'
-        } bg-gray-900 semicircle`}
-        style={{ position: 'sticky', top: '0', zIndex: '9000' }}
+          isVideoScrollPage
+            ? ' '
+            : isVisible
+            ? 'slide-in bg-gray-900 semicircle'
+            : 'slide-out bg-gray-900 semicircle'
+        } `}
       >
         {({ open }) => (
           <>
@@ -318,7 +317,9 @@ export const Navbar = ({ country, isVisible }) => {
 
                     <div
                       className={
-                        !isDesktop
+                        isVideoScrollPage
+                          ? 'relative right-6 top-0'
+                          : !isDesktop
                           ? 'relative right-6 top-14'
                           : 'absolute flex items-center justify-center inset-0 top-24'
                       }
@@ -508,7 +509,7 @@ export const Navbar = ({ country, isVisible }) => {
               </aside>
             </Disclosure.Panel>
 
-            <div className="fixed top-2 right-24">
+            <div className="fixed top-2 right-24 z-50">
               <div className="relative inline-block">
                 <div className="search-box items-center px-5 rounded flex text-white font-bold py-2">
                   <label htmlFor="searchInput">

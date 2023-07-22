@@ -45,7 +45,7 @@ function App() {
 
   const handleScroll2 = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-    setIsVisible(scrollTop === 0)
+    setIsVisible(scrollTop)
   }
 
   useEffect(() => {

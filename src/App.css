@@ -146,11 +146,34 @@
 }
 
 .semicircle {
-  position: relative;
+  position:sticky;
   background: #ef4444;
   height: 10vh;
+  top: 0;
+  z-index: 9000;
+}
+.semicircle-scroll {
+  position:relative;
+  background: #ef4444;
+  height: 10vh;
+  top: 0;
+  z-index: 9000;
+  
 }
 
+.semicircle-scroll::before {
+  position: absolute;
+  content: '';
+  left: 50%;
+  z-index: 10;
+  width: 141px;
+  height: 190px;
+  border-radius: 50%;
+  background: inherit;
+  transform: translateX(-50%) translateY(30%);
+  bottom: 0px;
+  z-index: 0;
+}
 .semicircle::before {
   position: absolute;
   content: '';
