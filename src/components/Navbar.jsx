@@ -308,7 +308,7 @@ export const Navbar = ({ country, isVisible }) => {
                       >
                         {!isDesktop && !isCurrent('/VideoScroll') ? (
                           <div className="text-gray-100 hover:bg-gray-900 hover:text-white animated-youtube-icon rounded-md px-1 py-1 text-sm font-medium top-2">
-                            <LiaYoutube className="h-auto w-10 text-gray-500" />
+                            <LiaYoutube className="h-auto w-10 text-gray-200" />
                           </div>
                         ) : (
                           <div className=" relative right-12 w-12"></div>

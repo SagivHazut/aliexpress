@@ -105,11 +105,9 @@ const VideoScroll = ({ setCountry, country }) => {
       if (promise !== undefined) {
         promise
           .then(() => {
-            // Autoplay is not blocked
             testVideo.pause()
           })
           .catch(() => {
-            // Autoplay is blocked
             setAutoplayBlocked(true)
           })
       }
@@ -220,7 +218,6 @@ const VideoScroll = ({ setCountry, country }) => {
       }
 
       if (isPageLoaded) {
-        // Add conditional check for isPageLoaded
         visibleVideos.forEach((video, index) => {
           const videoElementRef = videoElementsRef.current[index]
           if (videoElementRef) {

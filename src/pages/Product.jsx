@@ -148,13 +148,15 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
   return (
     <>
-      {error && (
-        <ErrorPopup
-          message={error}
-          onClose={handleCloseError}
-          handleCloseButton={handleCloseButton}
-        />
-      )}
+      <div>
+        {error && (
+          <ErrorPopup
+            message={error}
+            onClose={handleCloseError}
+            handleCloseButton={handleCloseButton}
+          />
+        )}
+      </div>
 
       <div
         className={`fixed ${

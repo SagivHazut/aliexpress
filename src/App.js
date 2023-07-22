@@ -15,11 +15,10 @@ function App() {
   const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset)
   const dispatch = useDispatch()
 
-  const visible = useSelector((state) => state.visible)
-
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset
-    const isVisible = prevScrollPos > currentScrollPos
+    const isAtTop = currentScrollPos === 0
+    const isVisible = isAtTop || prevScrollPos > currentScrollPos
 
     setPrevScrollPos(currentScrollPos)
     dispatch(updateVisible(isVisible))
@@ -32,6 +31,9 @@ function App() {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [prevScrollPos])
+
+  const visible = useSelector((state) => state.visible)
+
   useEffect(() => {
     const storedCountry = localStorage.getItem('country')
     if (storedCountry) {
