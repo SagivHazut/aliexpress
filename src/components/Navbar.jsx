@@ -58,6 +58,12 @@ export const Navbar = ({ country, isVisible }) => {
       state: 'isToggled4',
       onClick: () => handleToggle('isToggled4'),
     },
+    {
+      name: 'Banggood',
+      href: '/Banggood',
+      state: 'isToggled4',
+      onClick: () => handleToggle('isToggled4'),
+    },
   ])
   const [dropdownNav, setDropdownNav] = useState([
     {

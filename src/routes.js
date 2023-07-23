@@ -14,6 +14,7 @@ import { Sport } from './pages/Page'
 import { House } from './pages/Page'
 import { Recommendation } from './pages/Recommendation'
 import GallreyScroll from './pages/GallreyScroll'
+import { Banggood } from './pages/Banggood'
 
 export const routes = [
   {
@@ -79,6 +80,10 @@ export const routes = [
   {
     path: '/GallreyScroll',
     component: <GallreyScroll />,
+  },
+  {
+    path: '/Banggood',
+    component: <Banggood />,
   },
   {
     path: '/SearchItems',

@@ -153,25 +153,25 @@ export const Item = ({
                               <div className="relative w-full">
                                 {item.name === 'aliexpress' && (
                                   <img
-                                    src={item.product_main_image_url}
-                                    alt=""
-                                    className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
+                                    src={
+                                      'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                    }
+                                    alt="AliExpress Logo"
+                                    style={{
+                                      display: 'flex',
+                                      position: 'absolute',
+                                      top: -10,
+                                      left: -40,
+                                      transform: 'rotate(310deg)  ',
+                                    }}
                                   />
                                 )}
 
                                 <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                                 <img
-                                  src={
-                                    'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
-                                  }
-                                  alt="AliExpress Logo"
-                                  style={{
-                                    display: 'flex',
-                                    position: 'absolute',
-                                    top: -10,
-                                    left: -40,
-                                    transform: 'rotate(310deg)  ',
-                                  }}
+                                  src={item.product_main_image_url}
+                                  alt=""
+                                  className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
                                 />
                               </div>
                             </a>
@@ -281,7 +281,7 @@ export const Item = ({
                                               : `${'$' + item.sale_price}`}
                                           </strong>
                                           <span className="text-green-600">
-                                            <br /> &nbsp;{'save'}
+                                            <br /> &nbsp;{'save '}
                                             {item.discount}
                                           </span>
                                         </div>
@@ -318,13 +318,15 @@ export const Item = ({
                                     )}
                                   </div>
                                 </a>
-                                <a className="relative rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
-                                  {'sales'}:{' '}
-                                  <strong>{item.lastest_volume}</strong>
-                                  <br />
-                                  {'positive Feedback'}:
-                                  <strong>{item.evaluate_rate}</strong>
-                                </a>
+                                {item.name === 'aliexpress' && (
+                                  <a className="relative rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100 mr-0">
+                                    {'sales'}:{' '}
+                                    <strong>{item.lastest_volume}</strong>
+                                    <br />
+                                    {'positive Feedback'}:
+                                    <strong>{item.evaluate_rate}</strong>
+                                  </a>
+                                )}
                               </div>
                             </div>
                           </article>
@@ -480,18 +482,20 @@ export const Item = ({
                                 )}
                               </div>
                             </div>
-                            <div className="flex items-center">
-                              <div className="rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                                <div className="mr-2">
-                                  {'sales'}:{' '}
-                                  <strong>{item.lastest_volume}</strong>
-                                </div>
-                                <div>
-                                  {'positive Feedback'}:
-                                  <strong>{item.evaluate_rate}</strong>
+                            {item.name === 'aliexpress' && (
+                              <div className="flex items-center">
+                                <div className="rounded-full bg-gray-50 px-1 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+                                  <div className="mr-2">
+                                    {'sales'}:{' '}
+                                    <strong>{item.lastest_volume}</strong>
+                                  </div>
+                                  <div>
+                                    {'positive Feedback'}:
+                                    <strong>{item.evaluate_rate}</strong>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                           </div>
                         </div>
                       ))}

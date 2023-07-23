@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Popup from '../components/Popup'
 import HandM from '../image/H_M-Logo-PNG1.png'
 import '../css/button.css'
+import Papa from 'papaparse'
+import csvData from '../csv/Banggood_coupons.csv'
 
 export const HomePage = () => {
+  const [parsedData, setParsedData] = useState([])
+  console.log(parsedData)
   const [coupons, setCoupons] = useState([
     {
       title: 'Under Armour',
@@ -177,6 +181,25 @@ export const HomePage = () => {
       return updatedCoupons
     })
   }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(csvData)
+        const csv = await response.text()
+        const parsedCsv = Papa.parse(csv, {
+          header: true,
+          skipEmptyLines: true,
+        })
+        const filteredData = parsedCsv.data.filter((item) =>
+          Object.values(item).some((value) => value !== '')
+        )
+        setParsedData(filteredData)
+      } catch (error) {
+        console.error('Error fetching or parsing CSV data:', error)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -215,6 +238,44 @@ export const HomePage = () => {
                       Code:
                       <br />
                       <span className="text-red-400">{coupon.code}</span>
+                    </p>
+                    {coupon.country && (
+                      <button
+                        onClick={() => handleCouponClick(index)}
+                        className="text-blue-600 font-semibold underline mb-2"
+                      >
+                        {coupon.expanded ? 'Hide Country' : 'Show Country'}
+                      </button>
+                    )}
+                    {coupon.expanded && <p>Country: {coupon.country}</p>}
+                  </div>
+                ))}
+                {parsedData.map((coupon, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-lg p-6 shadow-md"
+                  >
+                    <h2 className="text-xl font-bold mb-2">
+                      {coupon.advcampaign_name}
+                    </h2>
+                    <a href={coupon.gotolink} target="_blank">
+                      <img src={coupon.logo} alt="" className="mx-auto  mb-2" />
+                    </a>
+
+                    <p
+                      className={`text-gray-600 mb-4 ${
+                        coupon.expanded
+                          ? 'max-h-none'
+                          : 'max-h-12 overflow-hidden'
+                      }`}
+                    >
+                      {coupon.name}
+                    </p>
+
+                    <p className="text-blue-600 font-semibold mb-2">
+                      Code:
+                      <br />
+                      <span className="text-red-400">{coupon.promocode}</span>
                     </p>
                     {coupon.country && (
                       <button
