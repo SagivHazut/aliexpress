@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export const Recommendation = () => {
   const [parsedData, setParsedData] = useState([])
   const [originalData, setOriginalData] = useState([])
+  const itemsPerPage = 'as'
+  const [showFilter, setShowFilter] = useState(false)
 
   const data2 = parsedData.map((item) => ({
     original_price_currency: item['Origin Price'].replace('USD', ''),
@@ -46,9 +48,7 @@ export const Recommendation = () => {
     }
     fetchData()
   }, [])
-
-  const itemsPerPage = 'as'
-  const [showFilter, setShowFilter] = useState(false)
+  console.log(parsedData)
   return (
     <>
       <div>

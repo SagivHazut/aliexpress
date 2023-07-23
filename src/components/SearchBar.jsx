@@ -12,16 +12,15 @@ function SearchBar({ setLoading, showInput }) {
   const [error, setError] = useState(null)
   const [sorting, setSorting] = useState('LAST_VOLUME_DESC')
   const inputRef = useRef(null)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const location = useLocation()
 
   useEffect(() => {
     if (showInput) {
       inputRef.current.focus()
     }
   }, [showInput])
-
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const location = useLocation()
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
@@ -91,16 +90,6 @@ function SearchBar({ setLoading, showInput }) {
     setValue(event.target.value)
   }
 
-  // const handleButtonClick = () => {
-  //   fetchProductDetails(value)
-  //     .then((data) => {})
-  //     .catch((error) => {
-  //       console.error(error)
-  //     })
-
-  //   navigate('/SearchItems?=' + encodeURIComponent(value))
-  // }
-
   const handleInputKeyDown = (event) => {
     if (event.key === 'Enter') {
       fetchProductDetails(value)
@@ -151,9 +140,6 @@ function SearchBar({ setLoading, showInput }) {
         onChange={handleInputChange}
         onKeyDown={handleInputKeyDown}
       />
-      {/* <button onClick={handleButtonClick}>
-        <span>Search</span>
-      </button> */}
     </>
   )
 }

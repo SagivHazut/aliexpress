@@ -1,5 +1,5 @@
 import '../App.css'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -12,35 +12,26 @@ import LoadingSpinner from './LoadingSpinner'
 
 export const Navbar = ({ country, isVisible }) => {
   const dispatch = useDispatch()
-  const [isToggled, setIsToggled] = useState(() => {
-    const storedValue = JSON.parse(localStorage.getItem('isToggled'))
-    return storedValue !== null ? storedValue : {}
-  })
+
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [sideBar, setSideBar] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-
   const [showInput, setShowInput] = useState(false)
-
-  const toggleSearch = () => {
-    setShowInput((prevShowInput) => !prevShowInput)
-  }
-  const toggleSidebar = () => {
-    setSideBar(!sideBar)
-  }
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen)
-  }
+  const [isDesktop, setIsDesktop] = useState(true)
+  const isVideoScrollPage = location.pathname === '/VideoScroll'
+  const [isToggled, setIsToggled] = useState(() => {
+    const storedValue = JSON.parse(localStorage.getItem('isToggled'))
+    return storedValue !== null ? storedValue : {}
+  })
 
   const [navigation, setNavigation] = useState([
     {
       name: 'Hot Deals',
       href: '/top-products',
       state: 'isToggled',
-      onClick: () => handleToggle('isToggled', '6,30,34', 'top-products'),
+      onClick: () => handleToggle('isToggled', '6,30,   34', 'top-products'),
     },
 
     {
@@ -116,6 +107,17 @@ export const Navbar = ({ country, isVisible }) => {
         ),
     },
   ])
+
+  const toggleSearch = () => {
+    setShowInput((prevShowInput) => !prevShowInput)
+  }
+  const toggleSidebar = () => {
+    setSideBar(!sideBar)
+  }
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen)
+  }
 
   useEffect(() => {
     let isIL = country === 'IL'
@@ -240,9 +242,6 @@ export const Navbar = ({ country, isVisible }) => {
   const isCurrent = (href) => {
     return location.pathname === href
   }
-
-  const [isDesktop, setIsDesktop] = useState(true)
-  const isVideoScrollPage = location.pathname === '/VideoScroll'
 
   useEffect(() => {
     const handleResize = () => {

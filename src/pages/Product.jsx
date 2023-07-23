@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Item from '../components/Item'
 import { useSelector } from 'react-redux'
@@ -21,7 +21,6 @@ export const Products = ({ setSearchRes, searchRes }) => {
   const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
   const [reachedBottom, setReachedBottom] = useState(false)
   const [error, setError] = useState(null)
-  const [timer, setTimer] = useState(null)
 
   useEffect(() => {
     if (!initialFetchCompleted) {

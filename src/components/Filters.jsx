@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 
 export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
   const [maxPrice, setMaxPrice] = useState('')
   const [applyCountry, setApplyCountry] = useState('')
   const visible = useSelector((state) => state.visible)
@@ -15,11 +14,6 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
     setIsOpen(!isOpen)
     setShowFilter(!showFilter)
   }
-
-  const toggleSearch = () => {
-    setSearchOpen(!searchOpen)
-  }
-
   const handleMaxMin = () => {
     localStorage.setItem('country', applyCountry)
     setShowFilter(false)
@@ -141,133 +135,3 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
     </>
   )
 }
-
-{
-  /* <div className="py-1 ">
-                <span className="font-bold">
-                  {' '}
-                  {country === 'IL' ? 'מחיר' : '   Price'}
-                </span>
-
-                <button
-                  className={`block w-full ${
-                    country === 'IL' ? 'text-right' : ' text-left '
-                  } px-2 py-2 text-gray-800  ${
-                    selectedFilter === 'SALE_PRICE_ASC'
-                      ? 'bg-gray-800 text-white rounded'
-                      : ''
-                  }`}
-                  onClick={() => setSelectedFilter('SALE_PRICE_ASC')}
-                >
-                  {country === 'IL' ? 'מנמוך לגבוה' : ' Low to High'}
-                </button>
-                <button
-                  className={`block w-full ${
-                    country === 'IL' ? 'text-right' : ' text-left '
-                  } px-2 py-2 text-gray-800   ${
-                    selectedFilter === 'SALE_PRICE_DESC'
-                      ? 'bg-gray-800 text-white rounded'
-                      : ''
-                  }`}
-                  onClick={() => setSelectedFilter('SALE_PRICE_DESC')}
-                >
-                  {country === 'IL' ? 'מגבוה לנמוך' : '   High to Low'}
-                </button>
-                <div className="flex items-center  py-2">
-                  {country === 'IL' ? (
-                    <>
-                      <select
-                        className="border border-gray-300 rounded px-2 py-1 text-gray-800 hover:text-blue  md:flex justify-end "
-                        id="items-per-page"
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                      >
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                      </select>{' '}
-                      <label
-                        htmlFor="items-per-page"
-                        className="text-right  w-full"
-                      >
-                        :כמות מוצרים בעמוד
-                      </label>
-                    </>
-                  ) : (
-                    <>
-                      {' '}
-                      <label
-                        htmlFor="items-per-page"
-                        className="text-left mr-2"
-                      >
-                        Items per page:
-                      </label>
-                      <select
-                        className="border border-gray-300 rounded px-2 py-1 text-gray-800 hover:text-blue"
-                        id="items-per-page"
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                      >
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                      </select>
-                    </>
-                  )}
-                </div> */
-}
-{
-  /* {country === 'IL' ? (
-                  <>
-                    <div className="flex items-center py-2 ">
-                      <input
-                        type="number"
-                        id="min-price"
-                        value={minPrice}
-                        onChange={(e) => setMinPrice(e.target.value)}
-                        className="border border-gray-300 roundedpy-1 text-gray-800"
-                      />
-                      <label
-                        htmlFor="min-price"
-                        className={`text-${
-                          country === 'IL' ? 'right' : 'left'
-                        } `}
-                      >
-                        :החל מ
-                      </label>
-                    </div>
-                    <div className="flex items-center py-2 md:flex justify-end">
-                      <input
-                        type="number"
-                        id="max-price"
-                        value={maxPrice}
-                        onChange={(e) => setMaxPrice(e.target.value)}
-                        className="border border-gray-300 rounded  py-1 text-gray-800"
-                      />
-                      <label htmlFor="max-price" className="w-full ">
-                        :עד
-                      </label>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {' '}
-                    <div className="flex items-center px-2 py-2">
-                      <label
-                        htmlFor="min-price"
-                        className={`text-${
-                          country === 'IL' ? 'right' : 'left'
-                        } mr-2`}
-                      >
-                        Min Price:
-                      </label>
-                      <input
-                        type="number"
-                        id="min-price"
-                        value={minPrice}
-                        onChange={(e) => setMinPrice(e.target.value)}
-                        className="border border-gray-300 rounded px-2 py-1 text-gray-800"
-                      />
-                    </div>
-                         </>
-                )} */
-}
-// </div>

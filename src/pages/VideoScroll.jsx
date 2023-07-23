@@ -62,7 +62,7 @@ const VideoScroll = ({ setCountry, country }) => {
           {
             params: {
               language: storedCountry === 'IL' ? 'he' : 'en',
-              category_ids: '320,3,200133142,200131145,200003494,',
+              category_ids: '320,3,200133142,200131145,200003494',
               page_size: 50,
               page_no: pageCounting,
               max_sale_price: '3000',

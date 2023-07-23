@@ -13,7 +13,6 @@ export const SearchItems = () => {
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [reachedBottom, setReachedBottom] = useState(false)
   const [currentPage, setCurrentPage] = useState(parseInt(page, 10) || 1)
@@ -136,8 +135,6 @@ export const SearchItems = () => {
         ...item,
         name: 'aliexpress',
       }))
-      setLoading(false) // Stop loading
-
       if (response.status !== 200) {
         fetchProductDetails()
       } else if (response.status === 200) {
@@ -158,7 +155,6 @@ export const SearchItems = () => {
         )
       }
     } catch (error) {
-      setLoading(false) // Stop loading
       setError(
         storedCountry === 'IL'
           ? `לא נמצאו תוצאות נסה שנית`
@@ -256,35 +252,7 @@ export const SearchItems = () => {
                 </div>
               </div>
             </>
-          )}{' '}
-          {/* <div
-              className={`navbar ${
-                visible ? 'slide-in' : 'slide-out'
-              } fixed top-5 right-4 z-50 flex items-center `}
-              style={{ zIndex: '9000' }}
-            >
-              <div className="relative inline-block ">
-                <button
-                  className="bg-red-500 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded flex items-center"
-                  onClick={toggleSearch}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div> */}
+          )}
           {searchRes && (
             <div className="lg:col-span-3 ">
               <div>
@@ -313,7 +281,6 @@ export const SearchItems = () => {
                                   'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
                                 }
                                 alt="AliExpress Logo"
-                                // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
                                 style={{
                                   display: 'flex',
                                   position: 'absolute',
@@ -410,7 +377,7 @@ export const SearchItems = () => {
                                 } leading-6 text-gray-600`}
                                 style={{
                                   userSelect: 'none',
-                                }} // Add this style property
+                                }}
                               >
                                 {item.product_title}
                               </p>

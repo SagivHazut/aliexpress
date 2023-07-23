@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Filters } from './Filters'
-import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from './LoadingSpinner'
 import axios from 'axios'
 
@@ -15,9 +14,10 @@ export const Item = ({
   const [expandedPostId, setExpandedPostId] = useState(null)
   const descriptionRef = useRef(null)
   const [uniquePosts, setUniquePosts] = useState([])
-  const [isVisible, setIsVisible] = useState(false)
   const storedCountry = localStorage.getItem('country')
   const [exchangeRate, setExchangeRate] = useState(null)
+  const [copiedItemId, setCopiedItemId] = useState(null)
+  const [isDesktop, setIsDesktop] = useState(true)
 
   useEffect(() => {
     fetch('https://api.exchangerate-api.com/v4/latest/USD')
@@ -54,9 +54,6 @@ export const Item = ({
     }
   }
 
-  const [copiedItemId, setCopiedItemId] = useState(null)
-  const [verfidUrl, setVerfidUrl] = useState(null)
-
   const handleCopyUrlClick = async (url) => {
     try {
       const response = await axios.get(
@@ -67,7 +64,6 @@ export const Item = ({
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(copyUrl)
         setCopiedItemId(url)
-        setVerfidUrl(copyUrl)
         setTimeout(() => {
           setCopiedItemId(null)
         }, 5000)
@@ -78,8 +74,6 @@ export const Item = ({
       console.log(error)
     }
   }
-
-  const [isDesktop, setIsDesktop] = useState(true)
 
   useEffect(() => {
     const handleResize = () => {
@@ -171,7 +165,6 @@ export const Item = ({
                                     'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
                                   }
                                   alt="AliExpress Logo"
-                                  // className="absolute top-0 left-0 w-12 h-12 z-20 transform -rotate-45 bg-white bg-opacity-70 "
                                   style={{
                                     display: 'flex',
                                     position: 'absolute',
@@ -255,7 +248,7 @@ export const Item = ({
                                   } leading-6 text-gray-600`}
                                   style={{
                                     userSelect: 'none',
-                                  }} // Add this style property
+                                  }}
                                 >
                                   {item.product_title}
                                 </p>

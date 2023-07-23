@@ -57,7 +57,7 @@ const useMobileSidebar = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768) // Adjust the breakpoint as needed
+      setIsMobile(window.innerWidth <= 768)
     }
 
     handleResize()
@@ -67,7 +67,6 @@ const useMobileSidebar = () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-  console.log(isMobile)
 
   return isMobile
 }
