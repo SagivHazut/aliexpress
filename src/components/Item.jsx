@@ -151,13 +151,28 @@ export const Item = ({
                               rel="noopener noreferrer"
                             >
                               <div className="relative w-full">
-                                {item.name === 'aliexpress' && (
+                                {item.name === 'aliexpress' ? (
                                   <img
                                     src={
                                       'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
                                     }
                                     alt="AliExpress Logo"
                                     style={{
+                                      display: 'flex',
+                                      position: 'absolute',
+                                      top: -10,
+                                      left: -40,
+                                      transform: 'rotate(310deg)  ',
+                                    }}
+                                  />
+                                ) : (
+                                  <img
+                                    src={
+                                      'https://cdn.admitad.com/campaign/images/2020/9/30/13623-b58edd098a89c836.png'
+                                    }
+                                    alt="Banggood"
+                                    style={{
+                                      width: 100,
                                       display: 'flex',
                                       position: 'absolute',
                                       top: -10,
@@ -351,13 +366,27 @@ export const Item = ({
                           key={item.product_id}
                           className="flex flex-col justify-between p-4 border rounded-lg"
                         >
-                          {item.name === 'aliexpress' && (
+                          {item.name === 'aliexpress' ? (
                             <div className="ribbon-bow-container">
                               <div className="ribbon-bow">
                                 <img
                                   alt=""
                                   src={
                                     'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  className=" absolute w-32 h-6  z-20  "
+                                />
+                                <div className="ribbon"></div>
+                                <div className="knot"></div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="ribbon-bow-container">
+                              <div className="ribbon-bow">
+                                <img
+                                  alt=""
+                                  src={
+                                    'https://cdn.admitad.com/campaign/images/2020/9/30/13623-b58edd098a89c836.png'
                                   }
                                   className=" absolute w-32 h-6  z-20  "
                                 />
