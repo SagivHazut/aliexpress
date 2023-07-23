@@ -31,7 +31,7 @@ export const Navbar = ({ country, isVisible }) => {
       name: 'Hot Deals',
       href: '/top-products',
       state: 'isToggled',
-      onClick: () => handleToggle('isToggled', '6,30,   34', 'top-products'),
+      onClick: () => handleToggle('isToggled', '6,30,34', 'top-products'),
     },
 
     {
