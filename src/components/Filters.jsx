@@ -119,7 +119,8 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
         } fixed top-5 right-4 flex items-center `}
         style={{ zIndex: '9000' }}
       >
-        {window.location.pathname === '/Recommendation' ? (
+        {window.location.pathname === '/Recommendation' ||
+        window.location.pathname === '/Banggood' ? (
           <div className="relative inline-block py-20"></div>
         ) : (
           <div className="relative inline-block">

@@ -120,5 +120,79 @@
   .errormsg{
     z-index: 9999;
   } 
- 
+  @media (min-width: 768px) {
+    .modal-content {
+      max-width: 500px; 
+      margin: 0 auto; 
+    }
+  }
+  .sidebar {
+    background-color: #f1f1f1;
+    width: 100px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    position: absolute;
+    right: 1%;
+    top: 11%;
+  }
   
+  .filter-button {
+    width: 100%;
+    padding: 8px;
+    background-color: #ee4444;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    padding: 16px;
+    width: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .modal-close-button {
+    margin-top: 20px;
+    padding: 8px;
+    background-color: #ee4444;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+  .banggood-container {
+    position: relative;
+  }
+  
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Make sure it appears above other content */
+  }
