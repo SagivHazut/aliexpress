@@ -329,10 +329,7 @@ export const Navbar = ({ country, isVisible }) => {
                           : 'absolute flex items-center justify-center inset-0 top-24'
                       }
                     >
-                      <NavLink
-                        onClick={() => clearOtherStates()}
-                        to="/homepage"
-                      >
+                      <NavLink onClick={() => clearOtherStates()} to="/">
                         <img
                           className="block h-12 w-auto lg:hidden z-50"
                           src={logonobackground}

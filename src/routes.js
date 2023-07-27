@@ -17,10 +17,10 @@ import GallreyScroll from './pages/GallreyScroll'
 import { Banggood } from './pages/Banggood'
 
 export const routes = [
-  {
-    path: '/',
-    redirect: '/top-products',
-  },
+  // {
+  //   path: '/',
+  //   redirect: '/',
+  // },
   {
     path: '/top-products',
     component: <TopProducts />,
@@ -38,7 +38,7 @@ export const routes = [
     component: <Errorsite />,
   },
   {
-    path: '/homepage',
+    path: '/',
     component: <HomePage />,
   },
   {
