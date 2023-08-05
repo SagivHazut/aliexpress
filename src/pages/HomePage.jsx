@@ -18,6 +18,13 @@ export const HomePage = () => {
       href: 'https://www.underarmour.com/en-us/',
     },
     {
+      title: 'Under Armour',
+      desc: 'Enjoy Up to 50% off',
+      code: 'AED/SAR 50',
+      image: 'https://logowik.com/content/uploads/images/under-armour.jpg',
+      href: 'https://www.underarmour.ae/en/trends/payday',
+    },
+    {
       title: 'MyProtein',
       desc: 'Changeable discount ',
       code: 'no need specified CODE',
