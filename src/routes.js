@@ -15,6 +15,7 @@ import { House } from './pages/Page'
 import { Recommendation } from './pages/Recommendation'
 import GallreyScroll from './pages/GallreyScroll'
 import { Banggood } from './pages/Banggood'
+import { AffiliateLink } from './pages/AffiliateLink'
 
 export const routes = [
   // {
@@ -32,6 +33,10 @@ export const routes = [
   {
     path: '/SuperDeals',
     component: <SuperDeals />,
+  },
+  {
+    path: '/LinkChecker',
+    component: <AffiliateLink />,
   },
   {
     path: '/Errorsite',
