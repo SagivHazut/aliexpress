@@ -145,6 +145,8 @@ export const Navbar = ({ country, isVisible }) => {
             return { ...item, name: 'מוצרים מומלצים' }
           } else if (item.name === 'Our Recommendation') {
             return { ...item, name: 'המלצתנו' }
+          } else if (item.name === 'Check for discount') {
+            return { ...item, name: 'בדוק הנחות' }
           }
           return item
         })
