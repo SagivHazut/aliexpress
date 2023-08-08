@@ -32,3 +32,6 @@ export const Kids = () => {
 export const SuperDeals = () => {
   return <Products />
 }
+export const Babies = () => {
+  return <Products />
+}

@@ -2,7 +2,7 @@ import VideoScroll from './pages/VideoScroll'
 import SearchBar from './components/SearchBar'
 import { SearchItems } from './components/SearchItems'
 import { Products } from './pages/Product'
-import { Women } from './pages/Page'
+import { Babies, Women } from './pages/Page'
 import { HomePage } from './pages/HomePage'
 import { Men } from './pages/Page'
 import { Errorsite } from './pages/Errorsite'
@@ -33,6 +33,10 @@ export const routes = [
   {
     path: '/SuperDeals',
     component: <SuperDeals />,
+  },
+  {
+    path: '/Babies',
+    component: <Babies />,
   },
   {
     path: '/LinkChecker',
