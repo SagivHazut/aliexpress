@@ -21,7 +21,6 @@ export const Products = ({ setSearchRes, searchRes }) => {
   const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
   const [reachedBottom, setReachedBottom] = useState(false)
   const [error, setError] = useState(null)
-  console.log(category_ids)
 
   useEffect(() => {
     if (!initialFetchCompleted) {
@@ -41,7 +40,6 @@ export const Products = ({ setSearchRes, searchRes }) => {
 
     const randomCategoryId =
       category_ids[Math.floor(Math.random() * category_ids.length)]
-    console.log(randomCategoryId)
     try {
       setIsLoadingMore(true)
 
