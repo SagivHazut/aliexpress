@@ -24,6 +24,14 @@ const VideoScroll = ({ setCountry, country }) => {
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [applyCountry, setApplyCountry] = useState(country)
   const visible = useSelector((state) => state.visible)
+  const [initialFetchCompleted, setInitialFetchCompleted] = useState(false)
+
+  useEffect(() => {
+    if (!initialFetchCompleted) {
+      fetchData()
+      setInitialFetchCompleted(true)
+    }
+  }, [initialFetchCompleted])
 
   const isAutoplayBlocked = () => {
     const testVideo = document.createElement('video')
@@ -51,49 +59,53 @@ const VideoScroll = ({ setCountry, country }) => {
       setAutoplayBlocked(!autoplayPermission)
     }
   }, [])
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true)
 
-      const storedCountry = localStorage.getItem('country')
-      try {
-        const response = await axios.get(
-          'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
-          {
-            params: {
-              language: storedCountry === 'IL' ? 'he' : 'en',
-              category_ids: '320,3,200133142,200131145,200003494',
-              page_size: 50,
-              page_no: pageCounting,
-              max_sale_price: '3000',
-              min_sale_price: '300',
-              sort: 'LAST_VOLUME_DESC',
-            },
-            mode: 'no-cors',
-          }
-        )
-
-        const newData = response.data
-        if (response.status === 500) {
-          fetchData()
+  const fetchData = async () => {
+    setIsLoading(true)
+    const categoryIds = [
+      '320,3',
+      '200133142,200003494',
+      '20013114,200332158,200364142',
+    ]
+    const randomCategoryId =
+      categoryIds[Math.floor(Math.random() * categoryIds.length)]
+    console.log(randomCategoryId)
+    const storedCountry = localStorage.getItem('country')
+    try {
+      const response = await axios.get(
+        'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
+        {
+          params: {
+            language: storedCountry === 'IL' ? 'he' : 'en',
+            category_ids: randomCategoryId,
+            page_size: 50,
+            page_no: pageCounting,
+            max_sale_price: '3000',
+            min_sale_price: '300',
+            sort: 'LAST_VOLUME_DESC',
+          },
+          mode: 'no-cors',
         }
+      )
 
-        setVideos((prevVideos) => [...prevVideos, ...newData])
-        setIsLoading(false)
-        setIsPageLoaded(true)
-      } catch (error) {
-        console.error(error)
-        setIsLoading(false)
+      const newData = response.data
+      if (response.status === 500) {
+        fetchData()
       }
-    }
 
-    fetchData()
+      setVideos((prevVideos) => [...prevVideos, ...newData])
+      setIsLoading(false)
+      setIsPageLoaded(true)
+    } catch (error) {
+      console.error(error)
+      setIsLoading(false)
+    }
     if (applyCountry !== country) {
       setCountry(applyCountry)
       localStorage.setItem('country', applyCountry)
       window.location.reload()
     }
-  }, [pageCounting, applyCountry, visible])
+  }
 
   useEffect(() => {
     const filteredVideos = videos.filter((video) => video.product_video_url)

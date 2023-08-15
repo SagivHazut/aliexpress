@@ -49,11 +49,9 @@ const GallreyScroll = ({ setCountry, country }) => {
     setIsLoading(true)
     const storedCountry = localStorage.getItem('country')
     const categoryIds = [
-      '200133142',
-      '200131145',
-      '200003494',
-      '15',
-      '100000041',
+      '200133142,200131145',
+      '200003494,100000041',
+      '15,200133142',
     ]
 
     const randomCategoryId =

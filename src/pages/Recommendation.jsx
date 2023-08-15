@@ -48,7 +48,6 @@ export const Recommendation = () => {
     }
     fetchData()
   }, [])
-  console.log(parsedData)
   return (
     <>
       <div>

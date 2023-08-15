@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 function Popup() {
   const [showPopup, setShowPopup] = useState(false)
   const [popupIndex, setPopupIndex] = useState(null)
-  const currentPopup = popups[popupIndex]
 
   const popups = [
     {
@@ -37,6 +36,8 @@ function Popup() {
   if (!showPopup || popupIndex === null) {
     return null
   }
+
+  const currentPopup = popups[popupIndex]
 
   return (
     <section className="fixed bottom-14 inset-x-0 flex items-center justify-center opacity-80 z-50">

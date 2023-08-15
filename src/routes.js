@@ -2,7 +2,7 @@ import VideoScroll from './pages/VideoScroll'
 import SearchBar from './components/SearchBar'
 import { SearchItems } from './components/SearchItems'
 import { Products } from './pages/Product'
-import { Women } from './pages/Page'
+import { Babies, Women } from './pages/Page'
 import { HomePage } from './pages/HomePage'
 import { Men } from './pages/Page'
 import { Errorsite } from './pages/Errorsite'
@@ -14,12 +14,14 @@ import { Sport } from './pages/Page'
 import { House } from './pages/Page'
 import { Recommendation } from './pages/Recommendation'
 import GallreyScroll from './pages/GallreyScroll'
+import { Banggood } from './pages/Banggood'
+import { AffiliateLink } from './pages/AffiliateLink'
 
 export const routes = [
-  {
-    path: '/',
-    redirect: '/top-products',
-  },
+  // {
+  //   path: '/',
+  //   redirect: '/',
+  // },
   {
     path: '/top-products',
     component: <TopProducts />,
@@ -33,11 +35,19 @@ export const routes = [
     component: <SuperDeals />,
   },
   {
+    path: '/Babies',
+    component: <Babies />,
+  },
+  {
+    path: '/LinkChecker',
+    component: <AffiliateLink />,
+  },
+  {
     path: '/Errorsite',
     component: <Errorsite />,
   },
   {
-    path: '/homepage',
+    path: '/',
     component: <HomePage />,
   },
   {
@@ -79,6 +89,10 @@ export const routes = [
   {
     path: '/GallreyScroll',
     component: <GallreyScroll />,
+  },
+  {
+    path: '/Banggood',
+    component: <Banggood />,
   },
   {
     path: '/SearchItems',

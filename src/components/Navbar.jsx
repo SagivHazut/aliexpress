@@ -31,7 +31,12 @@ export const Navbar = ({ country, isVisible }) => {
       name: 'Hot Deals',
       href: '/top-products',
       state: 'isToggled',
-      onClick: () => handleToggle('isToggled', '6,30,34', 'top-products'),
+      onClick: () =>
+        handleToggle(
+          'isToggled',
+          ['6,34,200003494,100000041,3712', '200329142,30,200001330,200003782'],
+          'top-products'
+        ),
     },
 
     {
@@ -39,7 +44,11 @@ export const Navbar = ({ country, isVisible }) => {
       href: '/SuperDeals',
       state: 'isToggled1',
       onClick: () =>
-        handleToggle('isToggled1', '320,3,100001205', 'SuperDeals'),
+        handleToggle(
+          'isToggled1',
+          ['320,3,100001205', '200000343,200000937,200000345'],
+          'SuperDeals'
+        ),
     },
     {
       name: 'Featured Products',
@@ -48,7 +57,7 @@ export const Navbar = ({ country, isVisible }) => {
       onClick: () =>
         handleToggle(
           'isToggled3',
-          '200048142,200000920,200003782,100000041',
+          ['200048142,200000920', '100000039,200332157'],
           'Featured Products'
         ),
     },
@@ -58,15 +67,44 @@ export const Navbar = ({ country, isVisible }) => {
       state: 'isToggled4',
       onClick: () => handleToggle('isToggled4'),
     },
+    {
+      name: 'Banggood',
+      href: '/Banggood',
+      state: 'isToggled5',
+      onClick: () => handleToggle('isToggle5'),
+    },
+    {
+      name: 'Check for discount',
+      href: '/LinkChecker',
+      state: 'isToggled6',
+      onClick: () => handleToggle('isToggled6'),
+    },
   ])
   const [dropdownNav, setDropdownNav] = useState([
+    {
+      name: 'Babies',
+      href: '/Babies',
+      state: 'isToggled9',
+      onClick: () =>
+        handleOptionSelect(
+          [
+            '100001698,201273175,200364142',
+            '200332158,200332157,201678201',
+            '200000937,200001330,201671802,310',
+          ],
+          'Sport'
+        ),
+    },
     {
       name: 'Sport',
       href: '/Sport',
       state: 'isToggled5',
       onClick: () =>
         handleOptionSelect(
-          '201768104,200003274,200004217,200004217,200297143',
+          [
+            '201768104,200003274,100001719',
+            '100005657,200004217,200004217,200297143',
+          ],
           'Sport'
         ),
     },
@@ -74,7 +112,11 @@ export const Navbar = ({ country, isVisible }) => {
       name: 'Kids',
       href: '/Kids',
       state: 'isToggled1',
-      onClick: () => handleOptionSelect('1501,26,21', 'Kids'),
+      onClick: () =>
+        handleOptionSelect(
+          ['1501,21,201376929', '200389156,26,201293501'],
+          'Kids'
+        ),
     },
     {
       name: 'Women',
@@ -82,7 +124,7 @@ export const Navbar = ({ country, isVisible }) => {
       state: 'isToggled3',
       onClick: () =>
         handleOptionSelect(
-          '200133142,200000854,200003494,200000345,201336907,201169002',
+          ['200133142,200000854,200003494', '200000345,201336907,201169002'],
           'Women'
         ),
     },
@@ -92,7 +134,7 @@ export const Navbar = ({ country, isVisible }) => {
       state: 'isToggled4',
       onClick: () =>
         handleOptionSelect(
-          '200131145,142003,200003955,12503,200003495,200000343',
+          ['200131145,142003,200003955', '12503,200003495,200000343'],
           'Men'
         ),
     },
@@ -102,7 +144,7 @@ export const Navbar = ({ country, isVisible }) => {
       state: 'isToggled4',
       onClick: () =>
         handleOptionSelect(
-          '200294142,6,628,100000039,100000308,405,1541',
+          ['200294142,6,628', '100000039,100000308,405,1541'],
           'House'
         ),
     },
@@ -133,6 +175,8 @@ export const Navbar = ({ country, isVisible }) => {
             return { ...item, name: 'מוצרים מומלצים' }
           } else if (item.name === 'Our Recommendation') {
             return { ...item, name: 'המלצתנו' }
+          } else if (item.name === 'Check for discount') {
+            return { ...item, name: 'בדוק הנחות' }
           }
           return item
         })
@@ -323,10 +367,7 @@ export const Navbar = ({ country, isVisible }) => {
                           : 'absolute flex items-center justify-center inset-0 top-24'
                       }
                     >
-                      <NavLink
-                        onClick={() => clearOtherStates()}
-                        to="/homepage"
-                      >
+                      <NavLink onClick={() => clearOtherStates()} to="/">
                         <img
                           className="block h-12 w-auto lg:hidden z-50"
                           src={logonobackground}
