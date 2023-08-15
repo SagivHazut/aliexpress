@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Item from '../components/Item'
+import ComparisonComponent from '../components/ComparisonComponent'
 
 export const AffiliateLink = () => {
   const [productUrl, setProductUrl] = useState('')
@@ -140,7 +141,6 @@ export const AffiliateLink = () => {
           </div>
         </>
       )}
-
       <input
         type="text"
         value={productUrl}
@@ -154,7 +154,6 @@ export const AffiliateLink = () => {
       >
         {storedCountry === 'IL' ? 'בדוק' : 'Check'}
       </button>
-
       {parsedData && (
         <div className="mt-4">
           <p className="text-blue-500 font-bold">Discount Link:</p>

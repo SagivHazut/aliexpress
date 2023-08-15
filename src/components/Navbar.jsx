@@ -401,6 +401,7 @@ export const Navbar = ({ country, isVisible }) => {
                           {item.name}
                         </NavLink>
                       ))}
+
                       <div className="relative">
                         <div className="relative inline-block">
                           <button
@@ -427,6 +428,7 @@ export const Navbar = ({ country, isVisible }) => {
                               <path d="M19 9l-7 7-7-7" />
                             </svg>
                           </button>
+
                           {isOpen && (
                             <div className="absolute mt-2 w-48 bg-red-500 border border-gray-900 rounded shadow-lg z-10 ">
                               <ul className="py-1">
@@ -460,6 +462,7 @@ export const Navbar = ({ country, isVisible }) => {
                 </div>
               </div>
             </div>
+
             <Disclosure.Panel>
               <aside
                 className={`fixed top-0 left-0 h-screen w-52 bg-red-500 text-white transition-transform transform ${

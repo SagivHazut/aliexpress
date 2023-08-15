@@ -3,6 +3,8 @@ import { Filters } from './Filters'
 import LoadingSpinner from './LoadingSpinner'
 import axios from 'axios'
 import { RWebShare } from 'react-web-share'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItem } from '../store/actions'
 
 export const Item = ({
   post,
@@ -20,6 +22,9 @@ export const Item = ({
   const [copiedItemId, setCopiedItemId] = useState(null)
   const [isDesktop, setIsDesktop] = useState(true)
   const [shortUrl, setShortUrl] = useState('')
+  const dispatch = useDispatch()
+  const selectedItemsLeft = useSelector((state) => state.selectedItemsLeft)
+  const selectedItemsRight = useSelector((state) => state.selectedItemsRight)
 
   useEffect(() => {
     fetch('https://api.exchangerate-api.com/v4/latest/USD')
@@ -128,6 +133,18 @@ export const Item = ({
         </div>
       </div>
     )
+  }
+  const handleItemSelect = (item) => {
+    if (
+      !selectedItemsLeft.find(
+        (selectedItem) => selectedItem.product_id === item.product_id
+      ) &&
+      !selectedItemsRight.find(
+        (selectedItem) => selectedItem.product_id === item.product_id
+      )
+    ) {
+      dispatch(addItem(item, 'selectedItemsLeft'))
+    }
   }
 
   return (
@@ -243,6 +260,9 @@ export const Item = ({
                                   )}
                                 </button>
                               </div>
+                              <button onClick={() => handleItemSelect(item)}>
+                                <p className="text-font"> Compare</p>
+                              </button>
                             </div>
 
                             <div className="max-w-xl">
@@ -444,6 +464,9 @@ export const Item = ({
                               ) : (
                                 <span className="ml-2">Copy Link</span>
                               )}
+                            </button>
+                            <button onClick={() => handleItemSelect(item)}>
+                              <p className="text-font"> Compare</p>
                             </button>
                           </div>
 

@@ -7,6 +7,8 @@ const initialState = {
   name: '',
   searchRes: [],
   visible: true,
+  selectedItemsLeft: [],
+  selectedItemsRight: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -26,6 +28,25 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         visible: action.payload.visible,
+      }
+    case 'ADD_ITEM':
+      const { item, basket } = action.payload
+      return {
+        ...state,
+        [basket]: [...state[basket], item],
+      }
+    case 'REMOVE_ITEM':
+      return {
+        ...state,
+        [action.payload.basket]: state[action.payload.basket].filter(
+          (selectedItem) => selectedItem !== action.payload.item
+        ),
+      }
+    case 'CLEAR_ALL_ITEMS':
+      return {
+        ...state,
+        selectedItemsLeft: [],
+        selectedItemsRight: [],
       }
     default:
       return state

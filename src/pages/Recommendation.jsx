@@ -3,7 +3,6 @@ import Item from '../components/Item'
 import Papa from 'papaparse'
 import csvData from '../csv/Recommendation.csv'
 import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
 
 export const Recommendation = () => {
   const [parsedData, setParsedData] = useState([])
@@ -21,7 +20,7 @@ export const Recommendation = () => {
     discount: item['Discount'],
     product_id: item['ProductId'],
     promotion_link: item['Promotion Url'],
-    evaluate_rate: item['Positive Feedback'],
+    evaluate_rate: item['Code Start Time'],
     name: 'aliexpress',
   }))
   useEffect(() => {

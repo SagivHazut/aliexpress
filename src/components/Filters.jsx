@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import LanguageDropdown from './CustomOption'
 import { useSelector } from 'react-redux'
+import ComparisonComponent from './ComparisonComponent'
+import Popover from '@mui/material/Popover'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -21,6 +26,19 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
     setMaxPrice1(maxPrice)
     window.location.reload()
   }
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClicks = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(!anchorEl)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'simple-popover' : undefined
+
   return (
     <>
       {isOpen && (
@@ -121,7 +139,7 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
       >
         {window.location.pathname === '/Recommendation' ||
         window.location.pathname === '/Banggood' ? (
-          <div className="relative inline-block py-20"></div>
+          <div></div>
         ) : (
           <div className="relative inline-block">
             <button
@@ -132,6 +150,42 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
             </button>
           </div>
         )}
+      </div>
+      <div
+        className={`navbar ${
+          visible ? 'slide-in' : 'slide-out'
+        } fixed top-24 right-4 flex items-center `}
+        style={{ zIndex: '9000' }}
+      >
+        <Button
+          aria-describedby={id}
+          variant="contained"
+          onClick={handleClicks}
+        >
+          <ShoppingCartIcon color="action" />
+        </Button>
+        <div>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorReference="anchorPosition"
+            anchorPosition={{ top: 135, left: 1650 }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <Typography sx={{ p: 1 }}>
+              <ComparisonComponent />
+            </Typography>
+          </Popover>
+        </div>
       </div>
     </>
   )

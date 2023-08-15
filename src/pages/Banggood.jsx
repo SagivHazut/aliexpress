@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Item from '../components/Item'
 import Papa from 'papaparse'
 import csvData from '../csv/Banggood.csv'
-import LoadingSpinner from '../components/LoadingSpinner'
 import '../css/button.css'
 
 export const Banggood = () => {
