@@ -216,7 +216,6 @@ export const Item = ({
                                 />
                               </div>
                             </a>
-
                             <div className="mt-3 flex items-center justify-between">
                               <div>
                                 <RWebShare
@@ -225,7 +224,9 @@ export const Item = ({
                                   }
                                   data={generateShareData}
                                 >
-                                  <button>🔗 Share </button>
+                                  <button className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500 transition duration-300 ease-in-out">
+                                    <span className="mr-1">🔗</span> Share
+                                  </button>
                                 </RWebShare>
                               </div>
 
@@ -244,7 +245,6 @@ export const Item = ({
                                     stroke="currentColor"
                                     className="w-6 h-6 text-font-bold"
                                   ></svg>
-
                                   {copiedItemId === item.promotion_link ? (
                                     <p className="text-font-bold">
                                       Copied
@@ -253,15 +253,16 @@ export const Item = ({
                                       </span>
                                     </p>
                                   ) : (
-                                    <div className="text-font-bold">
-                                      Copy Link
-                                      <hr />
-                                    </div>
+                                    <span className="ml-2">Copy Link</span>
                                   )}
                                 </button>
                               </div>
-                              <button onClick={() => handleItemSelect(item)}>
-                                <p className="text-font"> Compare</p>
+
+                              <button
+                                className="ml-4 hover:text-indigo-500  text-black px-1 py-1 font-medium rounded transition duration-300 ease-in-out"
+                                onClick={() => handleItemSelect(item)}
+                              >
+                                <p className="text-font">Compare</p>
                               </button>
                             </div>
 
@@ -465,8 +466,11 @@ export const Item = ({
                                 <span className="ml-2">Copy Link</span>
                               )}
                             </button>
-                            <button onClick={() => handleItemSelect(item)}>
-                              <p className="text-font"> Compare</p>
+                            <button
+                              className="ml-4 hover:text-indigo-500  text-black px-1 py-1 font-medium rounded transition duration-300 ease-in-out"
+                              onClick={() => handleItemSelect(item)}
+                            >
+                              <p className="text-font">Compare</p>
                             </button>
                           </div>
 

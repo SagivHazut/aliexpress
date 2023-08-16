@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import LanguageDropdown from './CustomOption'
 import { useSelector } from 'react-redux'
 import ComparisonComponent from './ComparisonComponent'
-import Popover from '@mui/material/Popover'
+import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows'
 
 export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -38,6 +38,20 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
 
   const open = Boolean(anchorEl)
   const id = open ? 'simple-popover' : undefined
+
+  const modalStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '60%',
+    maxHeight: '70vh',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'white',
+    border: '2px solid #e0e0e0',
+    borderRadius: '8px',
+    overflow: 'auto',
+  }
 
   return (
     <>
@@ -160,31 +174,39 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
         <Button
           aria-describedby={id}
           variant="contained"
+          color="success"
           onClick={handleClicks}
         >
-          <ShoppingCartIcon color="action" />
+          <CompareArrowsIcon color="white" />
         </Button>
         <div>
-          <Popover
+          <Modal
             id={id}
             open={open}
             anchorEl={anchorEl}
             onClose={handleClose}
-            anchorReference="anchorPosition"
-            anchorPosition={{ top: 135, left: 1650 }}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            BackdropProps={{
+              invisible: true,
             }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+            sx={{
+              backdropFilter: 'blur(5px)',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <Typography sx={{ p: 1 }}>
+            <Typography
+              sx={{
+                ...modalStyle,
+                '@media (max-width: 600px)': { width: '90%' },
+              }}
+            >
               <ComparisonComponent />
             </Typography>
-          </Popover>
+          </Modal>
         </div>
       </div>
     </>
