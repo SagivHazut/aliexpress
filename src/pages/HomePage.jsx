@@ -227,10 +227,9 @@ export const HomePage = () => {
   const [groupedCoupons, setGroupedCoupons] = useState({})
 
   useEffect(() => {
-    // Group coupons by title
     const groupCouponsByTitle = () => {
       const grouped = {}
-      ;[...coupons, ...parsedData].forEach((coupon) => {
+      ;[...parsedData, ...coupons].forEach((coupon) => {
         const { title } = coupon
         if (!grouped[title]) {
           grouped[title] = []
@@ -241,7 +240,7 @@ export const HomePage = () => {
     }
 
     groupCouponsByTitle()
-  }, [coupons, parsedData])
+  }, [parsedData, coupons])
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target

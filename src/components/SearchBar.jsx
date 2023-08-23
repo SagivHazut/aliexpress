@@ -4,6 +4,9 @@ import ErrorPopup from './ErrorPopup'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import '../css/button.css'
+import Papa from 'papaparse'
+import csvData from '../csv/Banggood.csv'
+import { updateSearchResults } from '../store/actions'
 
 function SearchBar({ setLoading, showInput }) {
   const name = 'Search...'
@@ -11,11 +14,29 @@ function SearchBar({ setLoading, showInput }) {
   const [value, setValue] = useState('')
   const [error, setError] = useState(null)
   const [sorting, setSorting] = useState('LAST_VOLUME_DESC')
+  const [banggood, setBanggood] = useState([])
+  const [filteredBanggood, setFilteredBanggood] = useState([])
+  const [aliexpressData, setAliexpressData] = useState([])
+  const [combinedData, setCombinedData] = useState([])
   const inputRef = useRef(null)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
 
+  const data2 = filteredBanggood.map((item) => {
+    const discountedPrice = Math.floor(item.oldprice * (1 - item.price / 100))
+
+    return {
+      product_main_image_url: item.picture,
+      original_price: item.oldprice,
+      sale_price: item.price,
+      product_title: item.name,
+      product_id: item.id,
+      promotion_link: item.url,
+      discount: `$${discountedPrice}`,
+      name: 'Banggood',
+    }
+  })
   useEffect(() => {
     if (showInput) {
       inputRef.current.focus()
@@ -37,7 +58,7 @@ function SearchBar({ setLoading, showInput }) {
     try {
       setLoading(true)
 
-      const response = await axios.get(
+      const responseAliexpress = await axios.get(
         'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
         {
           params: {
@@ -54,18 +75,35 @@ function SearchBar({ setLoading, showInput }) {
         }
       )
 
-      const newData = response.data.map((item) => ({
-        ...item,
-        name: 'aliexpress',
-      }))
       setLoading(false)
 
-      if (response.status === 200) {
-        dispatch({ type: 'UPDATE_SEARCH_RES', payload: { searchRes: newData } })
+      if (responseAliexpress.status === 200) {
+        const aliexpressData = responseAliexpress.data.map((item) => ({
+          ...item,
+          name: 'aliexpress',
+        }))
+
+        const responseBanggood = await fetch(csvData)
+        const csvBanggood = await responseBanggood.text()
+        const parsedCsvBanggood = Papa.parse(csvBanggood, {
+          header: true,
+          skipEmptyLines: true,
+        })
+        const filteredDataBanggood = parsedCsvBanggood.data.filter((item) =>
+          Object.values(item).some((value) => value !== '')
+        )
+
+        setBanggood(filteredDataBanggood)
+        setFilteredBanggood(filteredDataBanggood)
+
+        const combinedData = [...aliexpressData, ...data2]
+        setAliexpressData(aliexpressData)
+        setCombinedData(combinedData)
+
+        dispatch(updateSearchResults(combinedData))
 
         localStorage.setItem('searchQuery', value)
-
-        return newData
+        return aliexpressData
       } else {
         setSorting('SALE_PRICE_ASC')
         setError(
@@ -73,6 +111,7 @@ function SearchBar({ setLoading, showInput }) {
             ? 'No results found, please try again'
             : `לא נמצאו תוצאות נסה שנית`
         )
+        return null
       }
     } catch (error) {
       setLoading(false)
@@ -83,22 +122,43 @@ function SearchBar({ setLoading, showInput }) {
           ? `לא נמצאו תוצאות נסה שנית`
           : 'No results found, please try again'
       )
+      return null
     }
   }
 
-  const handleInputChange = (event) => {
-    setValue(event.target.value)
+  const filterBanggood = (searchValue) => {
+    const filteredData = banggood.filter((item) =>
+      Object.values(item).some((value) =>
+        value.toLowerCase().includes(searchValue)
+      )
+    )
+    setFilteredBanggood(filteredData)
+    dispatch(updateSearchResults(filteredData))
   }
 
-  const handleInputKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      fetchProductDetails(value)
-        .then((data) => {})
-        .catch((error) => {
-          console.error(error)
-        })
+  const handleInputChange = (event) => {
+    setValue(event.target.value.toLowerCase())
+  }
 
-      navigate('/SearchItems?=' + encodeURIComponent(value))
+  const handleInputKeyDown = async (event) => {
+    if (event.key === 'Enter') {
+      const searchValue = value.trim()
+      setValue(searchValue)
+
+      if (searchValue !== '') {
+        try {
+          await fetchProductDetails(searchValue)
+
+          if (window.location.pathname.includes('SearchItems')) {
+            const filteredData = filterBanggood(searchValue)
+            dispatch(updateSearchResults(filteredData))
+          }
+
+          navigate('/SearchItems?=' + encodeURIComponent(searchValue))
+        } catch (error) {
+          console.error(error)
+        }
+      }
     }
   }
 
@@ -117,6 +177,26 @@ function SearchBar({ setLoading, showInput }) {
   const handleCloseButton = () => {
     setError(null)
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(csvData)
+        const csv = await response.text()
+        const parsedCsv = Papa.parse(csv, {
+          header: true,
+          skipEmptyLines: true,
+        })
+        const filteredData = parsedCsv.data.filter((item) =>
+          Object.values(item).some((value) => value !== '')
+        )
+        setBanggood(filteredData)
+      } catch (error) {
+        console.error('Error fetching or parsing CSV data:', error)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <>

@@ -18,3 +18,8 @@ export const removeItem = (item, basket) => ({
 export const clearAllItems = () => ({
   type: 'CLEAR_ALL_ITEMS',
 })
+
+export const updateSearchResults = (searchRes, banggoodRes) => ({
+  type: 'UPDATE_SEARCH_RES',
+  payload: { searchRes, banggoodRes },
+})

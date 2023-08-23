@@ -9,6 +9,7 @@ const initialState = {
   visible: true,
   selectedItemsLeft: [],
   selectedItemsRight: [],
+  banggoodRes: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         searchRes: action.payload.searchRes,
+        banggoodRes: action.payload.banggoodRes,
       }
     case 'UPDATE_VISIBLE':
       return {

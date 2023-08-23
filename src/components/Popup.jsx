@@ -1,33 +1,50 @@
 import { useState, useEffect } from 'react'
+import csvData from '../csv/event_promotion.csv'
+import Papa from 'papaparse'
 
 function Popup() {
   const [showPopup, setShowPopup] = useState(false)
   const [popupIndex, setPopupIndex] = useState(null)
+  const [originalData, setOriginalData] = useState([])
 
-  const popups = [
-    {
-      image:
-        'https://ae01.alicdn.com/kf/S5ef3de139c7e4514ae573ee72072622ds.jpg',
-      link: 'https://s.click.aliexpress.com/e/_Dci2Xxr',
-    },
-    {
-      image:
-        'https://ae01.alicdn.com/kf/S3619e57974f148d087c950fe497cdf55q/300x250.jpg',
-      link: 'https://s.click.aliexpress.com/e/_DDcWu7b?bz=300*250',
-    },
-  ]
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(csvData)
+        const csv = await response.text()
+        const parsedCsv = Papa.parse(csv, {
+          header: true,
+          skipEmptyLines: true,
+        })
+        const filteredData = parsedCsv.data.filter((item) =>
+          Object.values(item).some((value) => value !== '')
+        )
+
+        // Extract image and link properties
+        const extractedData = filteredData.map((item) => ({
+          image: item.picture,
+          link: item.link,
+        }))
+
+        setOriginalData(extractedData)
+      } catch (error) {
+        console.error('Error fetching or parsing CSV data:', error)
+      }
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
     const today = new Date().toLocaleDateString()
     const hasShownPopupToday = localStorage.getItem('popupShownOn') === today
 
-    if (!hasShownPopupToday) {
-      const randomIndex = Math.floor(Math.random() * popups.length)
+    if (!hasShownPopupToday && originalData.length > 0) {
+      const randomIndex = Math.floor(Math.random() * originalData.length)
       setPopupIndex(randomIndex)
       setShowPopup(true)
       localStorage.setItem('popupShownOn', today)
     }
-  }, [])
+  }, [originalData])
 
   const closePopup = () => {
     setShowPopup(false)
@@ -37,7 +54,7 @@ function Popup() {
     return null
   }
 
-  const currentPopup = popups[popupIndex]
+  const currentPopup = originalData[popupIndex]
 
   return (
     <section className="fixed bottom-14 inset-x-0 flex items-center justify-center opacity-80 z-50">
@@ -75,7 +92,7 @@ function Popup() {
               strokeLinejoin="round"
               d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
-          </svg>{' '}
+          </svg>
         </button>
       </div>
     </section>

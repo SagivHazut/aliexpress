@@ -7,6 +7,9 @@ import { ChevronUpIcon } from '@heroicons/react/24/outline'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import _ from 'lodash'
+import { RWebShare } from 'react-web-share'
+import { addItem } from '../store/actions'
+import { Filters } from './Filters'
 
 export const SearchItems = () => {
   const { page } = useParams()
@@ -23,7 +26,9 @@ export const SearchItems = () => {
   const storedCountry = localStorage.getItem('country')
   const [exchangeRate, setExchangeRate] = useState(null)
   const searchRes = useSelector((state) => state.searchRes)
-  const visible = useSelector((state) => state.visible)
+  const [shortUrl, setShortUrl] = useState('')
+  const selectedItemsLeft = useSelector((state) => state.selectedItemsLeft)
+  const selectedItemsRight = useSelector((state) => state.selectedItemsRight)
 
   useEffect(() => {
     fetch('https://api.exchangerate-api.com/v4/latest/USD')
@@ -89,24 +94,54 @@ export const SearchItems = () => {
   }
 
   const [copiedItemId, setCopiedItemId] = useState(null)
-  const [verfidUrl, setVerfidUrl] = useState(null)
 
-  const handleCopyUrlClick = async (url, post) => {
+  const handleClick = async (url) => {
     try {
-      const res = await axios(`https://api.shrtco.de/v2/shorten?url=${url}`)
-      const copyUrl = res.data.result.full_short_link
-      navigator.clipboard.writeText(copyUrl).then(() => {
-        setCopiedItemId(url)
-        setVerfidUrl(copyUrl)
-        setTimeout(() => {
-          setCopiedItemId(null)
-        }, 5000)
-      })
+      const response = await axios.get(
+        `https://api.shrtco.de/v2/shorten?url=${url}`
+      )
+      setShortUrl(response.data.result.full_short_link)
+    } catch (error) {
+      console.error('Error generating short URL:', error)
+    }
+  }
+  const generateShareData = (item) => {
+    if (shortUrl) {
+      return {
+        text: `Check out this awesome deal! \nJust ${item.sale_price}$ \n`,
+        url: shortUrl,
+        title: item.product_title,
+      }
+    } else {
+      return {
+        text: `Check out this awesome deal!\njust ${item.sale_price}`,
+        url: item.promotion_link,
+        title: item.product_title,
+      }
+    }
+  }
+
+  const handleCopyUrlClick = async (url) => {
+    try {
+      const response = await axios.get(
+        `https://api.shrtco.de/v2/shorten?url=${url}`
+      )
+      const copyUrl = response.data.result.full_short_link
+      const copyText = document.createElement('textarea')
+      copyText.value = copyUrl
+      document.body.appendChild(copyText)
+      copyText.select()
+      document.execCommand('copy')
+      document.body.removeChild(copyText)
+
+      setCopiedItemId(url)
+      setTimeout(() => {
+        setCopiedItemId(null)
+      }, 5000)
     } catch (error) {
       console.log(error)
     }
   }
-
   async function fetchProductDetails(page) {
     const value = localStorage.getItem('value')
 
@@ -213,9 +248,24 @@ export const SearchItems = () => {
       </div>
     )
   }
+  const handleItemSelect = (item) => {
+    if (
+      !selectedItemsLeft.find(
+        (selectedItem) => selectedItem.product_id === item.product_id
+      ) &&
+      !selectedItemsRight.find(
+        (selectedItem) => selectedItem.product_id === item.product_id
+      )
+    ) {
+      dispatch(addItem(item, 'selectedItemsLeft'))
+    }
+  }
 
   return (
     <>
+      <div>
+        <Filters />
+      </div>
       {isDesktop ? (
         <>
           {searchOpen && (
@@ -270,56 +320,58 @@ export const SearchItems = () => {
                             rel="noopener noreferrer"
                           >
                             <div className="relative w-full">
+                              {item.name === 'aliexpress' ? (
+                                <img
+                                  src={
+                                    'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  alt="AliExpress Logo"
+                                  style={{
+                                    display: 'flex',
+                                    position: 'absolute',
+                                    top: -10,
+                                    left: -40,
+                                    transform: 'rotate(310deg)  ',
+                                  }}
+                                />
+                              ) : (
+                                <img
+                                  src={
+                                    'https://cdn.admitad.com/campaign/images/2020/9/30/13623-b58edd098a89c836.png'
+                                  }
+                                  alt="Banggood"
+                                  style={{
+                                    width: 100,
+                                    display: 'flex',
+                                    position: 'absolute',
+                                    top: -10,
+                                    left: -40,
+                                    transform: 'rotate(310deg)  ',
+                                  }}
+                                />
+                              )}
+
+                              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
                               <img
                                 src={item.product_main_image_url}
                                 alt=""
                                 className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
                               />
-                              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-                              <img
-                                src={
-                                  'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
-                                }
-                                alt="AliExpress Logo"
-                                style={{
-                                  display: 'flex',
-                                  position: 'absolute',
-                                  top: -10,
-                                  left: -40,
-                                  transform: 'rotate(310deg)  ',
-                                }}
-                              />
                             </div>
                           </a>
 
                           <div className="mt-3 flex items-center justify-between">
-                            {!isDesktop && (
-                              <button
-                                className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
-                                onClick={() =>
-                                  handleShareClick(item.promotion_link)
-                                }
+                            <div>
+                              <RWebShare
+                                onClick={() => handleClick(item.promotion_link)}
+                                data={generateShareData}
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
-                                  />
-                                </svg>
-                                <div className="text-font-bold">
-                                  Share
-                                  <hr />
-                                </div>
-                              </button>
-                            )}
+                                <button className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500 transition duration-300 ease-in-out">
+                                  <span className="mr-1">🔗</span> Share
+                                </button>
+                              </RWebShare>
+                            </div>
+
                             <div>
                               <button
                                 className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
@@ -333,37 +385,27 @@ export const SearchItems = () => {
                                   viewBox="0 0 24 24"
                                   strokeWidth={1.5}
                                   stroke="currentColor"
-                                  className="w-6 h-6"
+                                  className="w-6 h-6 text-font-bold"
                                 ></svg>
                                 {copiedItemId === item.promotion_link ? (
                                   <p className="text-font-bold">
-                                    Copied{' '}
+                                    Copied
                                     <span role="img" aria-label="Thumbs Up">
                                       👍
                                     </span>
                                   </p>
                                 ) : (
-                                  <div>
-                                    {isDesktop ? (
-                                      <div
-                                        className="text-font-bold"
-                                        style={{
-                                          marginLeft: 60,
-                                        }}
-                                      >
-                                        Copy Links
-                                        <hr />
-                                      </div>
-                                    ) : (
-                                      <div className="text-font-bold">
-                                        Copy Link
-                                        <hr />
-                                      </div>
-                                    )}
-                                  </div>
+                                  <span className="ml-2">Copy Link</span>
                                 )}
                               </button>
                             </div>
+
+                            <button
+                              className="ml-4 hover:text-indigo-500  text-black px-1 py-1 font-medium rounded transition duration-300 ease-in-out"
+                              onClick={() => handleItemSelect(item)}
+                            >
+                              <p className="text-font">Compare</p>
+                            </button>
                           </div>
 
                           <div className="max-w-xl">
@@ -478,13 +520,27 @@ export const SearchItems = () => {
                           key={item.product_id}
                           className="flex flex-col justify-between p-4 border rounded-lg"
                         >
-                          {item.name === 'aliexpress' && (
+                          {item.name === 'aliexpress' ? (
                             <div className="ribbon-bow-container">
                               <div className="ribbon-bow">
                                 <img
                                   alt=""
                                   src={
                                     'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  className=" absolute w-32 h-6  z-20  "
+                                />
+                                <div className="ribbon"></div>
+                                <div className="knot"></div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="ribbon-bow-container">
+                              <div className="ribbon-bow">
+                                <img
+                                  alt=""
+                                  src={
+                                    'https://cdn.admitad.com/campaign/images/2020/9/30/13623-b58edd098a89c836.png'
                                   }
                                   className=" absolute w-32 h-6  z-20  "
                                 />
@@ -516,30 +572,14 @@ export const SearchItems = () => {
                           </div>
 
                           <div className="flex items-center justify-between mb-2">
-                            {!isDesktop && (
-                              <button
-                                className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
-                                onClick={() =>
-                                  handleShareClick(item.promotion_link)
-                                }
+                            <div>
+                              <RWebShare
+                                onClick={() => handleClick(item.promotion_link)}
+                                data={generateShareData(item)}
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
-                                  />
-                                </svg>
-                                <span className="ml-2">Share</span>
-                              </button>
-                            )}
+                                <button>🔗 Share </button>
+                              </RWebShare>
+                            </div>
                             <button
                               className="flex items-center px-3 py-2 font-medium text-gray-600 hover:text-indigo-500"
                               onClick={() =>
@@ -564,6 +604,12 @@ export const SearchItems = () => {
                               ) : (
                                 <span className="ml-2">Copy Link</span>
                               )}
+                            </button>
+                            <button
+                              className="ml-4 hover:text-indigo-500  text-black px-1 py-1 font-medium rounded transition duration-300 ease-in-out"
+                              onClick={() => handleItemSelect(item)}
+                            >
+                              <p className="text-font">Compare</p>
                             </button>
                           </div>
 

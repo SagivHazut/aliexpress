@@ -38,16 +38,27 @@ export const Products = ({ setSearchRes, searchRes }) => {
   async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
 
+    const generateRandomNumber = () => {
+      const min = 1000
+      const max = 10000
+      const newRandomNumber = Math.floor(Math.random() * (max - min + 1)) + min
+      return newRandomNumber.toString()
+    }
+
     const randomCategoryId =
       category_ids[Math.floor(Math.random() * category_ids.length)]
+
+    let finalMaxPrice = maxPrice1.toString()
+
+    if (!finalMaxPrice) {
+      finalMaxPrice = generateRandomNumber()
+    } else if (!isNaN(maxPrice1)) {
+      finalMaxPrice = maxPrice1.padEnd(maxPrice1.length + 2, '0')
+    }
+
     try {
       setIsLoadingMore(true)
 
-      let finalMaxPrice = maxPrice1.toString()
-
-      if (!isNaN(maxPrice1) && maxPrice1) {
-        finalMaxPrice = maxPrice1.padEnd(maxPrice1.length + 2, '0')
-      }
       const response = await axios.get(
         'https://mfg0iu8gj3.execute-api.us-east-1.amazonaws.com/default/aliexpress-products',
         {
@@ -56,8 +67,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
             category_ids: randomCategoryId ? randomCategoryId : '6',
             page_size: 50,
             page_no: page ? page : 1,
-            max_sale_price: finalMaxPrice ? finalMaxPrice : '70',
-            min_sale_price: '300',
+            max_sale_price: finalMaxPrice,
             sort: 'LAST_VOLUME_DESC',
           },
           mode: 'no-cors',
@@ -68,9 +78,11 @@ export const Products = ({ setSearchRes, searchRes }) => {
         ...item,
         name: 'aliexpress',
       }))
+
       if (response.status === 500) {
         fetchData(page)
       }
+
       if (maxPrice1) {
         setOriginalData((prevData) => [
           ...prevData,
@@ -86,8 +98,8 @@ export const Products = ({ setSearchRes, searchRes }) => {
     } catch (error) {
       setError(
         storedCountry === 'IL'
-          ? 'לפעמים צריך רק רענון קטן בשביל שזה יעבוד '
-          : " Often, a slight refresh is all that's needed to optimize its performance"
+          ? 'לפעמים צריך רק רענון קטן בשביל שזה יעבוד'
+          : "Often, a slight refresh is all that's needed to optimize its performance"
       )
       setIsLoading(true)
       setIsLoadingMore(true)

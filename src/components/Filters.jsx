@@ -52,6 +52,7 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
     borderRadius: '8px',
     overflow: 'auto',
   }
+  const isSearchItemsPage = window.location.pathname.includes('SearchItems')
 
   return (
     <>
@@ -152,7 +153,8 @@ export const Filters = ({ showFilter, setShowFilter, setMaxPrice1 }) => {
         style={{ zIndex: '9000' }}
       >
         {window.location.pathname === '/Recommendation' ||
-        window.location.pathname === '/Banggood' ? (
+        window.location.pathname === '/Banggood' ||
+        isSearchItemsPage ? (
           <div></div>
         ) : (
           <div className="relative inline-block">
