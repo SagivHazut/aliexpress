@@ -82,10 +82,6 @@ export const Products = ({ setSearchRes, searchRes }) => {
         name: 'aliexpress',
       }))
 
-      if (response.status === 500) {
-        fetchData(page)
-      }
-
       if (maxPrice1) {
         setOriginalData((prevData) => [
           ...prevData,
@@ -99,11 +95,12 @@ export const Products = ({ setSearchRes, searchRes }) => {
       setIsLoading(false)
       setIsLoadingMore(false)
     } catch (error) {
-      setError(
-        storedCountry === 'IL'
-          ? 'לפעמים צריך רק רענון קטן בשביל שזה יעבוד'
-          : "Often, a slight refresh is all that's needed to optimize its performance"
-      )
+      console.error('Fetch error:', error)
+
+      setTimeout(() => {
+        fetchData(page)
+      }, 5000)
+
       setIsLoading(true)
       setIsLoadingMore(true)
     }
