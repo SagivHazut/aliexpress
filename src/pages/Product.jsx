@@ -35,6 +35,12 @@ export const Products = ({ setSearchRes, searchRes }) => {
     setPrevNumber(maxPrice1)
   }, [currentPage, maxPrice1, initialFetchCompleted])
 
+  useEffect(() => {
+    if (parsedData) {
+      setError(false)
+    }
+  }, [parsedData])
+
   async function fetchData(page) {
     const storedCountry = localStorage.getItem('country')
 
@@ -44,9 +50,6 @@ export const Products = ({ setSearchRes, searchRes }) => {
       const newRandomNumber = Math.floor(Math.random() * (max - min + 1)) + min
       return newRandomNumber.toString()
     }
-
-    const randomCategoryId =
-      category_ids[Math.floor(Math.random() * category_ids.length)]
 
     let finalMaxPrice = maxPrice1.toString()
 
@@ -64,7 +67,7 @@ export const Products = ({ setSearchRes, searchRes }) => {
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: randomCategoryId ? randomCategoryId : '6',
+            category_ids: category_ids ? category_ids : '6',
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice,
