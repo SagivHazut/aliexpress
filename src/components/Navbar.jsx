@@ -43,26 +43,21 @@ export const Navbar = ({ country, isVisible }) => {
       name: 'Hot Deals',
       href: '/top-products',
       state: 'isToggled',
-      onClick: () => handleToggle('isToggled', '100000038', 'top-products'),
+      onClick: () => handleToggle('isToggled', 'home products', 'top-products'),
     },
 
     {
       name: 'SuperDeals',
       href: '/SuperDeals',
       state: 'isToggled1',
-      onClick: () =>
-        handleToggle('isToggled1', '200000343,200000937,320,3', 'SuperDeals'),
+      onClick: () => handleToggle('isToggled1', 'gadget', 'SuperDeals'),
     },
     {
       name: 'Featured Products',
       href: '/Featured',
       state: 'isToggled3',
       onClick: () =>
-        handleToggle(
-          'isToggled3',
-          '200048142,200000920,200003782,100000041',
-          'Featured Products'
-        ),
+        handleToggle('isToggled3', 'featured products', 'Featured Products'),
     },
 
     {
@@ -77,58 +72,37 @@ export const Navbar = ({ country, isVisible }) => {
       name: 'Babies',
       href: '/Babies',
       state: 'isToggled9',
-      onClick: () =>
-        handleOptionSelect(
-          '200332158,200332157,201678201,100001698,201273175,200364142',
-          'Babies'
-        ),
+      onClick: () => handleOptionSelect('Babies', 'Babies'),
     },
     {
       name: 'Sport',
       href: '/Sport',
       state: 'isToggled5',
-      onClick: () =>
-        handleOptionSelect(
-          '201768104,200003274,200004217,200004217,200297143',
-          'Sport'
-        ),
+      onClick: () => handleOptionSelect('sport', 'Sport'),
     },
     {
       name: 'Kids',
       href: '/Kids',
       state: 'isToggled1',
-      onClick: () =>
-        handleOptionSelect('1501,26,21,200389156,26,201293501', 'Kids'),
+      onClick: () => handleOptionSelect('kids', 'Kids'),
     },
     {
       name: 'Women',
       href: '/Women',
       state: 'isToggled3',
-      onClick: () =>
-        handleOptionSelect(
-          '200133142,200000854,200003494,200000345,201336907,201169002',
-          'Women'
-        ),
+      onClick: () => handleOptionSelect('woman', 'Women'),
     },
     {
       name: 'Men',
       href: '/Men',
       state: 'isToggled4',
-      onClick: () =>
-        handleOptionSelect(
-          '200131145,142003,200003955,12503,200003495,200000343',
-          'Men'
-        ),
+      onClick: () => handleOptionSelect('Outdoor', 'Men'),
     },
     {
       name: 'House',
       href: '/House',
       state: 'isToggled4',
-      onClick: () =>
-        handleOptionSelect(
-          '200294142,6,628,100000039,100000308,405,1541',
-          'House'
-        ),
+      onClick: () => handleOptionSelect('house', 'House'),
     },
   ])
 

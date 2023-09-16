@@ -8,6 +8,7 @@ import _ from 'lodash'
 
 export const Products = ({ setSearchRes, searchRes }) => {
   const { category_ids } = useSelector((state) => state)
+  console.log(category_ids)
   const { page } = useParams()
   const [searchQuery, setSearchQuery] = useState('')
   const [parsedData, setParsedData] = useState([])
@@ -67,11 +68,12 @@ export const Products = ({ setSearchRes, searchRes }) => {
         {
           params: {
             language: storedCountry === 'IL' ? 'he' : 'en',
-            category_ids: category_ids ? category_ids : '6',
+            category_ids: '',
             page_size: 50,
             page_no: page ? page : 1,
             max_sale_price: finalMaxPrice,
             sort: 'LAST_VOLUME_DESC',
+            keywords: category_ids,
           },
           mode: 'no-cors',
         }
