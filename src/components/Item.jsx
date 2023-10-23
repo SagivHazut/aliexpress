@@ -6,6 +6,40 @@ import { RWebShare } from 'react-web-share'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../store/actions'
 
+export const ImageCarousel = ({ images, link }) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    )
+  }
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    )
+  }
+  return (
+    <div className="image-carousel flex items-center">
+      <button onClick={prevSlide} className="carousel-button prev mr-4">
+        &#9664;
+      </button>
+      <div className="image-container relative">
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          <img
+            src={images[currentIndex]}
+            alt=""
+            className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
+          />
+        </a>
+      </div>
+      <button onClick={nextSlide} className="carousel-button next ml-4">
+        &#9654;
+      </button>
+    </div>
+  )
+}
 export const Item = ({
   post,
   setShowFilter,
@@ -171,51 +205,44 @@ export const Item = ({
                             key={item.product_id}
                             className="flex-col items-start justify-between"
                           >
-                            <a
-                              href={item.promotion_link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <div className="relative w-full">
-                                {item.name === 'aliexpress' ? (
-                                  <img
-                                    src={
-                                      'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
-                                    }
-                                    alt="AliExpress Logo"
-                                    style={{
-                                      display: 'flex',
-                                      position: 'absolute',
-                                      top: -10,
-                                      left: -40,
-                                      transform: 'rotate(310deg)  ',
-                                    }}
-                                  />
-                                ) : (
-                                  <img
-                                    src={
-                                      'https://cdn.admitad.com/campaign/images/2020/9/30/13623-b58edd098a89c836.png'
-                                    }
-                                    alt="Banggood"
-                                    style={{
-                                      width: 100,
-                                      display: 'flex',
-                                      position: 'absolute',
-                                      top: -10,
-                                      left: -40,
-                                      transform: 'rotate(310deg)  ',
-                                    }}
-                                  />
-                                )}
-
-                                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                            <div className="relative w-full">
+                              {item.name === 'aliexpress' ? (
                                 <img
-                                  src={item.product_main_image_url}
-                                  alt=""
-                                  className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
+                                  src={
+                                    'https://www.vectorlogo.zone/logos/aliexpress/aliexpress-ar21.svg'
+                                  }
+                                  alt="AliExpress Logo"
+                                  style={{
+                                    display: 'flex',
+                                    position: 'absolute',
+                                    top: -20,
+                                    left: -40,
+                                    transform: 'rotate(310deg)  ',
+                                  }}
                                 />
-                              </div>
-                            </a>
+                              ) : (
+                                <img
+                                  src={
+                                    'https://cdn.admitad.com/campaign/images/2020/9/30/13623-b58edd098a89c836.png'
+                                  }
+                                  alt="Banggood"
+                                  style={{
+                                    width: 100,
+                                    display: 'flex',
+                                    position: 'absolute',
+                                    top: -10,
+                                    left: -40,
+                                    transform: 'rotate(310deg)  ',
+                                  }}
+                                />
+                              )}
+
+                              <ImageCarousel
+                                link={item.promotion_link}
+                                images={item.product_small_image_urls}
+                              />
+                            </div>
+
                             <div className="mt-3 flex items-center justify-between">
                               <div>
                                 <RWebShare

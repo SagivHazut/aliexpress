@@ -28,6 +28,40 @@ export const Navbar = ({ country, isVisible }) => {
 
   const [navigation, setNavigation] = useState([
     {
+      name: 'Hot Deals',
+      href: '/top-products',
+      state: 'isToggled',
+      onClick: () =>
+        handleToggle(
+          'isToggled',
+          ['6,34,200003494,100000041,3712', '200329142,30,200001330,200003782'],
+          'top-products'
+        ),
+    },
+
+    {
+      name: 'SuperDeals',
+      href: '/SuperDeals',
+      state: 'isToggled1',
+      onClick: () =>
+        handleToggle(
+          'isToggled1',
+          ['320,3,100001205', '200000343,200000937,200000345'],
+          'SuperDeals'
+        ),
+    },
+    {
+      name: 'Featured Products',
+      href: '/Featured',
+      state: 'isToggled3',
+      onClick: () =>
+        handleToggle(
+          'isToggled3',
+          ['200048142,200000920', '100000039,200332157'],
+          'Featured Products'
+        ),
+    },
+    {
       name: 'Our Recommendation',
       href: '/Recommendation',
       state: 'isToggled4',
@@ -40,27 +74,6 @@ export const Navbar = ({ country, isVisible }) => {
       onClick: () => handleToggle('isToggle5'),
     },
     {
-      name: 'Hot Deals',
-      href: '/top-products',
-      state: 'isToggled',
-      onClick: () => handleToggle('isToggled', 'home products', 'top-products'),
-    },
-
-    {
-      name: 'SuperDeals',
-      href: '/SuperDeals',
-      state: 'isToggled1',
-      onClick: () => handleToggle('isToggled1', 'gadget', 'SuperDeals'),
-    },
-    {
-      name: 'Featured Products',
-      href: '/Featured',
-      state: 'isToggled3',
-      onClick: () =>
-        handleToggle('isToggled3', 'featured products', 'Featured Products'),
-    },
-
-    {
       name: 'Check for discount',
       href: '/LinkChecker',
       state: 'isToggled6',
@@ -72,37 +85,68 @@ export const Navbar = ({ country, isVisible }) => {
       name: 'Babies',
       href: '/Babies',
       state: 'isToggled9',
-      onClick: () => handleOptionSelect('Babies', 'Babies'),
+      onClick: () =>
+        handleOptionSelect(
+          [
+            '100001698,201273175,200364142',
+            '200332158,200332157,201678201',
+            '200000937,200001330,201671802,310',
+          ],
+          'Sport'
+        ),
     },
     {
       name: 'Sport',
       href: '/Sport',
       state: 'isToggled5',
-      onClick: () => handleOptionSelect('sport', 'Sport'),
+      onClick: () =>
+        handleOptionSelect(
+          [
+            '201768104,200003274,100001719',
+            '100005657,200004217,200004217,200297143',
+          ],
+          'Sport'
+        ),
     },
     {
       name: 'Kids',
       href: '/Kids',
       state: 'isToggled1',
-      onClick: () => handleOptionSelect('kids', 'Kids'),
+      onClick: () =>
+        handleOptionSelect(
+          ['1501,21,201376929', '200389156,26,201293501'],
+          'Kids'
+        ),
     },
     {
       name: 'Women',
       href: '/Women',
       state: 'isToggled3',
-      onClick: () => handleOptionSelect('woman', 'Women'),
+      onClick: () =>
+        handleOptionSelect(
+          ['200133142,200000854,200003494', '200000345,201336907,201169002'],
+          'Women'
+        ),
     },
     {
       name: 'Men',
       href: '/Men',
       state: 'isToggled4',
-      onClick: () => handleOptionSelect('Outdoor', 'Men'),
+      onClick: () =>
+        handleOptionSelect(
+          ['200131145,142003,200003955', '12503,200003495,200000343'],
+          'Men'
+        ),
     },
     {
       name: 'House',
       href: '/House',
       state: 'isToggled4',
-      onClick: () => handleOptionSelect('house', 'House'),
+      onClick: () =>
+        handleOptionSelect(
+          ['200294142,6,628', '100000039,100000308,405,1541'],
+          'House'
+        ),
     },
   ])
 
@@ -357,7 +401,6 @@ export const Navbar = ({ country, isVisible }) => {
                           {item.name}
                         </NavLink>
                       ))}
-
                       <div className="relative">
                         <div className="relative inline-block">
                           <button
@@ -384,7 +427,6 @@ export const Navbar = ({ country, isVisible }) => {
                               <path d="M19 9l-7 7-7-7" />
                             </svg>
                           </button>
-
                           {isOpen && (
                             <div className="absolute mt-2 w-48 bg-red-500 border border-gray-900 rounded shadow-lg z-10 ">
                               <ul className="py-1">
@@ -418,7 +460,6 @@ export const Navbar = ({ country, isVisible }) => {
                 </div>
               </div>
             </div>
-
             <Disclosure.Panel>
               <aside
                 className={`fixed top-0 left-0 h-screen w-52 bg-red-500 text-white transition-transform transform ${
