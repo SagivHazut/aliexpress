@@ -9,37 +9,41 @@ import { addItem } from '../store/actions'
 export const ImageCarousel = ({ images, link }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    )
+  const imageClass =
+    'bg-gray-100 sm:w-20 sm:h-12 lg:w-12 lg:h-10 mr-0.5 border border-black-900 cursor-pointer'
+
+  const handleImageClick = (index) => {
+    setCurrentIndex(index)
   }
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    )
-  }
   return (
-    <div className="image-carousel flex items-center">
-      <button onClick={prevSlide} className="carousel-button prev mr-4">
-        &#9664;
-      </button>
-      <div className="image-container relative">
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          <img
-            src={images[currentIndex]}
-            alt=""
-            className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
-          />
-        </a>
+    <>
+      <div className="image-carousel flex items-center">
+        <div className="image-container relative">
+          <a href={link} target="_blank" rel="noopener noreferrer">
+            <img
+              src={images[currentIndex]}
+              alt=""
+              className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
+            />
+          </a>
+        </div>
       </div>
-      <button onClick={nextSlide} className="carousel-button next ml-4">
-        &#9654;
-      </button>
-    </div>
+      <div className="small-images flex flex-row">
+        {images.map((item, index) => (
+          <img
+            key={index}
+            src={item}
+            alt=""
+            className={`aspect-[16/9] w-full ${imageClass}`}
+            onClick={() => handleImageClick(index)}
+          />
+        ))}
+      </div>
+    </>
   )
 }
+
 export const Item = ({
   post,
   setShowFilter,
@@ -213,6 +217,7 @@ export const Item = ({
                                   }
                                   alt="AliExpress Logo"
                                   style={{
+                                    zIndex: 9999,
                                     display: 'flex',
                                     position: 'absolute',
                                     top: -20,
