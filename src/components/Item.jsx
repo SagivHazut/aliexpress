@@ -22,23 +22,33 @@ export const ImageCarousel = ({ images, link }) => {
         <div className="image-container relative">
           <a href={link} target="_blank" rel="noopener noreferrer">
             <img
-              src={images[currentIndex]}
+              src={
+                Array.isArray(images) && images.length > 0
+                  ? images[currentIndex]
+                  : images
+              }
               alt=""
               className="aspect-[16/9] w-full rounded-2xl bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]"
             />
           </a>
         </div>
       </div>
-      <div className="small-images flex flex-row">
-        {images.map((item, index) => (
-          <img
-            key={index}
-            src={item}
-            alt=""
-            className={`aspect-[16/9] w-full ${imageClass}`}
-            onClick={() => handleImageClick(index)}
-          />
-        ))}
+      <div>
+        {Array.isArray(images) && images.length > 1 ? (
+          <div className="small-images flex flex-row">
+            {images.map((item, index) => (
+              <img
+                key={index}
+                src={item}
+                alt=""
+                className={`aspect-[16/9] w-full ${imageClass}`}
+                onClick={() => handleImageClick(index)}
+              />
+            ))}{' '}
+          </div>
+        ) : (
+          <div className="small-images flex flex-row"></div>
+        )}
       </div>
     </>
   )
@@ -244,7 +254,10 @@ export const Item = ({
 
                               <ImageCarousel
                                 link={item.promotion_link}
-                                images={item.product_small_image_urls}
+                                images={
+                                  item.product_small_image_urls ||
+                                  item.product_main_image_url
+                                }
                               />
                             </div>
 
